@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+        />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="HandheldFriendly" content="true" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+
+        <title>Bio-Neural AI Lab</title>
+
+        <!-- Telegram WebApp SDK -->
+        <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+        <!-- Полифиллы для старых устройств -->
+        <script>
+            // Полифилл для Object.values
+            if (!Object.values) {
+                Object.values = function (obj) {
+                    return Object.keys(obj).map(function (key) {
+                        return obj[key];
+                    });
+                };
+            }
+
+            // Полифилл для Array.from
+            if (!Array.from) {
+                Array.from = function (arrayLike) {
+                    return Array.prototype.slice.call(arrayLike);
+                };
+            }
+
+            // Полифилл для Array.includes
+            if (!Array.prototype.includes) {
+                Array.prototype.includes = function (search) {
+                    return this.indexOf(search) !== -1;
+                };
+            }
+
+            // Полифилл для NodeList.forEach
+            if (!NodeList.prototype.forEach) {
+                NodeList.prototype.forEach = Array.prototype.forEach;
+            }
+        </script>
+
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+    <body>
+        <!-- Фоновая нейронная сеть -->
+        <div class="neural-network">
+            <div class="neuron"></div>
+            <div class="neuron"></div>
+            <div class="neuron"></div>
+            <div class="neuron"></div>
+            <div class="neuron"></div>
+        </div>
+
+        <!-- Органические частицы -->
+        <div class="organic-particles"></div>
+
+        <!-- Главный контейнер -->
+        <div class="main-container" id="mainContainer">
+            <!-- Мини индикатор жестов -->
+            <div class="swipe-hint-mini" id="swipeHint">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path
+                        d="M15 19l-7-7 7-7"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        fill="none"
+                    />
+                </svg>
+            </div>
+
+            <!-- Индикатор прогресса -->
+            <div class="progress-indicator">
+                <div class="progress-step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-label">Загрузка</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-label">Инструмент</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-label">Настройка</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="4">
+                    <span class="step-number">4</span>
+                    <span class="step-label">Генерация</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step" data-step="5">
+                    <span class="step-number">5</span>
+                    <span class="step-label">Результат</span>
+                </div>
+            </div>
+
+            <!-- Рабочая область -->
+            <div class="workspace" id="workspace">
+                <!-- ШАГ 1: Загрузка изображения -->
+                <div class="workspace-step active" id="step1">
+                    <h2 class="step-title">Поместите изображение в реактор</h2>
+
+                    <div class="upload-zone" id="uploadZone">
+                        <div class="upload-content">
+                            <div class="nucleus"></div>
+                            <p class="upload-text">
+                                Поместите изображение в реактор
+                            </p>
+                            <p class="upload-subtext">
+                                Перетащите файл или кликните для выбора
+                            </p>
+                            <input
+                                type="file"
+                                id="fileInput"
+                                accept="image/*"
+                                hidden
+                            />
+                        </div>
+                        <div
+                            class="upload-preview"
+                            id="uploadPreview"
+                            style="display: none"
+                        >
+                            <img id="previewImage" src="" alt="Preview" />
+                            <button class="btn-secondary" id="changeImage">
+                                Изменить
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        class="loading-transition"
+                        id="loadingTransition1"
+                        style="display: none"
+                    >
+                        <div class="bio-spinner"></div>
+                        <p>Анализ изображения...</p>
+                    </div>
+                </div>
+
+                <!-- ШАГ 2: Выбор инструмента -->
+                <div class="workspace-step" id="step2">
+                    <h2 class="step-title">Выберите инструмент</h2>
+
+                    <div class="tools-selection">
+                        <div class="tool-card" data-tool="deepfake">
+                            <div class="tool-icon">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M6 7C3.79 7 2 8.79 2 11s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-1.25 3.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zm2.5 0c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zM6 13.5c-.8 0-1.5-.45-1.85-1.12h3.7c-.35.67-1.05 1.12-1.85 1.12z"
+                                    />
+                                    <path
+                                        d="M18 7c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-1.25 3.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zm2.5 0c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zM18 13.5c-.8 0-1.5-.45-1.85-1.12h3.7c-.35.67-1.05 1.12-1.85 1.12z"
+                                    />
+                                    <path
+                                        d="M11 9.5l2 1.5-2 1.5v-1h-1v-1h1v-1zm2 3l-2 1.5v-1h-1v-1h1v-1l2 1.5z"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>MetaMorph</h3>
+                            <p>Замена лиц с помощью AI</p>
+                        </div>
+
+                        <div class="tool-card" data-tool="neural-editor">
+                            <div class="tool-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                    />
+                                </svg>
+                            </div>
+                            <h3>Neural Editor</h3>
+                            <p>Обработка изображений с помощью AI</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ШАГ 3A: Настройки DeepFake -->
+                <div class="workspace-step" id="step3-deepfake">
+                    <h2 class="step-title">Настройка MetaMorph</h2>
+
+                    <div class="deepfake-options">
+                        <div class="option-section">
+                            <h3>Загрузить своё видео/фото</h3>
+                            <div class="upload-video-zone">
+                                <button class="btn-upload" id="uploadVideoBtn">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        width="24"
+                                        height="24"
+                                    >
+                                        <path
+                                            d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"
+                                        />
+                                    </svg>
+                                    Выбрать файл
+                                </button>
+                                <input
+                                    type="file"
+                                    id="videoInput"
+                                    accept="video/*,image/*"
+                                    hidden
+                                />
+                                <div
+                                    id="videoPreview"
+                                    class="video-preview"
+                                    style="display: none"
+                                >
+                                    <video id="uploadedVideo" controls></video>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divider">ИЛИ</div>
+
+                        <div class="option-section">
+                            <h3>Выберите из готовых образцов</h3>
+                            <div class="presets-grid">
+                                <div
+                                    class="preset-card"
+                                    data-preset="businessman"
+                                >
+                                    <div class="preset-icon">👨‍💼</div>
+                                    <span>Бизнесмен</span>
+                                </div>
+                                <div class="preset-card" data-preset="artist">
+                                    <div class="preset-icon">👩‍🎤</div>
+                                    <span>Артист</span>
+                                </div>
+                                <div
+                                    class="preset-card"
+                                    data-preset="astronaut"
+                                >
+                                    <div class="preset-icon">🧑‍🚀</div>
+                                    <span>Астронавт</span>
+                                </div>
+                                <div class="preset-card" data-preset="wizard">
+                                    <div class="preset-icon">🧙‍♂️</div>
+                                    <span>Волшебник</span>
+                                </div>
+                                <div
+                                    class="preset-card"
+                                    data-preset="superhero"
+                                >
+                                    <div class="preset-icon">🦸‍♀️</div>
+                                    <span>Супергерой</span>
+                                </div>
+                                <div
+                                    class="preset-card"
+                                    data-preset="scientist"
+                                >
+                                    <div class="preset-icon">👨‍🔬</div>
+                                    <span>Учёный</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ШАГ 3B: Настройки Neural Editor -->
+                <div class="workspace-step" id="step3-neural">
+                    <h2 class="step-title">Настройка Neural Editor</h2>
+
+                    <div class="neural-options">
+                        <div class="prompt-section">
+                            <label for="promptInput"
+                                >Опишите желаемые изменения:</label
+                            >
+                            <textarea
+                                id="promptInput"
+                                class="prompt-input"
+                                placeholder="Например: сделать в стиле киберпанк с неоновым свечением..."
+                                rows="4"
+                            ></textarea>
+
+                            <div class="prompt-suggestions">
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="превратить в киборга с механическими деталями"
+                                    >🤖 Киборг</span
+                                >
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="добавить магическую ауру и волшебные эффекты"
+                                    >✨ Магия</span
+                                >
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="сделать в стиле киберпанк с неоновой подсветкой"
+                                    >🌆 Киберпанк</span
+                                >
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="превратить в аниме персонажа"
+                                    >🎌 Аниме</span
+                                >
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="добавить природные элементы и растения"
+                                    >🌿 Природа</span
+                                >
+                                <span
+                                    class="suggestion-chip"
+                                    data-prompt="сделать в стиле ретро 80-х"
+                                    >🕹️ Ретро</span
+                                >
+                            </div>
+                        </div>
+
+                        <div class="enhancement-section">
+                            <label>Интенсивность воздействия:</label>
+                            <div class="intensity-options">
+                                <div
+                                    class="intensity-card"
+                                    data-intensity="low"
+                                >
+                                    <div class="intensity-icon">🌱</div>
+                                    <span class="intensity-label">Слабо</span>
+                                    <span class="intensity-desc"
+                                        >Деликатные изменения</span
+                                    >
+                                </div>
+                                <div
+                                    class="intensity-card active"
+                                    data-intensity="medium"
+                                >
+                                    <div class="intensity-icon">⚡</div>
+                                    <span class="intensity-label">Средне</span>
+                                    <span class="intensity-desc"
+                                        >Сбалансированный эффект</span
+                                    >
+                                </div>
+                                <div
+                                    class="intensity-card"
+                                    data-intensity="high"
+                                >
+                                    <div class="intensity-icon">🔥</div>
+                                    <span class="intensity-label">Сильно</span>
+                                    <span class="intensity-desc"
+                                        >Максимальное воздействие</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="apply-section">
+                            <button
+                                class="btn-primary"
+                                id="applyNeuralSettings"
+                                disabled
+                            >
+                                <span class="icon">✨</span>
+                                Применить настройки
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ШАГ 4: Процесс генерации -->
+                <div class="workspace-step" id="step4">
+                    <h2 class="step-title">Био-синтез в процессе</h2>
+
+                    <div class="generation-container">
+                        <div class="bio-reactor">
+                            <div class="reactor-core">
+                                <div class="energy-ring ring-1"></div>
+                                <div class="energy-ring ring-2"></div>
+                                <div class="energy-ring ring-3"></div>
+                                <div class="reactor-nucleus"></div>
+                            </div>
+
+                            <div class="process-info">
+                                <div class="process-status" id="processStatus">
+                                    Инициализация...
+                                </div>
+                                <div class="process-progress">
+                                    <div class="progress-bar">
+                                        <div
+                                            class="progress-fill"
+                                            id="progressFill"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="progress-percent"
+                                        id="progressPercent"
+                                        >0%</span
+                                    >
+                                </div>
+
+                                <div class="process-stages">
+                                    <div class="stage" id="stage1">
+                                        <span class="stage-icon">⚡</span>
+                                        <span class="stage-name">Анализ</span>
+                                    </div>
+                                    <div class="stage" id="stage2">
+                                        <span class="stage-icon">🧬</span>
+                                        <span class="stage-name">Синтез</span>
+                                    </div>
+                                    <div class="stage" id="stage3">
+                                        <span class="stage-icon">🔬</span>
+                                        <span class="stage-name"
+                                            >Обработка</span
+                                        >
+                                    </div>
+                                    <div class="stage" id="stage4">
+                                        <span class="stage-icon">✨</span>
+                                        <span class="stage-name"
+                                            >Финализация</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ШАГ 5: Результат с компаратором -->
+                <div class="workspace-step" id="step5">
+                    <h2 class="step-title">Результат био-синтеза</h2>
+
+                    <div class="result-container">
+                        <!-- Компаратор изображений -->
+                        <div class="image-comparer" id="imageComparer">
+                            <div class="comparer-container">
+                                <div
+                                    class="comparer-wrapper"
+                                    id="comparerWrapper"
+                                >
+                                    <!-- Оригинальное изображение -->
+                                    <div class="comparer-before">
+                                        <img
+                                            id="beforeImage"
+                                            src=""
+                                            alt="Original"
+                                        />
+                                        <div class="comparer-label">
+                                            Оригинал
+                                        </div>
+                                    </div>
+
+                                    <!-- Результат генерации -->
+                                    <div
+                                        class="comparer-after"
+                                        id="comparerAfter"
+                                    >
+                                        <img
+                                            id="afterImage"
+                                            src=""
+                                            alt="Result"
+                                        />
+                                        <div class="comparer-label">
+                                            Результат
+                                        </div>
+                                    </div>
+
+                                    <!-- Слайдер -->
+                                    <div
+                                        class="comparer-slider"
+                                        id="comparerSlider"
+                                    >
+                                        <div class="slider-line"></div>
+                                        <div class="slider-handle">
+                                            <svg
+                                                viewBox="0 0 40 40"
+                                                width="40"
+                                                height="40"
+                                            >
+                                                <circle
+                                                    cx="20"
+                                                    cy="20"
+                                                    r="20"
+                                                    fill="var(--bio-green)"
+                                                    opacity="0.9"
+                                                />
+                                                <path
+                                                    d="M15 20 L10 15 L10 25 Z"
+                                                    fill="white"
+                                                />
+                                                <path
+                                                    d="M25 20 L30 15 L30 25 Z"
+                                                    fill="white"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Подсказка -->
+                                <div class="comparer-hint">
+                                    <span class="hint-icon">👆</span>
+                                    Перетащите слайдер для сравнения
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Информация о результате -->
+                        <div class="result-info">
+                            <div class="info-item">
+                                <span class="info-label"
+                                    >Использован инструмент:</span
+                                >
+                                <span class="info-value" id="usedTool">-</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Время обработки:</span>
+                                <span class="info-value" id="processingTime"
+                                    >-</span
+                                >
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label"
+                                    >Качество синтеза:</span
+                                >
+                                <span class="info-value">Ultra HD</span>
+                            </div>
+                        </div>
+
+                        <!-- Действия -->
+                        <div class="result-actions">
+                            <button class="btn-primary" id="downloadResult">
+                                <svg viewBox="0 0 24 24" width="20" height="20">
+                                    <path
+                                        d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
+                                        fill="currentColor"
+                                    />
+                                </svg>
+                                Скачать результат
+                            </button>
+                            <button class="btn-secondary" id="startOver">
+                                Новый эксперимент
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Биоморфная кнопка профиля с лентой Мёбиуса -->
+        <button class="biomorph-profile-btn" id="profileBtn">
+            <svg
+                class="mobius-animation"
+                viewBox="0 0 120 120"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <defs>
+                    <linearGradient
+                        id="mobiusGradient"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%"
+                    >
+                        <stop
+                            offset="0%"
+                            style="stop-color: #00dc82; stop-opacity: 1"
+                        >
+                            <animate
+                                attributeName="stop-color"
+                                values="#00dc82;#9d4edd;#00f5ff;#00dc82"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                        </stop>
+                        <stop
+                            offset="50%"
+                            style="stop-color: #9d4edd; stop-opacity: 1"
+                        >
+                            <animate
+                                attributeName="stop-color"
+                                values="#9d4edd;#00f5ff;#00dc82;#9d4edd"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                        </stop>
+                        <stop
+                            offset="100%"
+                            style="stop-color: #00f5ff; stop-opacity: 1"
+                        >
+                            <animate
+                                attributeName="stop-color"
+                                values="#00f5ff;#00dc82;#9d4edd;#00f5ff"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                        </stop>
+                    </linearGradient>
+
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                            <feMergeNode in="coloredBlur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Лента Мёбиуса -->
+                <g transform="translate(60,60)">
+                    <!-- Основная лента -->
+                    <path
+                        id="mobiusPath"
+                        d="M -30,0 Q -15,-25 0,-30 Q 15,-25 30,0 Q 15,25 0,30 Q -15,25 -30,0"
+                        fill="none"
+                        stroke="url(#mobiusGradient)"
+                        stroke-width="3"
+                        opacity="0.9"
+                        filter="url(#glow)"
+                    >
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="0 0 0"
+                            to="360 0 0"
+                            dur="8s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+
+                    <!-- Второй слой с обратным вращением -->
+                    <path
+                        d="M -25,0 Q -12,-20 0,-25 Q 12,-20 25,0 Q 12,20 0,25 Q -12,20 -25,0"
+                        fill="none"
+                        stroke="url(#mobiusGradient)"
+                        stroke-width="2"
+                        opacity="0.6"
+                        stroke-dasharray="5,3"
+                    >
+                        <animateTransform
+                            attributeName="transform"
+                            type="rotate"
+                            from="360 0 0"
+                            to="0 0 0"
+                            dur="6s"
+                            repeatCount="indefinite"
+                        />
+                        <animate
+                            attributeName="stroke-dashoffset"
+                            values="0;8"
+                            dur="1s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+
+                    <!-- Центральное ядро -->
+                    <circle
+                        cx="0"
+                        cy="0"
+                        r="5"
+                        fill="url(#mobiusGradient)"
+                        opacity="0.8"
+                    >
+                        <animate
+                            attributeName="r"
+                            values="5;8;5"
+                            dur="2s"
+                            repeatCount="indefinite"
+                        />
+                    </circle>
+                </g>
+            </svg>
+
+            <span class="profile-title">
+                <span class="title-line1">F4TA</span>
+                <span class="title-line2">MORGANA</span>
+            </span>
+        </button>
+
+        <!-- Модальное окно профиля -->
+        <div class="profile-modal" id="profileModal">
+            <div class="profile-modal-content">
+                <button class="profile-close" id="closeProfile">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path
+                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                        />
+                    </svg>
+                </button>
+
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img
+                            id="userAvatar"
+                            src="https://via.placeholder.com/100"
+                            alt="Avatar"
+                        />
+                        <div class="avatar-glow"></div>
+                    </div>
+                    <h2 class="profile-name" id="userName">User Name</h2>
+                    <span class="profile-id" id="userId">ID: #000000</span>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">🎨</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="generationsCount"
+                                >0</span
+                            >
+                            <span class="stat-label">Генераций создано</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">🎁</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="freeGenerations"
+                                >10</span
+                            >
+                            <span class="stat-label">Бесплатных генераций</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="starBalance">0</span>
+                            <span class="stat-label">Звезд</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn-buy-stars" id="buyStars">
+                        <svg viewBox="0 0 24 24" width="20" height="20">
+                            <path
+                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                            />
+                        </svg>
+                        Купить звезды
+                    </button>
+
+                    <div class="star-packages">
+                        <div
+                            class="star-package"
+                            data-stars="50"
+                            data-item-id="stars_50"
+                        >
+                            <div class="package-icon">⭐</div>
+                            <span class="package-stars">50</span>
+                            <div class="package-glow"></div>
+                        </div>
+                        <div
+                            class="star-package popular"
+                            data-stars="100"
+                            data-item-id="stars_100"
+                        >
+                            <div class="package-icon">⭐</div>
+                            <span class="package-stars">100</span>
+                            <span class="package-badge">Популярно</span>
+                            <div class="package-glow"></div>
+                        </div>
+                        <div
+                            class="star-package"
+                            data-stars="500"
+                            data-item-id="stars_500"
+                        >
+                            <div class="package-icon">⭐</div>
+                            <span class="package-stars">500</span>
+                            <span class="package-badge">Выгодно</span>
+                            <div class="package-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/script.js"></script>
+    </body>
+</html>

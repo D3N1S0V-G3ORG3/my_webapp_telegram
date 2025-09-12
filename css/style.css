@@ -1,0 +1,2373 @@
+/* ========================================== */
+/* СБРОС И БАЗОВЫЕ НАСТРОЙКИ */
+/* ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bio-green: #00dc82;
+    --neural-purple: #9d4edd;
+    --electric: #00f5ff;
+    --bg-dark: #0a0f1b;
+    --bg-secondary: #1a2f1a;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.4);
+    --border-color: rgba(0, 220, 130, 0.3);
+
+    /* Telegram CSS переменные */
+    --tg-theme-bg-color: var(--bg-dark);
+    --tg-theme-text-color: var(--text-primary);
+    --tg-theme-hint-color: var(--text-muted);
+    --tg-theme-link-color: var(--bio-green);
+    --tg-theme-button-color: var(--bio-green);
+    --tg-theme-button-text-color: var(--bg-dark);
+    --tg-theme-secondary-bg-color: var(--bg-secondary);
+
+    /* Safe area для iPhone */
+    --safe-area-inset-top: env(safe-area-inset-top);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+}
+
+body {
+    font-family:
+        "Inter",
+        -apple-system,
+        sans-serif;
+    background: linear-gradient(
+        135deg,
+        var(--bg-dark) 0%,
+        var(--bg-secondary) 100%
+    );
+    color: var(--text-primary);
+}
+
+/* iOS специфичные стили */
+body.ios-device {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+body.ios-device .main-container {
+    height: 100vh;
+    height: -webkit-fill-available;
+}
+
+/* Android специфичные стили */
+body.android-device {
+    overscroll-behavior-y: none;
+}
+
+/* Telegram WebApp адаптация */
+body.telegram-webapp {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+body.telegram-webapp .main-container {
+    height: 100vh;
+    height: calc(var(--tg-viewport-height, 100vh));
+}
+
+/* Plus Messenger адаптация */
+body.plus-messenger .workspace {
+    max-height: calc(100vh - 60px);
+}
+
+body.plus-messenger .biomorph-profile-btn {
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Teleplus адаптация */
+body.teleplus .main-container {
+    padding-top: max(20px, env(safe-area-inset-top));
+}
+
+body.teleplus .workspace {
+    height: calc(var(--tg-viewport-height, 100vh) - 140px);
+}
+
+/* ========================================== */
+/* ФОНОВЫЕ ЭФФЕКТЫ */
+/* ========================================== */
+
+.neural-network {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.neuron {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--bio-green);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--bio-green);
+    animation: pulse 4s ease-in-out infinite;
+}
+
+.neuron:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-delay: 0s;
+}
+.neuron:nth-child(2) {
+    top: 30%;
+    left: 70%;
+    animation-delay: 0.5s;
+}
+.neuron:nth-child(3) {
+    top: 60%;
+    left: 15%;
+    animation-delay: 1s;
+}
+.neuron:nth-child(4) {
+    top: 80%;
+    left: 60%;
+    animation-delay: 1.5s;
+}
+.neuron:nth-child(5) {
+    top: 45%;
+    left: 85%;
+    animation-delay: 2s;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(2);
+        opacity: 0.8;
+    }
+}
+
+.organic-particles {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: var(--bio-green);
+    border-radius: 50%;
+    animation: float-particle 10s infinite linear;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.5;
+    }
+    90% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Оптимизация для слабых устройств */
+body.low-performance .neural-network,
+body.low-performance .organic-particles,
+body.low-performance .neuron,
+body.low-performance .particle {
+    display: none !important;
+}
+
+body.low-performance * {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+}
+
+body.low-performance .workspace {
+    backdrop-filter: none;
+    background: rgba(10, 15, 27, 0.98);
+}
+
+/* ========================================== */
+/* ГЛАВНЫЙ КОНТЕЙНЕР */
+/* ========================================== */
+
+.main-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    padding-top: calc(20px + var(--safe-area-inset-top));
+    padding-bottom: calc(20px + var(--safe-area-inset-bottom));
+}
+
+/* ========================================== */
+/* МИНИ ИНДИКАТОР ЖЕСТОВ */
+/* ========================================== */
+
+.swipe-hint-mini {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    background: rgba(0, 220, 130, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+.swipe-hint-mini.visible {
+    opacity: 0.6;
+    animation: swipeHintPulse 2s ease-in-out infinite;
+}
+
+@keyframes swipeHintPulse {
+    0%,
+    100% {
+        transform: translateX(0) scale(1);
+    }
+    50% {
+        transform: translateX(-3px) scale(1.1);
+    }
+}
+
+.swipe-hint-mini svg {
+    color: var(--bio-green);
+    width: 16px;
+    height: 16px;
+}
+
+/* ========================================== */
+/* ИНДИКАТОР ПРОГРЕССА */
+/* ========================================== */
+
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 220, 130, 0.1);
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.progress-step.active .step-number {
+    background: var(--bio-green);
+    border-color: var(--bio-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px rgba(0, 220, 130, 0.5);
+}
+
+.progress-step.active .step-label {
+    color: var(--bio-green);
+}
+
+.progress-step.completed .step-number {
+    background: var(--neural-purple);
+    border-color: var(--neural-purple);
+    color: white;
+}
+
+.progress-line {
+    width: 50px;
+    height: 2px;
+    background: var(--border-color);
+    position: relative;
+}
+
+/* ========================================== */
+/* РАБОЧАЯ ОБЛАСТЬ */
+/* ========================================== */
+
+.workspace {
+    flex: 1;
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Поддержка старых браузеров без backdrop-filter */
+@supports not (backdrop-filter: blur(20px)) {
+    .workspace {
+        background: rgba(10, 15, 27, 0.95);
+    }
+}
+
+/* Фикс для step на мобильных */
+.workspace-step {
+    display: none !important;
+    position: static !important;
+    transform: none !important;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.workspace-step.active {
+    display: block !important;
+    position: static !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Изоляция шага 5 */
+#step5 {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+}
+
+#step5.active {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.step-title {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ========================================== */
+/* ЗОНА ЗАГРУЗКИ */
+/* ========================================== */
+
+.upload-zone {
+    background: rgba(0, 220, 130, 0.05);
+    border: 2px dashed var(--border-color);
+    border-radius: 20px;
+    padding: 60px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+}
+
+.upload-zone:hover {
+    background: rgba(0, 220, 130, 0.1);
+    border-color: var(--bio-green);
+}
+
+.upload-zone.dragging {
+    background: rgba(0, 220, 130, 0.15);
+    border-color: var(--electric);
+}
+
+.nucleus {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: radial-gradient(
+        circle,
+        var(--neural-purple) 0%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    animation: nucleus-pulse 2s ease-in-out infinite;
+}
+
+@keyframes nucleus-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+.upload-text {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.upload-subtext {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.upload-preview img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* ========================================== */
+/* ВЫБОР ИНСТРУМЕНТОВ */
+/* ========================================== */
+
+.tools-selection {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.tool-card {
+    background: rgba(0, 220, 130, 0.05);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+    background: rgba(0, 220, 130, 0.1);
+    border-color: var(--bio-green);
+    transform: translateY(-5px);
+}
+
+.tool-card.selected {
+    background: rgba(0, 220, 130, 0.2);
+    border-color: var(--bio-green);
+    box-shadow: 0 10px 30px rgba(0, 220, 130, 0.3);
+}
+
+.tool-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: var(--electric);
+}
+
+.tool-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.tool-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* ========================================== */
+/* ОПЦИИ DEEPFAKE */
+/* ========================================== */
+
+.deepfake-options {
+    margin-bottom: 30px;
+}
+
+.option-section {
+    margin-bottom: 30px;
+}
+
+.option-section h3 {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.divider {
+    text-align: center;
+    margin: 30px 0;
+    color: var(--text-muted);
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider::before {
+    left: 0;
+}
+.divider::after {
+    right: 0;
+}
+
+.presets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.preset-card {
+    background: rgba(0, 220, 130, 0.05);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.preset-card:hover {
+    background: rgba(0, 220, 130, 0.1);
+    border-color: var(--bio-green);
+}
+
+.preset-card.selected {
+    background: rgba(0, 220, 130, 0.2);
+    border-color: var(--bio-green);
+}
+
+.preset-icon {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+/* ========================================== */
+/* ОПЦИИ NEURAL EDITOR */
+/* ========================================== */
+
+.neural-options {
+    margin-bottom: 30px;
+}
+
+.prompt-section {
+    margin-bottom: 30px;
+}
+
+.prompt-section label {
+    display: block;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+}
+
+.prompt-input {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.prompt-input:focus {
+    outline: none;
+    border-color: var(--bio-green);
+}
+
+.prompt-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.suggestion-chip {
+    padding: 8px 16px;
+    background: rgba(0, 220, 130, 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.suggestion-chip:hover {
+    background: rgba(0, 220, 130, 0.2);
+    border-color: var(--bio-green);
+}
+
+/* ========================================== */
+/* ИНТЕНСИВНОСТЬ ВОЗДЕЙСТВИЯ */
+/* ========================================== */
+
+.intensity-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.intensity-card {
+    background: rgba(0, 220, 130, 0.05);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.intensity-card:hover {
+    background: rgba(0, 220, 130, 0.1);
+    border-color: var(--bio-green);
+    transform: translateY(-3px);
+}
+
+.intensity-card.active {
+    background: rgba(0, 220, 130, 0.2);
+    border-color: var(--bio-green);
+    box-shadow: 0 5px 20px rgba(0, 220, 130, 0.3);
+}
+
+.intensity-card.active::before {
+    content: "✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    background: var(--bio-green);
+    color: var(--bg-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    animation: checkIn 0.3s ease;
+}
+
+@keyframes checkIn {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(20deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+.intensity-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.intensity-card.active .intensity-icon {
+    animation: intensityPulse 2s ease-in-out infinite;
+}
+
+@keyframes intensityPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.intensity-label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 5px;
+}
+
+.intensity-desc {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* ========================================== */
+/* ПРОЦЕСС ГЕНЕРАЦИИ */
+/* ========================================== */
+
+.generation-container {
+    text-align: center;
+}
+
+.bio-reactor {
+    margin: 40px auto;
+}
+
+.reactor-core {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 40px;
+    position: relative;
+}
+
+.energy-ring {
+    position: absolute;
+    border: 2px solid;
+    border-radius: 50%;
+    animation: rotate-ring 3s linear infinite;
+}
+
+.ring-1 {
+    width: 100%;
+    height: 100%;
+    border-color: var(--bio-green);
+    animation-duration: 3s;
+}
+
+.ring-2 {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    border-color: var(--neural-purple);
+    animation-duration: 4s;
+    animation-direction: reverse;
+}
+
+.ring-3 {
+    width: 60%;
+    height: 60%;
+    top: 20%;
+    left: 20%;
+    border-color: var(--electric);
+    animation-duration: 2s;
+}
+
+.reactor-nucleus {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    background: radial-gradient(circle, var(--bio-green) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes rotate-ring {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.process-status {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color: var(--bio-green);
+}
+
+.process-progress {
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 400px;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    margin: 0 auto 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--bio-green), var(--electric));
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.progress-percent {
+    color: var(--text-secondary);
+}
+
+.process-stages {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.3;
+    transition: all 0.3s ease;
+}
+
+.stage.active {
+    opacity: 1;
+}
+
+.stage-icon {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.stage-name {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* ========================================== */
+/* РЕЗУЛЬТАТ */
+/* ========================================== */
+
+.result-preview img {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 20px;
+    border: 2px solid var(--bio-green);
+    margin-bottom: 30px;
+}
+
+.result-info {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.info-item {
+    text-align: center;
+}
+
+.info-label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    color: var(--bio-green);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* ========================================== */
+/* IMAGE COMPARER - ИСПРАВЛЕННАЯ ВЕРСИЯ */
+/* ========================================== */
+
+.image-comparer {
+    margin-bottom: 30px;
+}
+
+.comparer-container {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    overflow: hidden;
+    background: #0a0f1b;
+    box-shadow: 0 10px 40px rgba(0, 220, 130, 0.2);
+}
+
+.comparer-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    touch-action: none;
+    overflow: hidden;
+}
+
+/* Контейнер для изображения ДО (оригинал) - нижний слой */
+.comparer-before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.comparer-before img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Контейнер для изображения ПОСЛЕ (результат) - верхний слой с обрезкой */
+.comparer-after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%; /* Изначально показываем 50% */
+    height: 100%;
+    overflow: hidden; /* Обрезаем изображение */
+    z-index: 2;
+}
+
+.comparer-after img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw; /* Важно: используем viewport width для правильного масштаба */
+    max-width: 900px; /* Соответствует max-width контейнера */
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Для правильного выравнивания на разных экранах */
+@media (max-width: 900px) {
+    .comparer-after img {
+        width: 100vw;
+        max-width: 100vw;
+    }
+}
+
+/* Лейблы */
+.comparer-label {
+    position: absolute;
+    top: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 220, 130, 0.9),
+        rgba(157, 78, 221, 0.9)
+    );
+    backdrop-filter: blur(10px);
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+    z-index: 5;
+    box-shadow: 0 5px 20px rgba(0, 220, 130, 0.3);
+    pointer-events: none; /* Чтобы не мешали перетаскиванию */
+}
+
+.comparer-before .comparer-label {
+    left: 20px;
+}
+
+.comparer-after .comparer-label {
+    right: 20px;
+}
+
+/* Слайдер */
+.comparer-slider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    z-index: 3;
+    cursor: ew-resize;
+}
+
+/* Линия слайдера */
+.slider-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--bio-green) 10%,
+        var(--electric) 50%,
+        var(--bio-green) 90%,
+        transparent 100%
+    );
+    box-shadow:
+        0 0 10px rgba(0, 220, 130, 0.8),
+        0 0 20px rgba(0, 220, 130, 0.5),
+        0 0 30px rgba(0, 245, 255, 0.3);
+}
+
+/* Ручка слайдера */
+.slider-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    background: var(--bio-green);
+    border: 3px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 0 20px rgba(0, 220, 130, 0.8),
+        0 2px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+.slider-handle::before,
+.slider-handle::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.slider-handle::before {
+    left: 8px;
+    border-width: 6px 6px 6px 0;
+    border-color: transparent white transparent transparent;
+}
+
+.slider-handle::after {
+    right: 8px;
+    border-width: 6px 0 6px 6px;
+    border-color: transparent transparent transparent white;
+}
+
+.comparer-slider:hover .slider-handle {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.comparer-slider:active .slider-handle {
+    transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Подсказка */
+.comparer-hint {
+    text-align: center;
+    padding: 15px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    opacity: 0;
+    animation: hintFadeIn 1s ease-out 1s forwards;
+}
+
+@keyframes hintFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.hint-icon {
+    font-size: 1.2rem;
+    margin-right: 8px;
+    animation: hintSlide 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes hintSlide {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .comparer-wrapper {
+        height: 400px;
+    }
+
+    .slider-handle {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .comparer-wrapper {
+        height: 300px;
+    }
+
+    .comparer-label {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    .slider-handle {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* ========================================== */
+/* КНОПКИ */
+/* ========================================== */
+
+.btn-primary,
+.btn-secondary,
+.btn-upload {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 220, 130, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background: rgba(0, 220, 130, 0.1);
+    color: var(--bio-green);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 220, 130, 0.2);
+    border-color: var(--bio-green);
+}
+
+.btn-upload {
+    background: rgba(0, 220, 130, 0.05);
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-upload:hover {
+    background: rgba(0, 220, 130, 0.1);
+    border-color: var(--bio-green);
+}
+
+.apply-section {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.loading-transition {
+    text-align: center;
+    padding: 40px;
+}
+
+.bio-spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px;
+    border: 3px solid rgba(0, 220, 130, 0.1);
+    border-top-color: var(--bio-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-transition p {
+    color: var(--bio-green);
+    font-size: 1.1rem;
+}
+
+/* Продолжение CSS в следующем сообщении из-за лимита символов... */
+/* ========================================== */
+/* БИОМОРФНАЯ КНОПКА ПРОФИЛЯ */
+/* ========================================== */
+
+.biomorph-profile-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    background: rgba(10, 15, 27, 0.8);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0, 220, 130, 0.5);
+    border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    overflow: hidden;
+    box-shadow:
+        0 0 20px rgba(0, 220, 130, 0.8),
+        0 0 40px rgba(0, 220, 130, 0.5),
+        0 0 60px rgba(157, 78, 221, 0.3),
+        inset 0 0 20px rgba(0, 245, 255, 0.1);
+    animation: biomorphPulse 9s ease-in-out infinite;
+}
+
+@keyframes biomorphPulse {
+    0%,
+    100% {
+        border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
+        box-shadow:
+            0 0 20px rgba(0, 220, 130, 0.8),
+            0 0 40px rgba(0, 220, 130, 0.5),
+            0 0 60px rgba(157, 78, 221, 0.3),
+            inset 0 0 20px rgba(0, 245, 255, 0.1);
+    }
+    25% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        box-shadow:
+            0 0 25px rgba(0, 245, 255, 0.9),
+            0 0 50px rgba(0, 220, 130, 0.6),
+            0 0 70px rgba(157, 78, 221, 0.4),
+            inset 0 0 25px rgba(0, 245, 255, 0.15);
+    }
+    50% {
+        border-radius: 40% 60% 60% 40% / 40% 70% 30% 60%;
+        box-shadow:
+            0 0 30px rgba(157, 78, 221, 0.9),
+            0 0 55px rgba(0, 245, 255, 0.6),
+            0 0 80px rgba(0, 220, 130, 0.4),
+            inset 0 0 30px rgba(157, 78, 221, 0.15);
+    }
+    75% {
+        border-radius: 70% 30% 40% 60% / 30% 60% 40% 70%;
+        box-shadow:
+            0 0 25px rgba(0, 220, 130, 0.9),
+            0 0 45px rgba(157, 78, 221, 0.6),
+            0 0 65px rgba(0, 245, 255, 0.4),
+            inset 0 0 25px rgba(0, 220, 130, 0.15);
+    }
+}
+
+.biomorph-profile-btn:hover {
+    transform: scale(1.1);
+    border-color: var(--bio-green);
+    box-shadow:
+        0 0 30px rgba(0, 220, 130, 1),
+        0 0 60px rgba(0, 220, 130, 0.8),
+        0 0 90px rgba(157, 78, 221, 0.5),
+        0 0 120px rgba(0, 245, 255, 0.3),
+        inset 0 0 30px rgba(0, 245, 255, 0.2);
+    animation: biomorphPulse 7s ease-in-out infinite;
+}
+
+.mobius-animation {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    z-index: 1;
+}
+
+.profile-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    white-space: nowrap;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    gap: 2px;
+}
+
+.profile-title .title-line1,
+.profile-title .title-line2 {
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.profile-title .title-line1 {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+}
+
+.profile-title .title-line2 {
+    font-size: 0.6rem;
+    letter-spacing: 0.5px;
+}
+
+/* ========================================== */
+/* МОДАЛЬНОЕ ОКНО ПРОФИЛЯ */
+/* ========================================== */
+
+.profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 15, 27, 0.95);
+    backdrop-filter: blur(20px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.profile-modal-content {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 220, 130, 0.05),
+        rgba(157, 78, 221, 0.05)
+    );
+    border: 2px solid var(--border-color);
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.profile-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.profile-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.profile-close svg {
+    fill: var(--text-secondary);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    position: relative;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--bio-green);
+}
+
+.avatar-glow {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle, var(--bio-green) 0%, transparent 70%);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: avatarGlow 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes avatarGlow {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+.profile-name {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.profile-id {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ========================================== */
+/* СТАТИСТИКА ПРОФИЛЯ */
+/* ========================================== */
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(0, 220, 130, 0.05);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    background: rgba(0, 220, 130, 0.1);
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    animation: statIconFloat 3s ease-in-out infinite;
+}
+
+@keyframes statIconFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--bio-green);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ========================================== */
+/* ДЕЙСТВИЯ ПРОФИЛЯ */
+/* ========================================== */
+
+.profile-actions {
+    text-align: center;
+}
+
+.btn-buy-stars {
+    width: 100%;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.btn-buy-stars:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.btn-buy-stars svg {
+    fill: currentColor;
+}
+
+.star-packages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.star-package {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.05),
+        rgba(255, 165, 0, 0.05)
+    );
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 20px;
+    padding: 20px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.star-package::before {
+    content: "";
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.2) 0%,
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.star-package:hover::before {
+    opacity: 1;
+    animation: starShimmer 0.5s ease;
+}
+
+@keyframes starShimmer {
+    0% {
+        transform: rotate(0deg) scale(0);
+    }
+    100% {
+        transform: rotate(180deg) scale(1);
+    }
+}
+
+.star-package:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.15),
+        rgba(255, 165, 0, 0.1)
+    );
+    border-color: #ffd700;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+}
+
+.package-icon {
+    font-size: 2rem;
+    animation: starFloat 3s ease-in-out infinite;
+}
+
+.star-package:nth-child(2) .package-icon {
+    animation-delay: 0.5s;
+}
+
+.star-package:nth-child(3) .package-icon {
+    animation-delay: 1s;
+}
+
+@keyframes starFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-5px) rotate(180deg);
+    }
+}
+
+.package-stars {
+    font-size: 1.3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.package-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 220, 130, 0.3);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.package-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(
+        circle,
+        rgba(255, 215, 0, 0.4) 0%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.star-package:hover .package-glow {
+    opacity: 1;
+    animation: glowPulse 1s ease-in-out;
+}
+
+@keyframes glowPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+.star-package.popular {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.1),
+        rgba(255, 165, 0, 0.08)
+    );
+}
+
+/* ========================================== */
+/* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ */
+/* ========================================== */
+
+.premium-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    color: var(--bg-dark);
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: 8px;
+    animation: premiumShine 3s ease-in-out infinite;
+}
+
+@keyframes premiumShine {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.burst-star {
+    position: fixed;
+    font-size: 20px;
+    animation: starBurst 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 3000;
+}
+
+@keyframes starBurst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+.balance-updated {
+    animation: balanceGlow 1s ease;
+}
+
+@keyframes balanceGlow {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.3);
+        text-shadow: 0 0 20px #ffd700;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .biomorph-profile-btn {
+        width: 80px;
+        height: 80px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .mobius-animation {
+        width: 45px;
+        height: 45px;
+    }
+
+    .profile-title {
+        font-size: 0.55rem;
+    }
+
+    .profile-modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .star-packages {
+        grid-template-columns: 1fr;
+    }
+
+    .star-package {
+        padding: 15px;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .package-icon {
+        font-size: 1.5rem;
+    }
+
+    .package-stars {
+        font-size: 1.1rem;
+    }
+}
+/* ========================================== */
+/* МОБИЛЬНАЯ АДАПТАЦИЯ - УЛУЧШЕННАЯ ВЕРСИЯ */
+/* ========================================== */
+
+/* Базовая мобильная адаптация */
+@media (max-width: 768px) {
+    /* Основной контейнер */
+    .main-container {
+        padding: 10px;
+        padding-top: calc(10px + var(--safe-area-inset-top));
+        padding-bottom: calc(10px + var(--safe-area-inset-bottom));
+    }
+
+    /* Рабочая область */
+    .workspace {
+        padding: 20px 15px;
+        border-radius: 20px;
+    }
+
+    /* ЗАГОЛОВКИ ШАГОВ - опускаем ниже */
+    .step-title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        margin-top: 10px; /* Добавляем отступ сверху */
+        padding-top: 5px; /* Дополнительный внутренний отступ */
+    }
+
+    /* Специально для шагов 2 и 3 - еще больше отступ */
+    #step2 .step-title,
+    #step3-deepfake .step-title,
+    #step3-neural .step-title {
+        margin-top: 15px;
+        padding-top: 10px;
+    }
+}
+
+/* Для маленьких экранов */
+@media (max-width: 480px) {
+    /* Еще сильнее опускаем заголовки на маленьких экранах */
+    .step-title {
+        font-size: 1.2rem;
+        margin-top: 12px;
+        padding-top: 8px;
+        margin-bottom: 18px;
+    }
+
+    #step2 .step-title,
+    #step3-deepfake .step-title,
+    #step3-neural .step-title {
+        margin-top: 18px;
+        padding-top: 12px;
+    }
+}
+
+/* ========================================== */
+/* РАЗДЕЛ РЕЗУЛЬТАТА - МОБИЛЬНАЯ ВЕРСИЯ */
+/* ========================================== */
+
+@media (max-width: 768px) {
+    /* Контейнер результата */
+    .result-container {
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Заголовок результата */
+    #step5 .step-title {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        padding: 0 10px;
+    }
+
+    /* Компаратор изображений */
+    .comparer-container {
+        border-radius: 15px;
+        margin-bottom: 15px;
+    }
+
+    .comparer-wrapper {
+        height: 350px; /* Уменьшаем высоту */
+    }
+
+    /* Информация о результате - компактнее */
+    .result-info {
+        gap: 15px;
+        margin-bottom: 20px;
+        padding: 0 10px;
+        flex-direction: column; /* Вертикальное расположение */
+    }
+
+    .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(0, 220, 130, 0.1);
+    }
+
+    .info-label {
+        font-size: 0.8rem;
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    .info-value {
+        font-size: 0.95rem;
+        text-align: right;
+    }
+
+    /* Кнопки действий */
+    .result-actions {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .result-actions button {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Еще более компактная версия для маленьких экранов */
+
+    /* Заголовок результата */
+    #step5 .step-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+
+    /* Компаратор */
+    .comparer-wrapper {
+        height: 280px; /* Еще меньше высота */
+    }
+
+    .comparer-label {
+        top: 10px;
+        padding: 6px 12px;
+        font-size: 0.7rem;
+    }
+
+    .comparer-before .comparer-label {
+        left: 10px;
+    }
+
+    .comparer-after .comparer-label {
+        right: 10px;
+    }
+
+    /* Слайдер компаратора */
+    .slider-handle {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Подсказка компаратора */
+    .comparer-hint {
+        padding: 10px;
+        font-size: 0.8rem;
+    }
+
+    /* Информация - еще компактнее */
+    .result-info {
+        margin-bottom: 15px;
+        padding: 0 5px;
+    }
+
+    .info-item {
+        padding: 6px 0;
+    }
+
+    .info-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+
+    .info-value {
+        font-size: 0.85rem;
+    }
+
+    /* Кнопки */
+    .result-actions {
+        padding: 0 5px;
+    }
+
+    .result-actions button {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+
+    .result-actions button svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* ========================================== */
+/* СПЕЦИАЛЬНЫЕ ПРАВКИ ДЛЯ iPhone */
+/* ========================================== */
+
+@media (max-width: 390px) {
+    /* iPhone 12/13/14 Pro */
+    /* Шаг 5 - максимальная оптимизация */
+    #step5 {
+        padding: 0;
+    }
+
+    #step5 .step-title {
+        font-size: 0.95rem;
+        margin: 5px 0 10px 0;
+    }
+
+    .comparer-wrapper {
+        height: 250px;
+    }
+
+    .result-info {
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .info-item {
+        padding: 5px 0;
+    }
+}
+
+@media (max-width: 375px) {
+    /* iPhone SE, старые модели */
+    .comparer-wrapper {
+        height: 220px;
+    }
+
+    #step5 .step-title {
+        display: none; /* Скрываем заголовок на очень маленьких экранах */
+    }
+}
+
+/* ========================================== */
+/* АЛЬТЕРНАТИВНЫЙ КОМПАКТНЫЙ РЕЖИМ РЕЗУЛЬТАТА */
+/* ========================================== */
+
+/* Включается автоматически при высоте viewport меньше 650px */
+@media (max-height: 650px) {
+    #step5 {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 5px;
+    }
+
+    #step5 .step-title {
+        margin: 0 0 10px 0;
+        font-size: 1rem;
+    }
+
+    .comparer-wrapper {
+        height: min(300px, 40vh);
+    }
+
+    .result-info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .info-item {
+        border-bottom: none;
+        padding: 5px;
+        text-align: center;
+    }
+
+    .info-label {
+        display: none; /* Скрываем лейблы */
+    }
+
+    .info-value {
+        font-size: 0.9rem;
+        text-align: center;
+    }
+
+    /* Добавляем иконки вместо лейблов */
+    .info-item:nth-child(1) .info-value::before {
+        content: "🛠️ ";
+    }
+
+    .info-item:nth-child(2) .info-value::before {
+        content: "⏱️ ";
+    }
+
+    .info-item:nth-child(3) .info-value::before {
+        content: "✨ ";
+    }
+
+    .result-actions {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .result-actions button {
+        flex: 1;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    /* Убираем текст, оставляем только иконки на очень маленьких экранах */
+    @media (max-width: 350px) {
+        .result-actions button {
+            font-size: 0;
+        }
+
+        .result-actions button svg {
+            width: 24px;
+            height: 24px;
+            margin: 0;
+        }
+    }
+}
+
+/* ========================================== */
+/* ФИКС ДЛЯ TELEGRAM WEBAPP */
+/* ========================================== */
+
+.telegram-webapp #step5 {
+    max-height: calc(var(--tg-viewport-height, 100vh) - 120px);
+}
+
+.telegram-webapp .comparer-wrapper {
+    max-height: calc(var(--tg-viewport-height, 100vh) - 300px);
+}
+
+/* Plus Messenger специфичные правки */
+.plus-messenger #step5 .step-title {
+    margin-top: 20px;
+}
+
+.plus-messenger .result-container {
+    max-height: calc(100vh - 140px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ========================================== */
+/* АДАПТИВНЫЕ КАРТОЧКИ ИНСТРУМЕНТОВ */
+/* ========================================== */
+
+@media (max-width: 768px) {
+    /* Выбор инструментов */
+    .tools-selection {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .tool-card {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-align: left;
+    }
+
+    .tool-icon {
+        width: 50px;
+        height: 50px;
+        margin: 0;
+    }
+
+    .tool-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .tool-card p {
+        font-size: 0.85rem;
+    }
+}
+
+/* ========================================== */
+/* ПРОГРЕСС ИНДИКАТОР - МОБИЛЬНАЯ ВЕРСИЯ */
+/* ========================================== */
+
+@media (max-width: 480px) {
+    .progress-indicator {
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .progress-step {
+        gap: 3px;
+    }
+
+    .step-number {
+        width: 24px;
+        height: 24px;
+        font-size: 0.75rem;
+    }
+
+    .step-label {
+        font-size: 0.65rem;
+        display: none; /* Скрываем лейблы на маленьких экранах */
+    }
+
+    .progress-line {
+        width: 30px;
+    }
+}
+
+/* ========================================== */
+/* АНИМАЦИИ ДЛЯ НИЗКОПРОИЗВОДИТЕЛЬНЫХ УСТРОЙСТВ */
+/* ========================================== */
+
+@media (max-width: 768px) {
+    /* Упрощаем анимации на мобильных */
+    .low-performance * {
+        animation: none !important;
+        transition: opacity 0.2s ease !important;
+    }
+
+    .low-performance .bio-reactor {
+        display: none;
+    }
+
+    .low-performance .progress-bar {
+        background: var(--bio-green);
+    }
+}
+
+/* ========================================== */
+/* ДОПОЛНИТЕЛЬНЫЕ УЛУЧШЕНИЯ */
+/* ========================================== */
+
+/* Фикс для клавиатуры */
+.keyboard-open .workspace {
+    padding-bottom: 10px;
+}
+
+.keyboard-open .main-container {
+    padding-bottom: 10px;
+}
+
+/* Убираем лишние отступы на мобильных */
+@media (max-width: 768px) {
+    .upload-zone {
+        padding: 30px 20px;
+        margin-bottom: 20px;
+    }
+
+    .nucleus {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+
+    .upload-text {
+        font-size: 1rem;
+    }
+
+    .upload-subtext {
+        font-size: 0.8rem;
+    }
+}
