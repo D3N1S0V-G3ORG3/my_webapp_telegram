@@ -1,7 +1,12 @@
-// Конфигурация API
+// Этот код нужно добавить в начало твоего script.js
+
+// API Configuration
 const API_CONFIG = {
-  // Замени на свой IP или домен
+  // Для локального тестирования
   baseURL: "http://localhost:8000/api/v1",
+
+  // Для продакшена (когда разместишь на сервере)
+  // baseURL: 'https://your-domain.com/api/v1',
 
   endpoints: {
     uploadImage: "/upload/image",
@@ -14,31 +19,13 @@ const API_CONFIG = {
   },
 };
 
-// Функция загрузки изображения на сервер
-async function uploadImageToServer(file) {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const response = await fetch(
-      `${API_CONFIG.baseURL}${API_CONFIG.endpoints.uploadImage}`,
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Upload failed");
-    }
-
-    const data = await response.json();
-    console.log("Upload successful:", data);
-    return data;
-  } catch (error) {
-    console.error("Upload error:", error);
-    throw error;
-  }
+// Получаем данные пользователя из Telegram WebApp
+let userData = null;
+if (window.Telegram && window.Telegram.WebApp) {
+  const tg = window.Telegram.WebApp;
+  userData = {
+    id: tg.initDataUnsafe?.user?.id || 218079311,
+    username: tg.initDataUnsafe?.user?.username || "test_user",
+    first_name: tg.initDataUnsafe?.user?.first_name || "Test",
+  };
 }
-
-// Добавь эту функцию в свой script.js
