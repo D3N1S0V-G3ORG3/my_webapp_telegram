@@ -15,7 +15,7 @@ const API_CONFIG = {
     verifyPayment: "/payment/verify",
     checkFaceCount: "/analysis/faces",
   },
-  wsURL: "ws://localhost:8000/ws",
+  wsURL: "https://f842581eaad5.ngrok-free.app -> http://localhost:8000",
 };
 
 // Определение платформы
