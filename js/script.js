@@ -5,7 +5,7 @@
 // API Configuration
 // API Configuration
 const API_CONFIG = {
-  baseURL: "https://accessory-sure-pacific-kinda.trycloudflare.com/api/v1",  // УБРАЛИ ПРОБЕЛ перед /api
+  baseURL: "https://mit-varied-slightly-context.trycloudflare.com//api/v1",  // УБРАЛИ ПРОБЕЛ перед /api
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -18,7 +18,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://accessory-sure-pacific-kinda.trycloudflare.com/ws"  // ДОБАВИЛИ wss:// и УБРАЛИ ПРОБЕЛ
+  wsURL: "wss://mit-varied-slightly-context.trycloudflare.com/ws"  // ДОБАВИЛИ wss:// и УБРАЛИ ПРОБЕЛ
 };
   
 // Определение платформы
