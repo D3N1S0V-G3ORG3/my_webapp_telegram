@@ -5,6 +5,7 @@
 // API Configuration
 const API_CONFIG = {
   baseURL: "https://1113047a2582.ngrok-free.app/api/v1",
+  
   endpoints: {
     uploadImage: "/upload/image",
     uploadVideo: "/upload/video",
@@ -13,9 +14,10 @@ const API_CONFIG = {
     getResult: "/generation/result",
     getUserProfile: "/user/profile",
     verifyPayment: "/payment/verify",
-    checkFaceCount: "/analysis/faces",
+    checkFaceCount: "/analysis/faces"
   },
-  wsURL: "wss://https://1113047a2582.ngrok-free.app/ws",
+  
+  wsURL: "wss://1113047a2582.ngrok-free.app/ws"  // БЕЗ https!!! Только wss://
 };
 
 // Определение платформы
