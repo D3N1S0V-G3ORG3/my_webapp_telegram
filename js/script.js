@@ -4,7 +4,7 @@
 
 // API Configuration
 const API_CONFIG = {
-  baseURL: "http://localhost:8000/api/v1",
+  baseURL: "https://1113047a2582.ngrok-free.app/api/v1",
   endpoints: {
     uploadImage: "/upload/image",
     uploadVideo: "/upload/video",
@@ -15,7 +15,7 @@ const API_CONFIG = {
     verifyPayment: "/payment/verify",
     checkFaceCount: "/analysis/faces",
   },
-  wsURL: "https://f842581eaad5.ngrok-free.app -> http://localhost:8000",
+  wsURL: "wss://https://1113047a2582.ngrok-free.app/ws",
 };
 
 // Определение платформы
