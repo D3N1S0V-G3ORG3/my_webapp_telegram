@@ -21,9 +21,6 @@ const API_CONFIG = {
   wsURL: "wss://accessory-sure-pacific-kinda.trycloudflare.com/ws"  // ДОБАВИЛИ wss:// и УБРАЛИ ПРОБЕЛ
 };
   
-  wsURL: "//accessory-sure-pacific-kinda.trycloudflare.com /ws"  // БЕЗ https!!! Только wss://
-};
-
 // Определение платформы
 const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 const isPlusMesenger = /Plus Messenger/i.test(userAgent);
