@@ -4,7 +4,7 @@
 
 // API Configuration
 const API_CONFIG = {
-  baseURL: "https://1113047a2582.ngrok-free.app/api/v1",
+  baseURL: "https://accessory-sure-pacific-kinda.trycloudflare.com /api/v1",
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -17,7 +17,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://1113047a2582.ngrok-free.app/ws"  // БЕЗ https!!! Только wss://
+  wsURL: "//accessory-sure-pacific-kinda.trycloudflare.com /ws"  // БЕЗ https!!! Только wss://
 };
 
 // Определение платформы
