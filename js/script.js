@@ -4,7 +4,7 @@
 
 // API Configuration
 const API_CONFIG = {
-  baseURL: "https://mit-varied-slightly-context.trycloudflare.com/api/v1",
+  baseURL: "https://mph-server-idaho-polish.trycloudflare.com /api/v1",
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -17,7 +17,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://mit-varied-slightly-context.trycloudflare.com/ws"
+  wsURL: "wss://https://mph-server-idaho-polish.trycloudflare.com /ws"
 };
   
 // Определение платформы
