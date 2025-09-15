@@ -2,9 +2,10 @@
 // BIO-NEURAL LAB - FRONTEND v2.0
 // ========================================== //
 
+
 // API Configuration
 const API_CONFIG = {
-  baseURL: "https://mph-server-idaho-polish.trycloudflare.com /api/v1",
+  baseURL: "https://mph-server-idaho-polish.trycloudflare.com/api/v1",
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -17,7 +18,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://mph-server-idaho-polish.trycloudflare.com /ws"
+  wsURL: "wss://mph-server-idaho-polish.trycloudflare.com/ws"
 };
   
 // Определение платформы
