@@ -6,7 +6,7 @@
 // API Configuration
 // API Configuration
 const API_CONFIG = {
-  baseURL: " https://7995d2ba617e.ngrok-free.app/api/v1",
+  baseURL: "https://6bb23c9b330e.ngrok-free.app/api/v1",
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -19,7 +19,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://7995d2ba617e.ngrok-free.app/ws"
+  wsURL: "wss://6bb23c9b330e.ngrok-free.app/ws"
 };
   
 // Определение платформы
