@@ -4,8 +4,9 @@
 
 
 // API Configuration
+// API Configuration
 const API_CONFIG = {
-  baseURL: "https://mph-server-idaho-polish.trycloudflare.com/api/v1",
+  baseURL: "https://ee2ed0efe040.ngrok-free.app/api/v1",
   
   endpoints: {
     uploadImage: "/upload/image",
@@ -18,7 +19,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://mph-server-idaho-polish.trycloudflare.com/ws"
+  wsURL: "wss://ee2ed0efe040.ngrok-free.app/ws"
 };
   
 // Определение платформы
