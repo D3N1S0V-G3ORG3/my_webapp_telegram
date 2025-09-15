@@ -17,7 +17,7 @@ const API_CONFIG = {
     checkFaceCount: "/analysis/faces"
   },
   
-  wsURL: "wss://https://mph-server-idaho-polish.trycloudflare.com /ws"
+  wsURL: "wss://mph-server-idaho-polish.trycloudflare.com /ws"
 };
   
 // Определение платформы
