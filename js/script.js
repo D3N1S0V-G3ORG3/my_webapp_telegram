@@ -1,345 +1,239 @@
-// Ждем полной загрузки DOM
+// Инициализация Telegram WebApp
+let tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+
+// Переменные состояния
+let currentStage = 1;
+let selectedTool = null;
+let touchStartX = 0;
+let touchStartY = 0;
+
+// Инициализация при загрузке
 document.addEventListener("DOMContentLoaded", function () {
-  let currentStage = 1;
-  let selectedTool = null;
-  let transitionTimeout = null;
+  // Настройка цветовой схемы Telegram
+  document.documentElement.style.setProperty(
+    "--tg-theme-bg-color",
+    tg.themeParams.bg_color || "#0a0f1b",
+  );
+  document.documentElement.style.setProperty(
+    "--tg-theme-text-color",
+    tg.themeParams.text_color || "#ffffff",
+  );
 
-  // Переход между этапами
-  function goToStage(stage) {
-    // Очищаем таймауты если есть
-    if (transitionTimeout) {
-      clearTimeout(transitionTimeout);
-      transitionTimeout = null;
-    }
-
-    // Скрываем индикаторы перехода
-    const deepfakeTransition = document.getElementById("deepfakeTransition");
-    const neuralTransition = document.getElementById("neuralTransition");
-
-    if (deepfakeTransition) deepfakeTransition.style.display = "none";
-    if (neuralTransition) neuralTransition.style.display = "none";
-
-    // Скрываем текущий этап
-    const currentStageEl = document.getElementById(`stage${currentStage}`);
-    if (currentStageEl) {
-      currentStageEl.classList.remove("active");
-    }
-
-    // Показываем новый этап
-    currentStage = stage;
-    const newStageEl = document.getElementById(`stage${currentStage}`);
-    if (newStageEl) {
-      newStageEl.classList.add("active");
-    }
-
-    // Обновляем прогресс-бар
-    updateProgressBar();
-
-    // Специальная логика для этапа 4 (синтез)
-    if (stage === 4) {
-      setTimeout(() => {
-        goToStage(5);
-      }, 5000); // Автоматический переход через 5 секунд
-    }
-
-    // Сброс при переходе на первый этап
-    if (stage === 1) {
-      selectedTool = null;
-      // Разблокируем кнопки
-      const buttons = document.querySelectorAll(".setting-button");
-      buttons.forEach((btn) => (btn.disabled = false));
-    }
-  }
-
-  // Обновление прогресс-бара
-  function updateProgressBar() {
-    const progressBar = document.getElementById("progressBar");
-    if (!progressBar) return;
-
-    if (currentStage === 1) {
-      progressBar.classList.remove("active");
-    } else {
-      progressBar.classList.add("active");
-
-      // Обновляем состояние кружков
-      const circles = progressBar.querySelectorAll(".step-circle");
-      const lines = progressBar.querySelectorAll(".step-line");
-
-      circles.forEach((circle, index) => {
-        const stepNum = index + 1;
-
-        if (stepNum < currentStage) {
-          circle.classList.add("completed");
-          circle.classList.remove("active");
-        } else if (stepNum === currentStage) {
-          circle.classList.add("active");
-          circle.classList.remove("completed");
-        } else {
-          circle.classList.remove("active", "completed");
-        }
-      });
-
-      lines.forEach((line, index) => {
-        const stepNum = index + 2;
-        if (stepNum <= currentStage) {
-          line.classList.add("active");
-        } else {
-          line.classList.remove("active");
-        }
-      });
-    }
-  }
+  // Инициализация свайпов для навигации
+  initSwipeNavigation();
 
   // Обработка загрузки файла
   const fileInput = document.getElementById("fileInput");
   if (fileInput) {
-    fileInput.addEventListener("change", function (e) {
-      if (e.target.files && e.target.files.length > 0) {
-        console.log("Файл загружен, переход на этап 2");
-        setTimeout(() => {
-          goToStage(2);
-        }, 500); // Небольшая задержка для визуального эффекта
-      }
-    });
+    fileInput.addEventListener("change", handleFileUpload);
   }
 
-  // Выбор инструмента
-  function selectTool(tool) {
-    console.log("Выбран инструмент:", tool);
-    selectedTool = tool;
-    goToStage(3);
+  // Показать главную кнопку Telegram для определенных этапов
+  updateTelegramMainButton();
+});
 
-    // Показываем соответствующие настройки
-    const deepfakeSettings = document.getElementById("deepfakeSettings");
-    const neuralSettings = document.getElementById("neuralSettings");
+// Переход между этапами
+function goToStage(stage) {
+  // Скрываем текущий этап
+  document.getElementById(`stage${currentStage}`)?.classList.remove("active");
 
-    if (tool === "deepfake") {
-      if (deepfakeSettings) deepfakeSettings.style.display = "block";
-      if (neuralSettings) neuralSettings.style.display = "none";
-    } else {
-      if (deepfakeSettings) deepfakeSettings.style.display = "none";
-      if (neuralSettings) neuralSettings.style.display = "block";
-    }
+  // Показываем новый этап
+  currentStage = stage;
+  document.getElementById(`stage${currentStage}`)?.classList.add("active");
+
+  // Обновляем UI элементы
+  updateProgressBar();
+  updateBackButton();
+  updateTelegramMainButton();
+
+  // Автопереход для этапа синтеза
+  if (stage === 4) {
+    setTimeout(() => goToStage(5), 3000);
   }
 
-  // Обработка выбора DeepFake опций
-  function handleDeepfakeOption(option) {
-    console.log("DeepFake опция:", option);
-
-    // Показываем индикатор перехода
-    const deepfakeTransition = document.getElementById("deepfakeTransition");
-    if (deepfakeTransition) {
-      deepfakeTransition.style.display = "block";
-    }
-
-    // Блокируем кнопки
-    const buttons = document.querySelectorAll(".setting-button");
-    buttons.forEach((btn) => (btn.disabled = true));
-
-    // Автоматический переход через 2 секунды
-    transitionTimeout = setTimeout(() => {
-      console.log("Автопереход на этап 4");
-      goToStage(4);
-    }, 2000);
-
-    if (option === "upload") {
-      // Логика для загрузки файла
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = "image/*";
-      input.onchange = (e) => {
-        console.log("Файл для deepfake выбран");
-        // Файл выбран, переход уже запланирован
-      };
-      input.click();
-    }
+  // Сброс при возврате на первый этап
+  if (stage === 1) {
+    selectedTool = null;
+    resetSettings();
   }
+}
 
-  // Добавление промпта для Neural Editor
-  function addPrompt(text) {
-    console.log("Добавлен промпт:", text);
-    const input = document.getElementById("promptInput");
-    if (input) {
-      input.value = text;
-      input.focus();
-
-      // Показываем индикатор перехода
-      const neuralTransition = document.getElementById("neuralTransition");
-      if (neuralTransition) {
-        neuralTransition.style.display = "block";
-      }
-
-      // Очищаем предыдущий таймаут если есть
-      if (transitionTimeout) {
-        clearTimeout(transitionTimeout);
-      }
-
-      // Автоматический переход через 2 секунды
-      transitionTimeout = setTimeout(() => {
-        console.log("Автопереход на этап 4 после промпта");
-        goToStage(4);
-      }, 2000);
-    }
+// Навигация назад
+function goBack() {
+  if (currentStage > 1 && currentStage <= 3) {
+    goToStage(currentStage - 1);
   }
+}
 
-  // Отслеживание ввода в поле Neural Editor
-  const promptInput = document.getElementById("promptInput");
-  if (promptInput) {
-    promptInput.addEventListener("input", function () {
-      console.log("Ввод в поле:", this.value.length, "символов");
+// Обновление прогресс-бара
+function updateProgressBar() {
+  const progressBar = document.getElementById("progressBar");
+  if (!progressBar) return;
 
-      if (this.value.length > 10) {
-        // Если введено больше 10 символов
-        // Показываем индикатор перехода
-        const neuralTransition = document.getElementById("neuralTransition");
-        if (neuralTransition) {
-          neuralTransition.style.display = "block";
-        }
+  progressBar.classList.toggle("active", currentStage > 1);
 
-        // Очищаем предыдущий таймаут если есть
-        if (transitionTimeout) {
-          clearTimeout(transitionTimeout);
-        }
-
-        // Автоматический переход через 3 секунды после остановки ввода
-        transitionTimeout = setTimeout(() => {
-          console.log("Автопереход на этап 4 после ввода текста");
-          goToStage(4);
-        }, 3000);
-      } else {
-        // Скрываем индикатор если текста мало
-        const neuralTransition = document.getElementById("neuralTransition");
-        if (neuralTransition) {
-          neuralTransition.style.display = "none";
-        }
-        if (transitionTimeout) {
-          clearTimeout(transitionTimeout);
-          transitionTimeout = null;
-        }
-      }
-    });
-  }
-
-  // Компарер функционал
-  const comparerContainer = document.getElementById("comparerContainer");
-  const comparerSlider = document.getElementById("comparerSlider");
-  const beforeImage = document.querySelector(".comparer-image.before");
-  const afterImage = document.querySelector(".comparer-image.after");
-
-  let isResizing = false;
-
-  if (comparerSlider && comparerContainer) {
-    comparerSlider.addEventListener("mousedown", (e) => {
-      isResizing = true;
-      e.preventDefault();
-    });
-
-    document.addEventListener("mousemove", (e) => {
-      if (!isResizing) return;
-
-      const rect = comparerContainer.getBoundingClientRect();
-      let x = e.clientX - rect.left;
-      x = Math.max(0, Math.min(x, rect.width));
-
-      const percentage = (x / rect.width) * 100;
-
-      comparerSlider.style.left = percentage + "%";
-      if (beforeImage)
-        beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-      if (afterImage) afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
-    });
-
-    document.addEventListener("mouseup", () => {
-      isResizing = false;
-    });
-
-    // Touch поддержка
-    comparerSlider.addEventListener("touchstart", (e) => {
-      isResizing = true;
-      e.preventDefault();
-    });
-
-    document.addEventListener("touchmove", (e) => {
-      if (!isResizing) return;
-
-      const rect = comparerContainer.getBoundingClientRect();
-      let x = e.touches[0].clientX - rect.left;
-      x = Math.max(0, Math.min(x, rect.width));
-
-      const percentage = (x / rect.width) * 100;
-
-      comparerSlider.style.left = percentage + "%";
-      if (beforeImage)
-        beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-      if (afterImage) afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
-    });
-
-    document.addEventListener("touchend", () => {
-      isResizing = false;
-    });
-  }
-
-  // Функции для результата
-  function downloadResult() {
-    console.log("Скачивание результата");
-    alert("Функция скачивания будет реализована");
-  }
-
-  function shareResult() {
-    console.log("Поделиться результатом");
-    alert("Функция sharing будет реализована");
-  }
-
-  // Анимация частиц
-  const particlesContainer = document.querySelector(".organic-particles");
-  if (particlesContainer) {
-    let particleInterval = setInterval(() => {
-      if (currentStage !== 5) {
-        const particle = document.createElement("div");
-        particle.className = "particle";
-        particle.style.left = Math.random() * 100 + "%";
-        particle.style.animationDelay = "0s";
-        particle.style.animationDuration = 5 + Math.random() * 5 + "s";
-        particlesContainer.appendChild(particle);
-
-        setTimeout(() => particle.remove(), 10000);
-      }
-    }, 500);
-  }
-
-  // Эффект следования за курсором для карточек инструментов
-  const toolCards = document.querySelectorAll(".tool-card");
-
-  toolCards.forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-
-      card.style.transform = `
-            perspective(1000px)
-            rotateY(${(x - 0.5) * 10}deg)
-            rotateX(${(y - 0.5) * -10}deg)
-            translateY(-10px)
-            scale(1.05)
-        `;
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transform =
-        "perspective(1000px) rotateY(0) rotateX(0) translateY(0) scale(1)";
-    });
+  // Обновляем состояние кружков
+  const circles = progressBar.querySelectorAll(".step-circle");
+  circles.forEach((circle, index) => {
+    const stepNum = index + 1;
+    circle.classList.toggle("completed", stepNum < currentStage);
+    circle.classList.toggle("active", stepNum === currentStage);
   });
+}
 
-  // Делаем функции глобальными для использования в HTML
-  window.goToStage = goToStage;
-  window.selectTool = selectTool;
-  window.handleDeepfakeOption = handleDeepfakeOption;
-  window.addPrompt = addPrompt;
-  window.downloadResult = downloadResult;
-  window.shareResult = shareResult;
+// Обновление кнопки назад
+function updateBackButton() {
+  const backButton = document.getElementById("backButton");
+  if (backButton) {
+    backButton.classList.toggle(
+      "visible",
+      currentStage >= 2 && currentStage <= 3,
+    );
+  }
+}
 
-  // Логирование для отладки
-  console.log("F4TA-Morgana AI Lab инициализирован");
-  console.log("Текущий этап:", currentStage);
+// Обновление главной кнопки Telegram
+function updateTelegramMainButton() {
+  if (currentStage === 3) {
+    tg.MainButton.setText("Продолжить");
+    tg.MainButton.show();
+    tg.MainButton.onClick(() => goToStage(4));
+  } else if (currentStage === 5) {
+    tg.MainButton.setText("Сохранить результат");
+    tg.MainButton.show();
+    tg.MainButton.onClick(downloadResult);
+  } else {
+    tg.MainButton.hide();
+  }
+}
+
+// Обработка загрузки файла
+function handleFileUpload(e) {
+  if (e.target.files && e.target.files.length > 0) {
+    // Вибрация при загрузке (если поддерживается)
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(50);
+    }
+
+    setTimeout(() => goToStage(2), 300);
+  }
+}
+
+// Выбор инструмента
+function selectTool(tool) {
+  selectedTool = tool;
+
+  // Вибрация при выборе
+  if (window.navigator.vibrate) {
+    window.navigator.vibrate(30);
+  }
+
+  goToStage(3);
+
+  // Показываем соответствующие настройки
+  const deepfakeSettings = document.getElementById("deepfakeSettings");
+  const neuralSettings = document.getElementById("neuralSettings");
+
+  if (tool === "deepfake") {
+    deepfakeSettings.style.display = "block";
+    neuralSettings.style.display = "none";
+  } else {
+    deepfakeSettings.style.display = "none";
+    neuralSettings.style.display = "block";
+  }
+}
+
+// Обработка опций DeepFake
+function handleDeepfakeOption(option) {
+  if (option === "upload") {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = () => {
+      setTimeout(() => goToStage(4), 500);
+    };
+    input.click();
+  } else {
+    setTimeout(() => goToStage(4), 500);
+  }
+}
+
+// Добавление промпта
+function addPrompt(text) {
+  const input = document.getElementById("promptInput");
+  if (input) {
+    input.value = text;
+
+    // Автопереход через 1.5 секунды
+    setTimeout(() => goToStage(4), 1500);
+  }
+}
+
+// Скачивание результата
+function downloadResult() {
+  tg.showAlert("Результат сохранен!");
+  // Здесь будет логика сохранения
+}
+
+// Сброс настроек
+function resetSettings() {
+  const deepfakeSettings = document.getElementById("deepfakeSettings");
+  const neuralSettings = document.getElementById("neuralSettings");
+  if (deepfakeSettings) deepfakeSettings.style.display = "none";
+  if (neuralSettings) neuralSettings.style.display = "none";
+
+  const promptInput = document.getElementById("promptInput");
+  if (promptInput) promptInput.value = "";
+}
+
+// Инициализация свайп-навигации
+function initSwipeNavigation() {
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  document.addEventListener(
+    "touchstart",
+    function (e) {
+      touchStartX = e.changedTouches[0].screenX;
+    },
+    false,
+  );
+
+  document.addEventListener(
+    "touchend",
+    function (e) {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    },
+    false,
+  );
+
+  function handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = touchEndX - touchStartX;
+
+    // Свайп вправо (назад) - только для этапов 2 и 3
+    if (diff > swipeThreshold && (currentStage === 2 || currentStage === 3)) {
+      goBack();
+    }
+  }
+}
+
+// Делаем функции глобальными
+window.goToStage = goToStage;
+window.goBack = goBack;
+window.selectTool = selectTool;
+window.handleDeepfakeOption = handleDeepfakeOption;
+window.addPrompt = addPrompt;
+window.downloadResult = downloadResult;
+
+// Обработка кнопки "Назад" в Telegram
+tg.BackButton.onClick(() => {
+  if (currentStage > 1) {
+    goBack();
+  } else {
+    tg.close();
+  }
 });

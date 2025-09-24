@@ -2,46 +2,31 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
     --bio-green: #00dc82;
-    --forest-dark: #0a2e1c;
-    --moss: #354f3a;
-    --coral: #ff6b9d;
-    --water: #66d9ef;
     --neural-purple: #9d4edd;
-    --synapse-blue: #4361ee;
     --electric: #00f5ff;
     --bg-dark: #0a0f1b;
-    /* Новые мистические цвета */
-    --mystic-purple: #6a0dad;
-    --dark-violet: #4a0e4e;
-    --ghost-gray: #8b8c89;
-    --shadow-blue: #191970;
-    --ethereal-cyan: #00ced1;
+    --tg-theme-bg-color: var(--bg-dark);
+    --tg-theme-text-color: #ffffff;
+    --tg-theme-button-color: var(--bio-green);
 }
 
 body {
     font-family:
-        "Inter",
-        -apple-system,
-        sans-serif;
-    background: linear-gradient(
-        180deg,
-        #0a0f1b 0%,
-        #2c1a47 25%,
-        #2a4b6e 50%,
-        #555d65 75%,
-        #b08d36 100%
-    );
+        -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, #0a0f1b 0%, #1a2332 50%, #0a0f1b 100%);
     min-height: 100vh;
+    color: var(--tg-theme-text-color);
     overflow-x: hidden;
     position: relative;
-    color: #e0e0e0;
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* Фоновая нейронная сеть */
+/* Упрощенная нейронная сеть для фона */
 .neural-network {
     position: fixed;
     width: 100%;
@@ -49,206 +34,138 @@ body {
     top: 0;
     left: 0;
     z-index: 0;
-    opacity: 0.3;
+    opacity: 0.15;
 }
 
 .neuron {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
     background: var(--bio-green);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--bio-green);
-    animation: pulse 4s ease-in-out infinite;
-}
-
-.neuron::after {
-    content: "";
-    position: absolute;
-    width: 100px;
-    height: 1px;
-    background: linear-gradient(90deg, var(--neural-purple), transparent);
-    transform-origin: left center;
-    left: 100%;
-    top: 50%;
-    animation: synapse-flow 3s linear infinite;
+    box-shadow: 0 0 8px var(--bio-green);
 }
 
 .neuron:nth-child(1) {
     top: 10%;
     left: 20%;
-    animation-delay: 0s;
 }
-
 .neuron:nth-child(2) {
-    top: 30%;
+    top: 50%;
     left: 70%;
-    animation-delay: 0.5s;
 }
-
 .neuron:nth-child(3) {
-    top: 60%;
-    left: 15%;
-    animation-delay: 1s;
-}
-
-.neuron:nth-child(4) {
     top: 80%;
-    left: 60%;
-    animation-delay: 1.5s;
-}
-
-.neuron:nth-child(5) {
-    top: 45%;
-    left: 85%;
-    animation-delay: 2s;
-}
-
-@keyframes pulse {
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: scale(1.5);
-        opacity: 1;
-    }
-}
-
-@keyframes synapse-flow {
-    0% {
-        transform: scaleX(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scaleX(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scaleX(0);
-        opacity: 0;
-    }
+    left: 30%;
 }
 
 /* Контейнер */
 .container {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 20px;
+    width: 100%;
+    max-width: 100vw;
     min-height: 100vh;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
-/* Прогресс-бар этапов */
+/* Прогресс-бар без окантовки */
 .progress-bar {
     position: fixed;
-    top: 40px;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: none;
     z-index: 100;
-    background: rgba(10, 15, 27, 0.8);
-    backdrop-filter: blur(20px);
-    padding: 20px 40px;
-    border-radius: 50px;
-    border: 1px solid rgba(0, 220, 130, 0.3);
+    padding: 10px 20px;
 }
 
 .progress-bar.active {
     display: flex;
-    gap: 30px;
-    align-items: center;
 }
 
 .step-indicator {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 .step-circle {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: rgba(0, 220, 130, 0.1);
-    border: 2px solid rgba(0, 220, 130, 0.3);
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(255, 255, 255, 0.5);
     font-weight: bold;
+    font-size: 14px;
     transition: all 0.3s ease;
 }
 
 .step-circle.active {
     background: var(--bio-green);
-    border-color: var(--bio-green);
     color: var(--bg-dark);
-    box-shadow: 0 0 20px var(--bio-green);
-    animation: step-pulse 1.5s ease-in-out infinite;
 }
 
 .step-circle.completed {
-    background: rgba(0, 220, 130, 0.5);
-    border-color: var(--bio-green);
+    background: rgba(0, 220, 130, 0.3);
     color: white;
 }
 
-@keyframes step-pulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+/* Кнопка назад */
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.step-line {
-    width: 50px;
-    height: 2px;
-    background: rgba(0, 220, 130, 0.2);
-    position: relative;
-    overflow: hidden;
+.back-button.visible {
+    display: flex;
 }
 
-.step-line.active::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--bio-green);
-    animation: line-flow 1s ease-in-out forwards;
+.back-button svg {
+    fill: white;
 }
 
-@keyframes line-flow {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
+.back-button:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.2);
 }
 
 /* Этапы */
 .stage {
     display: none;
-    animation: stage-appear 0.6s ease-out;
+    animation: stage-appear 0.3s ease-out;
+    width: 100%;
 }
 
 .stage.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 40px);
 }
 
 @keyframes stage-appear {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -256,191 +173,97 @@ body {
     }
 }
 
-/* Этап 1 - Загрузка */
-.hero {
+/* Этап 1 - адаптированный для webapp */
+.hero-webapp {
+    width: 100%;
     text-align: center;
+    padding: 20px 0;
 }
 
-.logo {
-    display: inline-block;
-    position: relative;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 10px 25px rgba(139, 140, 137, 0.4))
-        drop-shadow(0 5px 15px rgba(139, 140, 137, 0.3));
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
-.dna-helix {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto;
+.logo-webapp {
+    width: 60px;
+    height: 60px;
+    filter: drop-shadow(0 4px 12px rgba(0, 220, 130, 0.3));
 }
 
-.helix-strand {
-    fill: none;
-    stroke: var(--bio-green);
-    stroke-width: 3;
-    stroke-linecap: round;
-    animation: rotate-helix 4s linear infinite;
-}
-
-.helix-strand:nth-child(2) {
-    stroke: var(--neural-purple);
-    animation-delay: 0.2s;
-}
-
-@keyframes rotate-helix {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
-}
-
-h1 {
-    font-size: 4rem;
-    font-weight: 800;
-    background: linear-gradient(
-        135deg,
-        var(--bio-green),
-        var(--neural-purple),
-        var(--electric)
-    );
+.title-webapp {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradient-shift 4s ease-in-out infinite;
-    margin-bottom: 10px;
-    letter-spacing: -2px;
-    text-shadow:
-        2px 2px 6px rgba(200, 200, 200, 0.4),
-        -2px -2px 6px rgba(255, 255, 255, 0.2),
-        0 0 20px rgba(157, 78, 221, 0.4),
-        0 0 40px rgba(0, 245, 255, 0.3);
-}
-
-@keyframes mystic-flow {
-    0%,
-    100% {
-        background-position: 0% 50%;
-        filter: hue-rotate(0deg) brightness(1);
-    }
-    25% {
-        background-position: 50% 0%;
-        filter: hue-rotate(10deg) brightness(1.1);
-    }
-    50% {
-        background-position: 100% 50%;
-        filter: hue-rotate(-10deg) brightness(0.9);
-    }
-    75% {
-        background-position: 50% 100%;
-        filter: hue-rotate(5deg) brightness(1.05);
-    }
-}
-
-@keyframes ghost-shift {
-    0% {
-        transform: translate(2px, 2px);
-    }
-    100% {
-        transform: translate(-2px, -2px);
-    }
 }
 
 .subtitle {
     color: rgba(255, 255, 255, 0.6);
-    font-size: 1.2rem;
-    font-weight: 300;
-    margin-bottom: 60px;
+    font-size: 1rem;
+    margin-bottom: 40px;
 }
 
-.upload-zone {
-    max-width: 600px;
+.upload-zone-webapp {
+    width: 90%;
+    max-width: 350px;
     margin: 0 auto;
-    background: rgba(15, 25, 20, 0.6);
-    backdrop-filter: blur(30px);
+    background: rgba(0, 220, 130, 0.05);
+    backdrop-filter: blur(10px);
     border: 2px dashed rgba(0, 220, 130, 0.3);
-    border-radius: 30px;
-    padding: 80px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.upload-zone:hover {
-    border-color: rgba(0, 220, 130, 0.6);
-    background: rgba(15, 25, 20, 0.8);
-    transform: scale(1.02);
-}
-
-.upload-button {
-    padding: 20px 60px;
-    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 600;
+    border-radius: 20px;
+    padding: 60px 30px;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
     transition: all 0.3s ease;
+    position: relative;
 }
 
-.upload-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 40px rgba(0, 220, 130, 0.4);
+.upload-zone-webapp:active {
+    transform: scale(0.98);
+    background: rgba(0, 220, 130, 0.1);
 }
 
-.upload-button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, white 0%, transparent 70%);
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
+.upload-text {
+    font-size: 1.1rem;
+    color: var(--bio-green);
+    margin-bottom: 20px;
+    font-weight: 500;
 }
 
-.upload-button:hover::before {
-    width: 300px;
-    height: 300px;
+.upload-icon {
+    font-size: 3rem;
 }
 
-/* Этап 2 - Выбор инструмента */
-.tool-card {
-    width: 300px;
-    background: linear-gradient(
-        135deg,
-        rgba(15, 25, 20, 0.6) 0%,
-        rgba(157, 78, 221, 0.1) 50%,
-        rgba(0, 220, 130, 0.1) 100%
-    );
-    backdrop-filter: blur(20px);
+/* Этап 2 - инструменты для webapp */
+.tools-selection-webapp {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.tool-card-webapp {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    background: rgba(15, 25, 20, 0.4);
+    backdrop-filter: blur(10px);
     border: 2px solid rgba(0, 220, 130, 0.2);
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-    padding: 40px;
+    padding: 30px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
+    transition: all 0.4s ease;
     animation: bio-morph 12s ease-in-out infinite;
-    box-shadow:
-        0 20px 40px rgba(0, 220, 130, 0.2),
-        inset 0 0 40px rgba(157, 78, 221, 0.1),
-        0 0 60px rgba(0, 245, 255, 0.1);
 }
 
-.tool-card:nth-child(1) {
-    animation-delay: 0s;
-    border-radius: 30% 70% 70% 30% / 60% 40% 60% 40%;
-}
-
-.tool-card:nth-child(2) {
+.tool-card-webapp:nth-child(2) {
     animation-delay: 6s;
     border-radius: 70% 30% 30% 70% / 40% 60% 40% 60%;
 }
@@ -449,383 +272,110 @@ h1 {
     0%,
     100% {
         border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
-        transform: rotate(0deg) scale(1);
     }
     25% {
         border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
-        transform: rotate(2deg) scale(1.02);
     }
     50% {
         border-radius: 30% 70% 40% 60% / 70% 30% 70% 30%;
-        transform: rotate(-1deg) scale(1);
     }
     75% {
         border-radius: 60% 40% 30% 70% / 50% 70% 30% 50%;
-        transform: rotate(1deg) scale(1.01);
     }
 }
 
-.tool-card:hover {
-    animation-play-state: paused;
-    transform: translateY(-15px) scale(1.05) rotate(3deg);
-    border-color: var(--bio-green);
-    border-width: 3px;
-    border-radius: 25% 75% 75% 25% / 75% 25% 75% 25%;
-    box-shadow:
-        0 30px 60px rgba(0, 220, 130, 0.4),
-        inset 0 0 60px rgba(0, 220, 130, 0.2),
-        0 0 100px rgba(157, 78, 221, 0.3),
-        0 10px 40px rgba(0, 245, 255, 0.3);
-    background: linear-gradient(
-        135deg,
-        rgba(0, 220, 130, 0.2) 0%,
-        rgba(157, 78, 221, 0.3) 50%,
-        rgba(0, 245, 255, 0.2) 100%
-    );
+.tool-card-webapp:active {
+    transform: scale(0.95);
+    background: rgba(0, 220, 130, 0.1);
 }
 
-.tool-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(
-        circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-        var(--bio-green) 0%,
-        transparent 40%
-    );
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    filter: blur(40px);
-}
-
-.tool-card:hover::before {
-    opacity: 0.3;
-}
-
-.tool-card::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    background: linear-gradient(
-        45deg,
-        transparent,
-        var(--bio-green),
-        var(--neural-purple),
-        transparent
-    );
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.5s ease;
-    filter: blur(15px);
-    animation: liquid-rotate 3s linear infinite;
-}
-
-@keyframes liquid-rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.tool-card:hover::after {
-    opacity: 0.5;
-}
-
-.tool-icon-large svg {
-    width: 60px;
-    height: 60px;
-}
-
-.tool-icon-large svg path {
-    fill: #e0f7ff;
-    stroke: #00f5ff;
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 6px #00f5ff) drop-shadow(0 0 12px #00f5ff);
-    transition: all 0.3s ease;
-}
-
-.tool-icon-large:hover svg path {
-    fill: #ffffff;
-    stroke: #00f5ff;
-    filter: drop-shadow(0 0 10px #00f5ff) drop-shadow(0 0 20px #00f5ff);
-}
-
-.tool-card:hover .tool-icon-large {
-    transform: scale(1.2) rotate(10deg);
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    background: radial-gradient(
-        circle,
-        rgba(0, 220, 130, 0.4) 0%,
-        rgba(157, 78, 221, 0.3) 50%,
-        transparent 70%
-    );
+.tool-icon-large {
+    font-size: 3rem;
+    margin-bottom: 16px;
 }
 
 .tool-title {
-    font-size: 1.5rem;
-    margin: 20px 0 10px;
+    font-size: 1.3rem;
     color: var(--bio-green);
+    margin-bottom: 8px;
 }
 
 .tool-description {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.7);
 }
 
-.tools-selection {
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    flex-wrap: wrap;
-    position: relative;
-    padding: 40px 20px;
-}
-
-.tools-selection::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 120%;
-    height: 120%;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(0, 220, 130, 0.05) 0%,
-        rgba(157, 78, 221, 0.05) 40%,
-        transparent 70%
-    );
-    border-radius: 43% 57% 43% 57% / 43% 57% 43% 57%;
-    animation: bio-wave 15s ease-in-out infinite;
-    z-index: -1;
-}
-
-@keyframes bio-wave {
-    0%,
-    100% {
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-    }
-    33% {
-        transform: translate(-50%, -50%) scale(1.1) rotate(120deg);
-    }
-    66% {
-        transform: translate(-50%, -50%) scale(0.9) rotate(240deg);
-    }
-}
-
-/* Этап 3 - Настройки */
-.settings-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.bio-glow {
-    width: 80%;
-    height: 400px;
-    margin: 0 auto 40px;
-    background: radial-gradient(
-        ellipse at center,
-        rgba(0, 220, 130, 0.3) 0%,
-        rgba(157, 78, 221, 0.2) 40%,
-        transparent 70%
-    );
-    border-radius: 50%;
-    animation: bio-pulse 3s ease-in-out infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-@keyframes bio-pulse {
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.8;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 1;
-    }
-}
-
-.settings-buttons {
+/* Этап 3 - настройки webapp */
+.settings-buttons-webapp {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-width: 400px;
+    gap: 16px;
+    width: 100%;
+    max-width: 320px;
     margin: 0 auto;
 }
 
-.setting-button {
-    padding: 25px 45px;
-    background: linear-gradient(
-        135deg,
-        rgba(0, 220, 130, 0.15) 0%,
-        rgba(157, 78, 221, 0.15) 100%
-    );
-    backdrop-filter: blur(20px);
-    border: 2px solid;
-    border-image: linear-gradient(
-            135deg,
-            var(--bio-green),
-            var(--neural-purple)
-        )
-        1;
-    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+.setting-button-webapp {
+    padding: 20px;
+    background: rgba(0, 220, 130, 0.1);
+    border: 2px solid var(--bio-green);
+    border-radius: 16px;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.4s ease;
-    position: relative;
-    overflow: hidden;
-    animation: morph-button 8s ease-in-out infinite;
-}
-
-.setting-button:nth-child(even) {
-    animation-delay: 4s;
-    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-}
-
-@keyframes morph-button {
-    0%,
-    100% {
-        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    }
-    50% {
-        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-    }
-}
-
-.setting-button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, var(--bio-green) 0%, transparent 70%);
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
-}
-
-.setting-button:hover {
-    background: linear-gradient(
-        135deg,
-        rgba(0, 220, 130, 0.3) 0%,
-        rgba(157, 78, 221, 0.3) 100%
-    );
-    transform: scale(1.05) translateX(10px);
-    box-shadow:
-        0 10px 30px rgba(0, 220, 130, 0.4),
-        inset 0 0 20px rgba(0, 220, 130, 0.1);
-}
-
-.setting-button:hover::before {
-    width: 300px;
-    height: 300px;
-    opacity: 0.3;
-}
-
-/* Neural Editor настройки */
-.text-input-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.bio-input {
-    width: 100%;
-    padding: 20px;
-    background: rgba(15, 25, 20, 0.8);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(0, 220, 130, 0.3);
-    border-radius: 20px;
-    color: white;
-    font-size: 1.1rem;
-    resize: vertical;
-    min-height: 150px;
-    outline: none;
     transition: all 0.3s ease;
 }
 
-.bio-input:focus {
-    border-color: var(--bio-green);
-    box-shadow: 0 0 30px rgba(0, 220, 130, 0.2);
+.setting-button-webapp:active {
+    transform: scale(0.98);
+    background: rgba(0, 220, 130, 0.2);
 }
 
-.prompt-suggestions {
+.bio-input-webapp {
+    width: 100%;
+    padding: 16px;
+    background: rgba(15, 25, 20, 0.6);
+    border: 2px solid rgba(0, 220, 130, 0.3);
+    border-radius: 16px;
+    color: white;
+    font-size: 1rem;
+    min-height: 120px;
+    resize: none;
+    outline: none;
+}
+
+.prompt-suggestions-webapp {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 8px;
+    margin-top: 16px;
 }
 
 .prompt-chip {
-    padding: 10px 20px;
+    padding: 8px 16px;
     background: rgba(157, 78, 221, 0.2);
     border: 1px solid rgba(157, 78, 221, 0.4);
-    border-radius: 50px;
-    color: var(--electric);
-    font-size: 0.9rem;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.85rem;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.prompt-chip:hover {
+.prompt-chip:active {
     background: rgba(157, 78, 221, 0.4);
-    transform: scale(1.05);
 }
 
-.transition-indicator {
+/* Этап 4 - синтез webapp */
+.synthesis-container-webapp {
     text-align: center;
-    margin-top: 30px;
-    color: var(--bio-green);
-    font-size: 1.1rem;
-    opacity: 0;
-    animation: fade-in 0.5s ease-in forwards;
+    padding: 40px 20px;
 }
 
-@keyframes fade-in {
-    to {
-        opacity: 1;
-    }
-}
-
-.countdown-circle {
-    width: 60px;
-    height: 60px;
-    margin: 20px auto;
-    border: 3px solid rgba(0, 220, 130, 0.2);
-    border-top-color: var(--bio-green);
-    border-radius: 50%;
-    animation: countdown-spin 1s linear infinite;
-}
-
-@keyframes countdown-spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-/* Этап 4 - Синтез */
-.synthesis-container {
-    text-align: center;
-    padding: 100px 20px;
-}
-
-.synthesis-reactor {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 40px;
+.synthesis-reactor-webapp {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 30px;
     position: relative;
 }
 
@@ -844,46 +394,20 @@ h1 {
 
 @keyframes core-rotation {
     0% {
-        transform: rotate(0deg) scale(1);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.2);
+        transform: rotate(0deg);
     }
     100% {
-        transform: rotate(360deg) scale(1);
+        transform: rotate(360deg);
     }
 }
 
 .synthesis-ring {
     position: absolute;
-    border-radius: 50%;
-    border: 2px solid;
-    animation: ring-pulse 2s ease-in-out infinite;
-}
-
-.synthesis-ring:nth-child(2) {
     width: 100%;
     height: 100%;
-    border-color: var(--bio-green);
-    animation-delay: 0s;
-}
-
-.synthesis-ring:nth-child(3) {
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    border-color: var(--neural-purple);
-    animation-delay: 0.3s;
-}
-
-.synthesis-ring:nth-child(4) {
-    width: 60%;
-    height: 60%;
-    top: 20%;
-    left: 20%;
-    border-color: var(--electric);
-    animation-delay: 0.6s;
+    border-radius: 50%;
+    border: 2px solid var(--bio-green);
+    animation: ring-pulse 2s ease-in-out infinite;
 }
 
 @keyframes ring-pulse {
@@ -899,176 +423,53 @@ h1 {
 }
 
 .synthesis-text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: var(--bio-green);
     font-weight: 600;
-    animation: text-glow 1.5s ease-in-out infinite;
 }
 
-@keyframes text-glow {
-    0%,
-    100% {
-        opacity: 0.5;
-    }
-    50% {
-        opacity: 1;
-        text-shadow: 0 0 20px var(--bio-green);
-    }
-}
-
-.synthesis-particles {
-    position: absolute;
+/* Этап 5 - результат webapp */
+.result-preview {
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-
-.bio-particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: var(--bio-green);
-    border-radius: 50%;
-    animation: particle-orbit 4s linear infinite;
-}
-
-@keyframes particle-orbit {
-    0% {
-        transform: rotate(0deg) translateX(150px) rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg) translateX(150px) rotate(-360deg);
-    }
-}
-
-/* Этап 5 - Результат */
-.result-container {
-    text-align: center;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.image-comparer {
-    max-width: 800px;
-    margin: 0 auto 40px;
-    background: rgba(15, 25, 20, 0.8);
-    backdrop-filter: blur(20px);
+    max-width: 320px;
+    height: 320px;
+    background: rgba(15, 25, 20, 0.6);
     border: 2px solid var(--bio-green);
-    border-radius: 30px;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-    height: 500px;
-}
-
-.comparer-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    cursor: col-resize;
-}
-
-.comparer-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.2rem;
-}
-
-.comparer-image.before {
-    clip-path: inset(0 50% 0 0);
-    background: rgba(157, 78, 221, 0.1);
-}
-
-.comparer-image.after {
-    clip-path: inset(0 0 0 50%);
-    background: rgba(0, 220, 130, 0.1);
-}
-
-.comparer-slider {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    background: var(--bio-green);
-    cursor: col-resize;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.comparer-slider::before {
-    content: "◀ ▶";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--bio-green);
-    color: var(--bg-dark);
-    padding: 10px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0, 220, 130, 0.5);
-}
-
-.comparer-labels {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    z-index: 5;
-}
-
-.comparer-label {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 5px 15px;
     border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-}
-
-.result-actions {
+    margin-bottom: 24px;
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
 }
 
-.result-button {
-    padding: 15px 40px;
+.result-image {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.result-actions-webapp {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+}
+
+.result-button-webapp {
+    padding: 16px;
     background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
     border: none;
-    border-radius: 50px;
+    border-radius: 12px;
     color: white;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.result-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0, 220, 130, 0.4);
+.result-button-webapp:active {
+    transform: scale(0.98);
 }
 
-/* Органические частицы */
+/* Органические частицы - упрощенные */
 .organic-particles {
     position: fixed;
     width: 100%;
@@ -1076,7 +477,7 @@ h1 {
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
 }
 
 .particle {
@@ -1085,22 +486,35 @@ h1 {
     height: 2px;
     background: var(--bio-green);
     border-radius: 50%;
-    animation: particle-float 8s infinite linear;
+    animation: particle-float 12s infinite linear;
+    opacity: 0.3;
 }
 
 @keyframes particle-float {
     0% {
-        transform: translateY(100vh) rotate(0deg);
+        transform: translateY(100vh);
         opacity: 0;
     }
     10% {
-        opacity: 1;
+        opacity: 0.3;
     }
     90% {
-        opacity: 1;
+        opacity: 0.3;
     }
     100% {
-        transform: translateY(-100vh) rotate(720deg);
+        transform: translateY(-100vh);
         opacity: 0;
+    }
+}
+
+/* Адаптация для маленьких экранов */
+@media (max-width: 380px) {
+    .title-webapp {
+        font-size: 1.5rem;
+    }
+
+    .header-row {
+        flex-direction: column;
+        gap: 12px;
     }
 }
