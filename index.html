@@ -2,58 +2,12 @@
 <html lang="ru">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-        />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="HandheldFriendly" content="true" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-            name="apple-mobile-web-app-status-bar-style"
-            content="black-translucent"
-        />
-
-        <title>Bio-Neural AI Lab</title>
-
-        <!-- Telegram WebApp SDK -->
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-        <!-- Полифиллы для старых устройств -->
-        <script>
-            // Полифилл для Object.values
-            if (!Object.values) {
-                Object.values = function (obj) {
-                    return Object.keys(obj).map(function (key) {
-                        return obj[key];
-                    });
-                };
-            }
-
-            // Полифилл для Array.from
-            if (!Array.from) {
-                Array.from = function (arrayLike) {
-                    return Array.prototype.slice.call(arrayLike);
-                };
-            }
-
-            // Полифилл для Array.includes
-            if (!Array.prototype.includes) {
-                Array.prototype.includes = function (search) {
-                    return this.indexOf(search) !== -1;
-                };
-            }
-
-            // Полифилл для NodeList.forEach
-            if (!NodeList.prototype.forEach) {
-                NodeList.prototype.forEach = Array.prototype.forEach;
-            }
-        </script>
-
-        <link rel="stylesheet" href="css/style.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>F4TA Morgana AI Lab</title>
+        <link rel="stylesheet" href="styles.css" />
     </head>
     <body>
-        <!-- Фоновая нейронная сеть -->
+        <!-- Нейронная сеть на фоне -->
         <div class="neural-network">
             <div class="neuron"></div>
             <div class="neuron"></div>
@@ -63,723 +17,653 @@
         </div>
 
         <!-- Органические частицы -->
-        <div class="organic-particles"></div>
+        <div class="organic-particles">
+            <div class="particle" style="left: 10%; animation-delay: 0s"></div>
+            <div class="particle" style="left: 30%; animation-delay: 1s"></div>
+            <div class="particle" style="left: 50%; animation-delay: 2s"></div>
+            <div class="particle" style="left: 70%; animation-delay: 3s"></div>
+            <div class="particle" style="left: 90%; animation-delay: 4s"></div>
+        </div>
 
-        <!-- Главный контейнер -->
-        <div class="main-container" id="mainContainer">
-            <!-- Мини индикатор жестов -->
-            <div class="swipe-hint-mini" id="swipeHint">
-                <svg viewBox="0 0 24 24" width="20" height="20">
-                    <path
-                        d="M15 19l-7-7 7-7"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        fill="none"
-                    />
-                </svg>
+        <!-- Прогресс-бар этапов -->
+        <div class="progress-bar" id="progressBar">
+            <div class="step-indicator">
+                <div class="step-circle active" data-step="1">1</div>
+                <div class="step-line"></div>
+                <div class="step-circle" data-step="2">2</div>
+                <div class="step-line"></div>
+                <div class="step-circle" data-step="3">3</div>
+                <div class="step-line"></div>
+                <div class="step-circle" data-step="4">4</div>
+                <div class="step-line"></div>
+                <div class="step-circle" data-step="5">5</div>
             </div>
+        </div>
 
-            <!-- Индикатор прогресса -->
-            <div class="progress-indicator">
-                <div class="progress-step active" data-step="1">
-                    <span class="step-number">1</span>
-                    <span class="step-label">Загрузка</span>
-                </div>
-                <div class="progress-line"></div>
-                <div class="progress-step" data-step="2">
-                    <span class="step-number">2</span>
-                    <span class="step-label">Инструмент</span>
-                </div>
-                <div class="progress-line"></div>
-                <div class="progress-step" data-step="3">
-                    <span class="step-number">3</span>
-                    <span class="step-label">Настройка</span>
-                </div>
-                <div class="progress-line"></div>
-                <div class="progress-step" data-step="4">
-                    <span class="step-number">4</span>
-                    <span class="step-label">Генерация</span>
-                </div>
-                <div class="progress-line"></div>
-                <div class="progress-step" data-step="5">
-                    <span class="step-number">5</span>
-                    <span class="step-label">Результат</span>
-                </div>
-            </div>
+        <div class="container">
+            <!-- Этап 1: Загрузка -->
+            <div class="stage active" id="stage1">
+                <div class="hero">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="220"
+                        height="220"
+                        viewBox="0 0 200 200"
+                        role="img"
+                        aria-label="Neural network logo with neutron core"
+                    >
+                        <defs>
+                            <!-- Анимированный градиент -->
+                            <linearGradient
+                                id="linkGrad"
+                                x1="0"
+                                x2="1"
+                                y1="0"
+                                y2="1"
+                            >
+                                <stop offset="0%" stop-color="#00dc82">
+                                    <animate
+                                        attributeName="stop-color"
+                                        values="#00dc82;#9d4edd;#00f5ff;#00dc82"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
+                                </stop>
+                                <stop offset="50%" stop-color="#9d4edd">
+                                    <animate
+                                        attributeName="stop-color"
+                                        values="#9d4edd;#00f5ff;#00dc82;#9d4edd"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
+                                </stop>
+                                <stop offset="100%" stop-color="#00f5ff">
+                                    <animate
+                                        attributeName="stop-color"
+                                        values="#00f5ff;#00dc82;#9d4edd;#00f5ff"
+                                        dur="6s"
+                                        repeatCount="indefinite"
+                                    />
+                                </stop>
+                            </linearGradient>
 
-            <!-- Рабочая область -->
-            <div class="workspace" id="workspace">
-                <!-- ШАГ 1: Загрузка изображения -->
-                <div class="workspace-step active" id="step1">
-                    <h2 class="step-title">Поместите изображение в реактор</h2>
+                            <!-- Эффект свечения -->
+                            <filter
+                                id="glow"
+                                x="-50%"
+                                y="-50%"
+                                width="200%"
+                                height="200%"
+                            >
+                                <feGaussianBlur
+                                    in="SourceGraphic"
+                                    stdDeviation="3"
+                                    result="blur"
+                                />
+                                <feMerge>
+                                    <feMergeNode in="blur" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
 
-                    <div class="upload-zone" id="uploadZone">
-                        <div class="upload-content">
-                            <div class="nucleus"></div>
-                            <p class="upload-text">
-                                Поместите изображение в реактор
-                            </p>
-                            <p class="upload-subtext">
-                                Перетащите файл или кликните для выбора
-                            </p>
-                            <input
-                                type="file"
-                                id="fileInput"
-                                accept="image/*"
-                                hidden
+                            <!-- Градиент ядра -->
+                            <radialGradient
+                                id="coreGrad"
+                                cx="50%"
+                                cy="50%"
+                                r="50%"
+                            >
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="50%" stop-color="#9d4edd" />
+                                <stop
+                                    offset="100%"
+                                    stop-color="#00f5ff"
+                                    stop-opacity="0.7"
+                                />
+                            </radialGradient>
+
+                            <style>
+                                .node {
+                                    filter: url(#glow);
+                                }
+                                .link {
+                                    stroke: url(#linkGrad);
+                                    stroke-width: 2.5;
+                                    opacity: 0.8;
+                                }
+                                .orbit {
+                                    fill: none;
+                                    stroke: #00f5ff;
+                                    stroke-opacity: 0.4;
+                                    stroke-width: 1;
+                                }
+                                .particle {
+                                    fill: #00dc82;
+                                    filter: url(#glow);
+                                }
+                            </style>
+                        </defs>
+
+                        <!-- Линии-связи -->
+                        <line x1="100" y1="100" x2="40" y2="40" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="40;30;40"
+                                dur="5s"
+                                repeatCount="indefinite"
                             />
-                        </div>
-                        <div
-                            class="upload-preview"
-                            id="uploadPreview"
-                            style="display: none"
+                            <animate
+                                attributeName="y2"
+                                values="40;30;40"
+                                dur="5s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <line x1="100" y1="100" x2="150" y2="50" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="150;170;150"
+                                dur="6s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="y2"
+                                values="50;30;50"
+                                dur="6s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <line x1="100" y1="100" x2="160" y2="120" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="160;180;160"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="y2"
+                                values="120;140;120"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <line x1="100" y1="100" x2="60" y2="160" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="60;40;60"
+                                dur="5.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="y2"
+                                values="160;180;160"
+                                dur="5.5s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <line x1="100" y1="100" x2="140" y2="170" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="140;160;140"
+                                dur="6.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="y2"
+                                values="170;190;170"
+                                dur="6.5s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <line x1="100" y1="100" x2="40" y2="120" class="link">
+                            <animate
+                                attributeName="x2"
+                                values="40;20;40"
+                                dur="4.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="y2"
+                                values="120;140;120"
+                                dur="4.5s"
+                                repeatCount="indefinite"
+                            />
+                        </line>
+
+                        <!-- Центральное ядро (заменено на "нейтрон") -->
+                        <circle
+                            cx="100"
+                            cy="100"
+                            r="18"
+                            fill="url(#coreGrad)"
+                            filter="url(#glow)"
                         >
-                            <img id="previewImage" src="" alt="Preview" />
-                            <button class="btn-secondary" id="changeImage">
-                                Изменить
-                            </button>
+                            <animate
+                                attributeName="r"
+                                values="18;22;18"
+                                dur="3s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <!-- Орбиты -->
+                        <circle cx="100" cy="100" r="30" class="orbit" />
+                        <circle cx="100" cy="100" r="45" class="orbit" />
+
+                        <!-- Частицы на орбитах -->
+                        <circle r="4" class="particle">
+                            <animateMotion
+                                dur="6s"
+                                repeatCount="indefinite"
+                                path="M100,100 m-30,0 a30,30 0 1,1 60,0 a30,30 0 1,1 -60,0"
+                            />
+                        </circle>
+
+                        <circle r="3" fill="#ffffff" class="particle">
+                            <animateMotion
+                                dur="8s"
+                                repeatCount="indefinite"
+                                path="M100,100 m-45,0 a45,45 0 1,1 90,0 a45,45 0 1,1 -90,0"
+                            />
+                        </circle>
+
+                        <!-- Узлы вокруг -->
+                        <circle
+                            cx="40"
+                            cy="40"
+                            r="6"
+                            fill="#00dc82"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="40;30;40"
+                                dur="5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="40;30;40"
+                                dur="5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="6;10;6"
+                                dur="5s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <circle
+                            cx="150"
+                            cy="50"
+                            r="7"
+                            fill="#00f5ff"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="150;170;150"
+                                dur="6s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="50;30;50"
+                                dur="6s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="7;11;7"
+                                dur="6s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <circle
+                            cx="160"
+                            cy="120"
+                            r="6"
+                            fill="#9d4edd"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="160;180;160"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="120;140;120"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="6;9;6"
+                                dur="4s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <circle
+                            cx="60"
+                            cy="160"
+                            r="7"
+                            fill="#00dc82"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="60;40;60"
+                                dur="5.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="160;180;160"
+                                dur="5.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="7;12;7"
+                                dur="5.5s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <circle
+                            cx="140"
+                            cy="170"
+                            r="5"
+                            fill="#00f5ff"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="140;160;140"
+                                dur="6.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="170;190;170"
+                                dur="6.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="5;9;5"
+                                dur="6.5s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+
+                        <circle
+                            cx="40"
+                            cy="120"
+                            r="5"
+                            fill="#9d4edd"
+                            class="node"
+                        >
+                            <animate
+                                attributeName="cx"
+                                values="40;20;40"
+                                dur="4.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="cy"
+                                values="120;140;120"
+                                dur="4.5s"
+                                repeatCount="indefinite"
+                            />
+                            <animate
+                                attributeName="r"
+                                values="5;8;5"
+                                dur="4.5s"
+                                repeatCount="indefinite"
+                            />
+                        </circle>
+                    </svg>
+
+                    <h1 data-text="F4TA-Morgana AI Lab">F4TA-Morgana AI Lab</h1>
+                    <p class="subtitle">
+                        Laboratorium experimentorum neuralium
+                    </p>
+
+                    <div class="upload-zone">
+                        <input
+                            type="file"
+                            id="fileInput"
+                            style="display: none"
+                            accept="image/*"
+                        />
+                        <button
+                            class="upload-button"
+                            onclick="document.getElementById('fileInput').click()"
+                        >
+                            Загрузить файл
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 2: Выбор инструмента -->
+            <div class="stage" id="stage2">
+                <div class="tools-selection">
+                    <div class="tool-card" onclick="selectTool('deepfake')">
+                        <div class="tool-icon-large">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                                />
+                            </svg>
                         </div>
+                        <h3 class="tool-title">DeepFake</h3>
+                        <p class="tool-description">
+                            Органическая замена лиц с помощью нейросетей нового
+                            поколения
+                        </p>
                     </div>
 
+                    <div class="tool-card" onclick="selectTool('neural')">
+                        <div class="tool-icon-large">
+                            <svg viewBox="0 0 24 24">
+                                <path
+                                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                />
+                            </svg>
+                        </div>
+                        <h3 class="tool-title">Neural Editor</h3>
+                        <p class="tool-description">
+                            Био-морфная обработка изображений с AI-усилением
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Этап 3: Настройки -->
+            <div class="stage" id="stage3">
+                <!-- DeepFake настройки -->
+                <div id="deepfakeSettings" style="display: none">
+                    <div class="bio-glow">
+                        <div class="synthesis-particles">
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 0s"
+                            ></div>
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 1s"
+                            ></div>
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 2s"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="settings-buttons">
+                        <button
+                            class="setting-button"
+                            onclick="handleDeepfakeOption('upload')"
+                        >
+                            Загрузить свой файл
+                        </button>
+                        <button
+                            class="setting-button"
+                            onclick="handleDeepfakeOption('collection')"
+                        >
+                            Выбрать из коллекции
+                        </button>
+                    </div>
                     <div
-                        class="loading-transition"
-                        id="loadingTransition1"
+                        id="deepfakeTransition"
+                        class="transition-indicator"
                         style="display: none"
                     >
-                        <div class="bio-spinner"></div>
-                        <p>Анализ изображения...</p>
+                        <p>Подготовка к синтезу...</p>
+                        <div class="countdown-circle"></div>
                     </div>
                 </div>
 
-                <!-- ШАГ 2: Выбор инструмента -->
-                <div class="workspace-step" id="step2">
-                    <h2 class="step-title">Выберите инструмент</h2>
-
-                    <div class="tools-selection">
-                        <div class="tool-card" data-tool="deepfake">
-                            <div class="tool-icon">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        d="M6 7C3.79 7 2 8.79 2 11s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-1.25 3.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zm2.5 0c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zM6 13.5c-.8 0-1.5-.45-1.85-1.12h3.7c-.35.67-1.05 1.12-1.85 1.12z"
-                                    />
-                                    <path
-                                        d="M18 7c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm-1.25 3.5c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zm2.5 0c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75zM18 13.5c-.8 0-1.5-.45-1.85-1.12h3.7c-.35.67-1.05 1.12-1.85 1.12z"
-                                    />
-                                    <path
-                                        d="M11 9.5l2 1.5-2 1.5v-1h-1v-1h1v-1zm2 3l-2 1.5v-1h-1v-1h1v-1l2 1.5z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3>MetaMorph</h3>
-                            <p>Замена лиц с помощью AI</p>
-                        </div>
-
-                        <div class="tool-card" data-tool="neural-editor">
-                            <div class="tool-icon">
-                                <svg viewBox="0 0 24 24">
-                                    <path
-                                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
-                                    />
-                                </svg>
-                            </div>
-                            <h3>Neural Editor</h3>
-                            <p>Обработка изображений с помощью AI</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ШАГ 3A: Настройки DeepFake -->
-                <div class="workspace-step" id="step3-deepfake">
-                    <h2 class="step-title">Настройка MetaMorph</h2>
-
-                    <div class="deepfake-options">
-                        <div class="option-section">
-                            <h3>Загрузить своё видео/фото</h3>
-                            <div class="upload-video-zone">
-                                <button class="btn-upload" id="uploadVideoBtn">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        width="24"
-                                        height="24"
-                                    >
-                                        <path
-                                            d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"
-                                        />
-                                    </svg>
-                                    Выбрать файл
-                                </button>
-                                <input
-                                    type="file"
-                                    id="videoInput"
-                                    accept="video/*,image/*"
-                                    hidden
-                                />
-                                <div
-                                    id="videoPreview"
-                                    class="video-preview"
-                                    style="display: none"
-                                >
-                                    <video id="uploadedVideo" controls></video>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="divider">ИЛИ</div>
-
-                        <div class="option-section">
-                            <h3>Выберите из готовых образцов</h3>
-                            <div class="presets-grid">
-                                <div
-                                    class="preset-card"
-                                    data-preset="businessman"
-                                >
-                                    <div class="preset-icon">👨‍💼</div>
-                                    <span>Бизнесмен</span>
-                                </div>
-                                <div class="preset-card" data-preset="artist">
-                                    <div class="preset-icon">👩‍🎤</div>
-                                    <span>Артист</span>
-                                </div>
-                                <div
-                                    class="preset-card"
-                                    data-preset="astronaut"
-                                >
-                                    <div class="preset-icon">🧑‍🚀</div>
-                                    <span>Астронавт</span>
-                                </div>
-                                <div class="preset-card" data-preset="wizard">
-                                    <div class="preset-icon">🧙‍♂️</div>
-                                    <span>Волшебник</span>
-                                </div>
-                                <div
-                                    class="preset-card"
-                                    data-preset="superhero"
-                                >
-                                    <div class="preset-icon">🦸‍♀️</div>
-                                    <span>Супергерой</span>
-                                </div>
-                                <div
-                                    class="preset-card"
-                                    data-preset="scientist"
-                                >
-                                    <div class="preset-icon">👨‍🔬</div>
-                                    <span>Учёный</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ШАГ 3B: Настройки Neural Editor -->
-                <div class="workspace-step" id="step3-neural">
-                    <h2 class="step-title">Настройка Neural Editor</h2>
-
-                    <div class="neural-options">
-                        <div class="prompt-section">
-                            <label for="promptInput"
-                                >Опишите желаемые изменения:</label
+                <!-- Neural Editor настройки -->
+                <div id="neuralSettings" style="display: none">
+                    <div class="text-input-container">
+                        <textarea
+                            class="bio-input"
+                            id="promptInput"
+                            placeholder="Опишите желаемые изменения..."
+                        ></textarea>
+                        <div class="prompt-suggestions">
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Сделать фон космическим')"
                             >
-                            <textarea
-                                id="promptInput"
-                                class="prompt-input"
-                                placeholder="Например: сделать в стиле киберпанк с неоновым свечением..."
-                                rows="4"
-                            ></textarea>
-
-                            <div class="prompt-suggestions">
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="превратить в киборга с механическими деталями"
-                                    >🤖 Киборг</span
-                                >
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="добавить магическую ауру и волшебные эффекты"
-                                    >✨ Магия</span
-                                >
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="сделать в стиле киберпанк с неоновой подсветкой"
-                                    >🌆 Киберпанк</span
-                                >
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="превратить в аниме персонажа"
-                                    >🎌 Аниме</span
-                                >
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="добавить природные элементы и растения"
-                                    >🌿 Природа</span
-                                >
-                                <span
-                                    class="suggestion-chip"
-                                    data-prompt="сделать в стиле ретро 80-х"
-                                    >🕹️ Ретро</span
-                                >
+                                🌌 Космос
                             </div>
-                        </div>
-
-                        <div class="enhancement-section">
-                            <label>Интенсивность воздействия:</label>
-                            <div class="intensity-options">
-                                <div
-                                    class="intensity-card"
-                                    data-intensity="low"
-                                >
-                                    <div class="intensity-icon">🌱</div>
-                                    <span class="intensity-label">Слабо</span>
-                                    <span class="intensity-desc"
-                                        >Деликатные изменения</span
-                                    >
-                                </div>
-                                <div
-                                    class="intensity-card active"
-                                    data-intensity="medium"
-                                >
-                                    <div class="intensity-icon">⚡</div>
-                                    <span class="intensity-label">Средне</span>
-                                    <span class="intensity-desc"
-                                        >Сбалансированный эффект</span
-                                    >
-                                </div>
-                                <div
-                                    class="intensity-card"
-                                    data-intensity="high"
-                                >
-                                    <div class="intensity-icon">🔥</div>
-                                    <span class="intensity-label">Сильно</span>
-                                    <span class="intensity-desc"
-                                        >Максимальное воздействие</span
-                                    >
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="apply-section">
-                            <button
-                                class="btn-primary"
-                                id="applyNeuralSettings"
-                                disabled
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Добавить неоновое свечение')"
                             >
-                                <span class="icon">✨</span>
-                                Применить настройки
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ШАГ 4: Процесс генерации -->
-                <div class="workspace-step" id="step4">
-                    <h2 class="step-title">Био-синтез в процессе</h2>
-
-                    <div class="generation-container">
-                        <div class="bio-reactor">
-                            <div class="reactor-core">
-                                <div class="energy-ring ring-1"></div>
-                                <div class="energy-ring ring-2"></div>
-                                <div class="energy-ring ring-3"></div>
-                                <div class="reactor-nucleus"></div>
+                                ✨ Неон
                             </div>
-
-                            <div class="process-info">
-                                <div class="process-status" id="processStatus">
-                                    Инициализация...
-                                </div>
-                                <div class="process-progress">
-                                    <div class="progress-bar">
-                                        <div
-                                            class="progress-fill"
-                                            id="progressFill"
-                                        ></div>
-                                    </div>
-                                    <span
-                                        class="progress-percent"
-                                        id="progressPercent"
-                                        >0%</span
-                                    >
-                                </div>
-
-                                <div class="process-stages">
-                                    <div class="stage" id="stage1">
-                                        <span class="stage-icon">⚡</span>
-                                        <span class="stage-name">Анализ</span>
-                                    </div>
-                                    <div class="stage" id="stage2">
-                                        <span class="stage-icon">🧬</span>
-                                        <span class="stage-name">Синтез</span>
-                                    </div>
-                                    <div class="stage" id="stage3">
-                                        <span class="stage-icon">🔬</span>
-                                        <span class="stage-name"
-                                            >Обработка</span
-                                        >
-                                    </div>
-                                    <div class="stage" id="stage4">
-                                        <span class="stage-icon">✨</span>
-                                        <span class="stage-name"
-                                            >Финализация</span
-                                        >
-                                    </div>
-                                </div>
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Стиль киберпанк')"
+                            >
+                                🤖 Киберпанк
+                            </div>
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Превратить в аниме')"
+                            >
+                                🎨 Аниме
+                            </div>
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Добавить дождь')"
+                            >
+                                🌧️ Дождь
+                            </div>
+                            <div
+                                class="prompt-chip"
+                                onclick="addPrompt('Сделать винтажным')"
+                            >
+                                📷 Винтаж
                             </div>
                         </div>
                     </div>
+                    <div
+                        id="neuralTransition"
+                        class="transition-indicator"
+                        style="display: none"
+                    >
+                        <p>Анализ запроса...</p>
+                        <div class="countdown-circle"></div>
+                    </div>
                 </div>
+            </div>
 
-                <!-- ШАГ 5: Результат с компаратором -->
-                <div class="workspace-step" id="step5">
-                    <h2 class="step-title">Результат био-синтеза</h2>
+            <!-- Этап 4: Синтез -->
+            <div class="stage" id="stage4">
+                <div class="synthesis-container">
+                    <div class="synthesis-reactor">
+                        <div class="reactor-core"></div>
+                        <div class="synthesis-ring"></div>
+                        <div class="synthesis-ring"></div>
+                        <div class="synthesis-ring"></div>
+                        <div class="synthesis-particles">
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 0s"
+                            ></div>
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 0.5s"
+                            ></div>
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 1s"
+                            ></div>
+                            <div
+                                class="bio-particle"
+                                style="animation-delay: 1.5s"
+                            ></div>
+                        </div>
+                    </div>
+                    <div class="synthesis-text">Био-синтез в процессе...</div>
+                </div>
+            </div>
 
-                    <div class="result-container">
-                        <!-- Компаратор изображений -->
-                        <div class="image-comparer" id="imageComparer">
-                            <div class="comparer-container">
-                                <div
-                                    class="comparer-wrapper"
-                                    id="comparerWrapper"
-                                >
-                                    <!-- Оригинальное изображение -->
-                                    <div class="comparer-before">
-                                        <img
-                                            id="beforeImage"
-                                            src=""
-                                            alt="Original"
-                                        />
-                                        <div class="comparer-label">
-                                            Оригинал
-                                        </div>
-                                    </div>
-
-                                    <!-- Результат генерации -->
-                                    <div
-                                        class="comparer-after"
-                                        id="comparerAfter"
-                                    >
-                                        <img
-                                            id="afterImage"
-                                            src=""
-                                            alt="Result"
-                                        />
-                                        <div class="comparer-label">
-                                            Результат
-                                        </div>
-                                    </div>
-
-                                    <!-- Слайдер -->
-                                    <div
-                                        class="comparer-slider"
-                                        id="comparerSlider"
-                                    >
-                                        <div class="slider-line"></div>
-                                        <div class="slider-handle">
-                                            <svg
-                                                viewBox="0 0 40 40"
-                                                width="40"
-                                                height="40"
-                                            >
-                                                <circle
-                                                    cx="20"
-                                                    cy="20"
-                                                    r="20"
-                                                    fill="var(--bio-green)"
-                                                    opacity="0.9"
-                                                />
-                                                <path
-                                                    d="M15 20 L10 15 L10 25 Z"
-                                                    fill="white"
-                                                />
-                                                <path
-                                                    d="M25 20 L30 15 L30 25 Z"
-                                                    fill="white"
-                                                />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Подсказка -->
-                                <div class="comparer-hint">
-                                    <span class="hint-icon">👆</span>
-                                    Перетащите слайдер для сравнения
-                                </div>
+            <!-- Этап 5: Результат -->
+            <div class="stage" id="stage5">
+                <div class="result-container">
+                    <div class="image-comparer">
+                        <div class="comparer-container" id="comparerContainer">
+                            <div class="comparer-image before">
+                                <span>Оригинал</span>
+                            </div>
+                            <div class="comparer-image after">
+                                <span>Результат</span>
+                            </div>
+                            <div
+                                class="comparer-slider"
+                                id="comparerSlider"
+                            ></div>
+                            <div class="comparer-labels">
+                                <span class="comparer-label">До</span>
+                                <span class="comparer-label">После</span>
                             </div>
                         </div>
-
-                        <!-- Информация о результате -->
-                        <div class="result-info">
-                            <div class="info-item">
-                                <span class="info-label"
-                                    >Использован инструмент:</span
-                                >
-                                <span class="info-value" id="usedTool">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">Время обработки:</span>
-                                <span class="info-value" id="processingTime"
-                                    >-</span
-                                >
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label"
-                                    >Качество синтеза:</span
-                                >
-                                <span class="info-value">Ultra HD</span>
-                            </div>
-                        </div>
-
-                        <!-- Действия -->
-                        <div class="result-actions">
-                            <button class="btn-primary" id="downloadResult">
-                                <svg viewBox="0 0 24 24" width="20" height="20">
-                                    <path
-                                        d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"
-                                        fill="currentColor"
-                                    />
-                                </svg>
-                                Скачать результат
-                            </button>
-                            <button class="btn-secondary" id="startOver">
-                                Новый эксперимент
-                            </button>
-                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button
+                            class="result-button"
+                            onclick="downloadResult()"
+                        >
+                            Скачать
+                        </button>
+                        <button class="result-button" onclick="shareResult()">
+                            Поделиться
+                        </button>
+                        <button class="result-button" onclick="goToStage(1)">
+                            Начать заново
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Биоморфная кнопка профиля с лентой Мёбиуса -->
-        <button class="biomorph-profile-btn" id="profileBtn">
-            <svg
-                class="mobius-animation"
-                viewBox="0 0 120 120"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <defs>
-                    <linearGradient
-                        id="mobiusGradient"
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                    >
-                        <stop
-                            offset="0%"
-                            style="stop-color: #00dc82; stop-opacity: 1"
-                        >
-                            <animate
-                                attributeName="stop-color"
-                                values="#00dc82;#9d4edd;#00f5ff;#00dc82"
-                                dur="4s"
-                                repeatCount="indefinite"
-                            />
-                        </stop>
-                        <stop
-                            offset="50%"
-                            style="stop-color: #9d4edd; stop-opacity: 1"
-                        >
-                            <animate
-                                attributeName="stop-color"
-                                values="#9d4edd;#00f5ff;#00dc82;#9d4edd"
-                                dur="4s"
-                                repeatCount="indefinite"
-                            />
-                        </stop>
-                        <stop
-                            offset="100%"
-                            style="stop-color: #00f5ff; stop-opacity: 1"
-                        >
-                            <animate
-                                attributeName="stop-color"
-                                values="#00f5ff;#00dc82;#9d4edd;#00f5ff"
-                                dur="4s"
-                                repeatCount="indefinite"
-                            />
-                        </stop>
-                    </linearGradient>
-
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                        <feMerge>
-                            <feMergeNode in="coloredBlur" />
-                            <feMergeNode in="SourceGraphic" />
-                        </feMerge>
-                    </filter>
-                </defs>
-
-                <!-- Лента Мёбиуса -->
-                <g transform="translate(60,60)">
-                    <!-- Основная лента -->
-                    <path
-                        id="mobiusPath"
-                        d="M -30,0 Q -15,-25 0,-30 Q 15,-25 30,0 Q 15,25 0,30 Q -15,25 -30,0"
-                        fill="none"
-                        stroke="url(#mobiusGradient)"
-                        stroke-width="3"
-                        opacity="0.9"
-                        filter="url(#glow)"
-                    >
-                        <animateTransform
-                            attributeName="transform"
-                            type="rotate"
-                            from="0 0 0"
-                            to="360 0 0"
-                            dur="8s"
-                            repeatCount="indefinite"
-                        />
-                    </path>
-
-                    <!-- Второй слой с обратным вращением -->
-                    <path
-                        d="M -25,0 Q -12,-20 0,-25 Q 12,-20 25,0 Q 12,20 0,25 Q -12,20 -25,0"
-                        fill="none"
-                        stroke="url(#mobiusGradient)"
-                        stroke-width="2"
-                        opacity="0.6"
-                        stroke-dasharray="5,3"
-                    >
-                        <animateTransform
-                            attributeName="transform"
-                            type="rotate"
-                            from="360 0 0"
-                            to="0 0 0"
-                            dur="6s"
-                            repeatCount="indefinite"
-                        />
-                        <animate
-                            attributeName="stroke-dashoffset"
-                            values="0;8"
-                            dur="1s"
-                            repeatCount="indefinite"
-                        />
-                    </path>
-
-                    <!-- Центральное ядро -->
-                    <circle
-                        cx="0"
-                        cy="0"
-                        r="5"
-                        fill="url(#mobiusGradient)"
-                        opacity="0.8"
-                    >
-                        <animate
-                            attributeName="r"
-                            values="5;8;5"
-                            dur="2s"
-                            repeatCount="indefinite"
-                        />
-                    </circle>
-                </g>
-            </svg>
-
-            <span class="profile-title">
-                <span class="title-line1">F4TA</span>
-                <span class="title-line2">MORGANA</span>
-            </span>
-        </button>
-
-        <!-- Модальное окно профиля -->
-        <div class="profile-modal" id="profileModal">
-            <div class="profile-modal-content">
-                <button class="profile-close" id="closeProfile">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path
-                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                        />
-                    </svg>
-                </button>
-
-                <div class="profile-header">
-                    <div class="profile-avatar">
-                        <img
-                            id="userAvatar"
-                            src="https://via.placeholder.com/100"
-                            alt="Avatar"
-                        />
-                        <div class="avatar-glow"></div>
-                    </div>
-                    <h2 class="profile-name" id="userName">User Name</h2>
-                    <span class="profile-id" id="userId">ID: #000000</span>
-                </div>
-
-                <div class="profile-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">🎨</div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="generationsCount"
-                                >0</span
-                            >
-                            <span class="stat-label">Генераций создано</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon">🎁</div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="freeGenerations"
-                                >10</span
-                            >
-                            <span class="stat-label">Бесплатных генераций</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card">
-                        <div class="stat-icon">⭐</div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="starBalance">0</span>
-                            <span class="stat-label">Звезд</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="profile-actions">
-                    <button class="btn-buy-stars" id="buyStars">
-                        <svg viewBox="0 0 24 24" width="20" height="20">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                            />
-                        </svg>
-                        Купить звезды
-                    </button>
-
-                    <div class="star-packages">
-                        <div
-                            class="star-package"
-                            data-stars="50"
-                            data-item-id="stars_50"
-                        >
-                            <div class="package-icon">⭐</div>
-                            <span class="package-stars">50</span>
-                            <div class="package-glow"></div>
-                        </div>
-                        <div
-                            class="star-package popular"
-                            data-stars="100"
-                            data-item-id="stars_100"
-                        >
-                            <div class="package-icon">⭐</div>
-                            <span class="package-stars">100</span>
-                            <span class="package-badge">Популярно</span>
-                            <div class="package-glow"></div>
-                        </div>
-                        <div
-                            class="star-package"
-                            data-stars="500"
-                            data-item-id="stars_500"
-                        >
-                            <div class="package-icon">⭐</div>
-                            <span class="package-stars">500</span>
-                            <span class="package-badge">Выгодно</span>
-                            <div class="package-glow"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="js/script.js"></script>
+        <script src="script.js"></script>
     </body>
 </html>
