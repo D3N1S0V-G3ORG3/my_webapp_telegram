@@ -1,389 +1,321 @@
-// Инициализация Telegram WebApp
-let tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.ready();
-  tg.expand();
-}
-
-// Переменные состояния
 let currentStage = 1;
 let selectedTool = null;
 let transitionTimeout = null;
-let isTransitioning = false;
 
-// Инициализация при загрузке
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("App initialized");
-
-  // Настройка темы Telegram если доступна
-  if (tg && tg.themeParams) {
-    document.documentElement.style.setProperty(
-      "--tg-theme-bg-color",
-      tg.themeParams.bg_color || "#0a0f1b",
-    );
-    document.documentElement.style.setProperty(
-      "--tg-theme-text-color",
-      tg.themeParams.text_color || "#ffffff",
-    );
-  }
-
-  // Инициализация обработчиков
-  initializeEventHandlers();
-
-  // Инициализация свайпов
-  initSwipeNavigation();
-
-  // Показываем первый этап
-  showStage(1);
-});
-
-// Инициализация обработчиков событий
-function initializeEventHandlers() {
-  // Обработка загрузки файла
-  const fileInput = document.getElementById("fileInput");
-  if (fileInput) {
-    fileInput.addEventListener("change", handleFileUpload);
-  }
-
-  // Обработка ввода промпта
-  const promptInput = document.getElementById("promptInput");
-  if (promptInput) {
-    let inputTimeout;
-    promptInput.addEventListener("input", function () {
-      clearTimeout(inputTimeout);
-      if (this.value.length > 5) {
-        inputTimeout = setTimeout(() => {
-          goToStage(4);
-        }, 2000);
-      }
-    });
-  }
-}
-
-// Показать этап без анимации (для инициализации)
-function showStage(stage) {
-  // Скрываем все этапы
-  document.querySelectorAll(".stage").forEach((s) => {
-    s.classList.remove("active");
-  });
-
-  // Показываем нужный этап
-  const stageEl = document.getElementById(`stage${stage}`);
-  if (stageEl) {
-    stageEl.classList.add("active");
-    currentStage = stage;
-  }
-
-  updateUI();
-}
-
-// Переход между этапами с анимацией
+// Переход между этапами
 function goToStage(stage) {
-  if (isTransitioning || stage === currentStage) return;
-
-  console.log(`Transitioning from stage ${currentStage} to stage ${stage}`);
-  isTransitioning = true;
-
-  // Очищаем таймауты
+  // Очищаем таймауты если есть
   if (transitionTimeout) {
     clearTimeout(transitionTimeout);
     transitionTimeout = null;
   }
 
+  // Скрываем индикаторы перехода
+  document.getElementById("deepfakeTransition").style.display = "none";
+  document.getElementById("neuralTransition").style.display = "none";
+
   // Скрываем текущий этап
-  const currentStageEl = document.getElementById(`stage${currentStage}`);
-  if (currentStageEl) {
-    currentStageEl.classList.remove("active");
-  }
+  document.getElementById(`stage${currentStage}`).classList.remove("active");
 
-  // Небольшая задержка для анимации
-  setTimeout(() => {
-    // Показываем новый этап
-    currentStage = stage;
-    const newStageEl = document.getElementById(`stage${currentStage}`);
-    if (newStageEl) {
-      newStageEl.classList.add("active");
-    }
+  // Показываем новый этап
+  currentStage = stage;
+  document.getElementById(`stage${currentStage}`).classList.add("active");
 
-    // Обновляем UI элементы
-    updateUI();
-
-    // Специальная логика для этапов
-    handleStageLogic(stage);
-
-    isTransitioning = false;
-  }, 200);
-}
-
-// Обработка логики для конкретных этапов
-function handleStageLogic(stage) {
-  switch (stage) {
-    case 1:
-      // Сброс состояния
-      selectedTool = null;
-      resetSettings();
-      break;
-
-    case 3:
-      // Показываем настройки выбранного инструмента
-      showToolSettings();
-      break;
-
-    case 4:
-      // Автопереход на результат
-      transitionTimeout = setTimeout(() => {
-        goToStage(5);
-      }, 3000);
-      break;
-
-    case 5:
-      // Показываем результат
-      if (tg) {
-        tg.MainButton.setText("Сохранить результат");
-        tg.MainButton.show();
-        tg.MainButton.onClick(downloadResult);
-      }
-      break;
-  }
-}
-
-// Показать настройки инструмента
-function showToolSettings() {
-  const deepfakeSettings = document.getElementById("deepfakeSettings");
-  const neuralSettings = document.getElementById("neuralSettings");
-
-  if (selectedTool === "deepfake") {
-    if (deepfakeSettings) deepfakeSettings.style.display = "block";
-    if (neuralSettings) neuralSettings.style.display = "none";
-  } else if (selectedTool === "neural") {
-    if (deepfakeSettings) deepfakeSettings.style.display = "none";
-    if (neuralSettings) neuralSettings.style.display = "block";
-  }
-}
-
-// Обновление UI элементов
-function updateUI() {
+  // Обновляем прогресс-бар
   updateProgressBar();
-  updateBackButton();
-  updateTelegramMainButton();
-}
 
-// Навигация назад
-function goBack() {
-  if (currentStage === 2 || currentStage === 3) {
-    goToStage(currentStage - 1);
+  // Специальная логика для этапа 4 (синтез)
+  if (stage === 4) {
+    setTimeout(() => {
+      goToStage(5);
+    }, 5000); // Автоматический переход через 5 секунд
+  }
+
+  // Сброс при переходе на первый этап
+  if (stage === 1) {
+    selectedTool = null;
   }
 }
 
 // Обновление прогресс-бара
 function updateProgressBar() {
   const progressBar = document.getElementById("progressBar");
-  if (!progressBar) return;
 
-  // Показываем/скрываем прогресс-бар
-  if (currentStage > 1) {
-    progressBar.classList.add("active");
-  } else {
+  if (currentStage === 1) {
     progressBar.classList.remove("active");
-  }
-
-  // Обновляем состояние шагов
-  const circles = progressBar.querySelectorAll(".step-circle");
-  circles.forEach((circle, index) => {
-    const stepNum = index + 1;
-
-    circle.classList.remove("active", "completed");
-
-    if (stepNum < currentStage) {
-      circle.classList.add("completed");
-    } else if (stepNum === currentStage) {
-      circle.classList.add("active");
-    }
-  });
-}
-
-// Обновление кнопки назад
-function updateBackButton() {
-  const backButton = document.getElementById("backButton");
-  if (!backButton) return;
-
-  if (currentStage === 2 || currentStage === 3) {
-    backButton.classList.add("visible");
   } else {
-    backButton.classList.remove("visible");
-  }
-}
+    progressBar.classList.add("active");
 
-// Обновление главной кнопки Telegram
-function updateTelegramMainButton() {
-  if (!tg) return;
+    // Обновляем состояние кружков
+    const circles = progressBar.querySelectorAll(".step-circle");
+    const lines = progressBar.querySelectorAll(".step-line");
 
-  switch (currentStage) {
-    case 3:
-      tg.MainButton.setText("Продолжить");
-      tg.MainButton.show();
-      tg.MainButton.onClick(() => goToStage(4));
-      break;
+    circles.forEach((circle, index) => {
+      const stepNum = index + 1;
 
-    case 5:
-      tg.MainButton.setText("Сохранить");
-      tg.MainButton.show();
-      tg.MainButton.onClick(downloadResult);
-      break;
+      if (stepNum < currentStage) {
+        circle.classList.add("completed");
+        circle.classList.remove("active");
+      } else if (stepNum === currentStage) {
+        circle.classList.add("active");
+        circle.classList.remove("completed");
+      } else {
+        circle.classList.remove("active", "completed");
+      }
+    });
 
-    default:
-      tg.MainButton.hide();
+    lines.forEach((line, index) => {
+      const stepNum = index + 2;
+      if (stepNum <= currentStage) {
+        line.classList.add("active");
+      } else {
+        line.classList.remove("active");
+      }
+    });
   }
 }
 
 // Обработка загрузки файла
-function handleFileUpload(e) {
-  if (e.target.files && e.target.files.length > 0) {
-    console.log("File uploaded");
-
-    // Вибрация при загрузке
-    if (window.navigator.vibrate) {
-      window.navigator.vibrate(30);
-    }
-
-    // Переход на выбор инструмента
-    setTimeout(() => {
-      goToStage(2);
-    }, 300);
+document.getElementById("fileInput").addEventListener("change", function (e) {
+  if (e.target.files.length > 0) {
+    goToStage(2);
   }
-}
+});
 
 // Выбор инструмента
 function selectTool(tool) {
-  console.log(`Tool selected: ${tool}`);
   selectedTool = tool;
-
-  // Вибрация при выборе
-  if (window.navigator.vibrate) {
-    window.navigator.vibrate(20);
-  }
-
-  // Переход к настройкам
   goToStage(3);
+
+  // Показываем соответствующие настройки
+  if (tool === "deepfake") {
+    document.getElementById("deepfakeSettings").style.display = "block";
+    document.getElementById("neuralSettings").style.display = "none";
+  } else {
+    document.getElementById("deepfakeSettings").style.display = "none";
+    document.getElementById("neuralSettings").style.display = "block";
+  }
 }
 
-// Обработка опций DeepFake
+// Обработка выбора DeepFake опций
 function handleDeepfakeOption(option) {
-  console.log(`DeepFake option: ${option}`);
+  // Показываем индикатор перехода
+  document.getElementById("deepfakeTransition").style.display = "block";
+
+  // Блокируем кнопки
+  const buttons = document.querySelectorAll(".setting-button");
+  buttons.forEach((btn) => (btn.disabled = true));
+
+  // Автоматический переход через 2 секунды
+  transitionTimeout = setTimeout(() => {
+    goToStage(4);
+  }, 2000);
 
   if (option === "upload") {
+    // Можно добавить логику для загрузки файла
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*";
     input.onchange = () => {
-      setTimeout(() => goToStage(4), 500);
+      // Файл выбран, переход уже запланирован
     };
     input.click();
-  } else {
-    // Переход к синтезу
-    setTimeout(() => goToStage(4), 500);
   }
 }
 
-// Добавление промпта
+// Добавление промпта для Neural Editor
 function addPrompt(text) {
   const input = document.getElementById("promptInput");
-  if (input) {
-    input.value = text;
+  input.value = text;
+  input.focus();
 
-    // Переход к синтезу
-    setTimeout(() => goToStage(4), 1000);
-  }
+  // Показываем индикатор перехода
+  document.getElementById("neuralTransition").style.display = "block";
+
+  // Автоматический переход через 2 секунды
+  transitionTimeout = setTimeout(() => {
+    goToStage(4);
+  }, 2000);
 }
 
-// Скачивание результата
-function downloadResult() {
-  console.log("Downloading result");
+// Отслеживание ввода в поле Neural Editor
+document.getElementById("promptInput")?.addEventListener("input", function () {
+  if (this.value.length > 10) {
+    // Если введено больше 10 символов
+    // Показываем индикатор перехода
+    document.getElementById("neuralTransition").style.display = "block";
 
-  if (tg) {
-    tg.showAlert("Результат сохранен!");
+    // Очищаем предыдущий таймаут если есть
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+    }
+
+    // Автоматический переход через 3 секунды после остановки ввода
+    transitionTimeout = setTimeout(() => {
+      goToStage(4);
+    }, 3000);
   } else {
-    alert("Результат сохранен!");
-  }
-}
-
-// Сброс настроек
-function resetSettings() {
-  // Скрываем все настройки
-  const deepfakeSettings = document.getElementById("deepfakeSettings");
-  const neuralSettings = document.getElementById("neuralSettings");
-
-  if (deepfakeSettings) deepfakeSettings.style.display = "none";
-  if (neuralSettings) neuralSettings.style.display = "none";
-
-  // Очищаем поля
-  const promptInput = document.getElementById("promptInput");
-  if (promptInput) promptInput.value = "";
-
-  // Разблокируем кнопки
-  const buttons = document.querySelectorAll(".setting-button-webapp");
-  buttons.forEach((btn) => (btn.disabled = false));
-}
-
-// Инициализация свайп-навигации
-function initSwipeNavigation() {
-  let touchStartX = 0;
-  let touchEndX = 0;
-  let touchStartY = 0;
-  let touchEndY = 0;
-
-  document.addEventListener(
-    "touchstart",
-    function (e) {
-      touchStartX = e.changedTouches[0].screenX;
-      touchStartY = e.changedTouches[0].screenY;
-    },
-    { passive: true },
-  );
-
-  document.addEventListener(
-    "touchend",
-    function (e) {
-      touchEndX = e.changedTouches[0].screenX;
-      touchEndY = e.changedTouches[0].screenY;
-      handleSwipe();
-    },
-    { passive: true },
-  );
-
-  function handleSwipe() {
-    const swipeThreshold = 50;
-    const diffX = touchEndX - touchStartX;
-    const diffY = Math.abs(touchEndY - touchStartY);
-
-    // Проверяем что свайп горизонтальный
-    if (Math.abs(diffX) > swipeThreshold && diffY < 100) {
-      // Свайп вправо (назад) - только для этапов 2 и 3
-      if (diffX > 0 && (currentStage === 2 || currentStage === 3)) {
-        goBack();
-      }
+    // Скрываем индикатор если текста мало
+    document.getElementById("neuralTransition").style.display = "none";
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+      transitionTimeout = null;
     }
   }
+});
+
+// Компарер функционал
+const comparerContainer = document.getElementById("comparerContainer");
+const comparerSlider = document.getElementById("comparerSlider");
+const beforeImage = document.querySelector(".comparer-image.before");
+const afterImage = document.querySelector(".comparer-image.after");
+
+let isResizing = false;
+
+if (comparerSlider && comparerContainer) {
+  comparerSlider.addEventListener("mousedown", (e) => {
+    isResizing = true;
+    e.preventDefault();
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isResizing) return;
+
+    const rect = comparerContainer.getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+
+    const percentage = (x / rect.width) * 100;
+
+    comparerSlider.style.left = percentage + "%";
+    beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+    afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+  });
+
+  document.addEventListener("mouseup", () => {
+    isResizing = false;
+  });
+
+  // Touch поддержка
+  comparerSlider.addEventListener("touchstart", (e) => {
+    isResizing = true;
+    e.preventDefault();
+  });
+
+  document.addEventListener("touchmove", (e) => {
+    if (!isResizing) return;
+
+    const rect = comparerContainer.getBoundingClientRect();
+    let x = e.touches[0].clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+
+    const percentage = (x / rect.width) * 100;
+
+    comparerSlider.style.left = percentage + "%";
+    beforeImage.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+    afterImage.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+  });
+
+  document.addEventListener("touchend", () => {
+    isResizing = false;
+  });
 }
 
-// Делаем функции глобальными для HTML
+// Функции для результата
+function downloadResult() {
+  console.log("Скачивание результата");
+}
+
+function shareResult() {
+  console.log("Поделиться результатом");
+}
+
+// Анимация частиц
+const particlesContainer = document.querySelector(".organic-particles");
+let particleInterval = setInterval(() => {
+  if (currentStage !== 5) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.left = Math.random() * 100 + "%";
+    particle.style.animationDelay = "0s";
+    particle.style.animationDuration = 5 + Math.random() * 5 + "s";
+    particlesContainer.appendChild(particle);
+
+    setTimeout(() => particle.remove(), 10000);
+  }
+}, 500);
+
+// Глобальные функции для использования в HTML
 window.goToStage = goToStage;
-window.goBack = goBack;
 window.selectTool = selectTool;
 window.handleDeepfakeOption = handleDeepfakeOption;
 window.addPrompt = addPrompt;
 window.downloadResult = downloadResult;
+window.shareResult = shareResult;
+function createDigitalRain() {
+  const particles = document.querySelector(".digital-particles");
+  const symbols = [
+    "0",
+    "1",
+    "#",
+    "@",
+    "$",
+    "%",
+    "&",
+    "*",
+    "{",
+    "}",
+    "<",
+    ">",
+    "01",
+    "10",
+    "∞",
+    "≠",
+    "±",
+  ];
 
-// Обработка кнопки "Назад" в Telegram
-if (tg) {
-  tg.BackButton.onClick(() => {
-    if (currentStage > 1) {
-      goBack();
-    } else {
-      tg.close();
+  function createDigit() {
+    const digit = document.createElement("div");
+    digit.className = "digit";
+
+    // Случайный символ
+    digit.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+
+    // Случайное начальное положение по горизонтали
+    digit.style.left = Math.random() * 100 + "%";
+
+    // Случайный размер
+    const size = 12 + Math.random() * 8;
+    digit.style.fontSize = `${size}px`;
+
+    // Случайная прозрачность
+    digit.style.opacity = 0.3 + Math.random() * 0.5;
+
+    // Случайная длительность анимации
+    digit.style.animationDuration = `${10 + Math.random() * 5}s`;
+
+    particles.appendChild(digit);
+
+    // Удаляем частицу после завершения анимации
+    setTimeout(() => {
+      digit.remove();
+    }, 12000);
+  }
+
+  // Создаем меньше символов с большим интервалом
+  function startRain() {
+    for (let i = 0; i < 8; i++) {
+      // Уменьшено с 20 до 8
+      setTimeout(createDigit, i * 400); // Увеличен интервал
     }
-  });
+  }
+
+  // Реже запускаем дождь
+  setInterval(startRain, 8000); // Увеличено с 5 до 8 секунд
+
+  // Первый запуск
+  startRain();
 }
 
-// Логирование для отладки
-console.log("F4TA-Morgana AI Lab WebApp loaded");
+// Запускаем после загрузки страницы
+document.addEventListener("DOMContentLoaded", createDigitalRain);
