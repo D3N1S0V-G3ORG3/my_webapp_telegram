@@ -587,3 +587,32 @@ window.addPrompt = addPrompt;
 window.downloadResult = downloadResult;
 window.shareResult = shareResult;
 window.inviteFriend = inviteFriend;
+
+// Добавьте в script.js
+function animateProgress() {
+  const progressElement = document.getElementById("progress");
+  if (!progressElement) return;
+
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15;
+    if (progress >= 100) {
+      progress = 100;
+      setTimeout(() => {
+        progress = 0;
+        progressElement.textContent = "0";
+      }, 1000);
+    }
+    progressElement.textContent = Math.floor(progress);
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(animateProgress, 2000);
+    }
+  }, 200);
+}
+
+// Запускаем анимацию при переходе на 4 этап
+if (currentStage === 4) {
+  setTimeout(animateProgress, 500);
+}

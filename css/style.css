@@ -146,6 +146,62 @@ body {
     display: none;
     animation: stage-appear 0.6s ease-out;
 }
+h1 {
+    font-family: "Bubblegum", monospace;
+    font-size: 5rem;
+    font-weight: 800;
+    background: linear-gradient(
+        150deg,
+        rgba(0, 245, 255, 0.8),
+        rgba(0, 128, 255, 0.6)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    cursor: pointer;
+
+    /* Автоматическая анимация */
+    animation: autoGlitch 2s infinite;
+}
+
+h1:hover {
+    /* Интенсивный glitch при наведении */
+    animation:
+        wiggle 0.4s,
+        autoGlitch 0.5s infinite;
+    filter: drop-shadow(30px 13px 0 rgba(246, 0, 153, 0.8))
+        drop-shadow(-38px -4px 0 rgba(15, 210, 255, 0.8))
+        drop-shadow(-2px -4px 0 rgba(255, 210, 0, 1));
+}
+@keyframes mystic-flow {
+    0%,
+    100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    25% {
+        background-position: 50% 0%;
+        filter: hue-rotate(10deg) brightness(1.1);
+    }
+    50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(-10deg) brightness(0.9);
+    }
+    75% {
+        background-position: 50% 100%;
+        filter: hue-rotate(5deg) brightness(1.05);
+    }
+}
+
+@keyframes ghost-shift {
+    0% {
+        transform: translate(2px, 2px);
+    }
+    100% {
+        transform: translate(-2px, -2px);
+    }
+}
 
 .stage.active {
     display: block;
@@ -169,7 +225,15 @@ body {
     margin: 0 auto;
 }
 
-/* ИСПРАВЛЕННЫЙ ШРИФТ ДЛЯ ЗАГОЛОВКА */
+/* Добавьте @font-face в начало файла */
+@font-face {
+    font-family: "Bubblegum";
+    src: url("./fonts/bubblegum.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Анимации из старого кода */
 @keyframes wiggle {
     0% {
         transform: skewX(24deg);
@@ -231,8 +295,38 @@ body {
     }
 }
 
+@keyframes mystic-flow {
+    0%,
+    100% {
+        background-position: 0% 50%;
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    25% {
+        background-position: 50% 0%;
+        filter: hue-rotate(10deg) brightness(1.1);
+    }
+    50% {
+        background-position: 100% 50%;
+        filter: hue-rotate(-10deg) brightness(0.9);
+    }
+    75% {
+        background-position: 50% 100%;
+        filter: hue-rotate(5deg) brightness(1.05);
+    }
+}
+
+@keyframes ghost-shift {
+    0% {
+        transform: translate(2px, 2px);
+    }
+    100% {
+        transform: translate(-2px, -2px);
+    }
+}
+
+/* Обновленные стили для заголовка */
 .main-title {
-    font-family: "Bubblegum Sans", cursive; /* Исправленный шрифт */
+    font-family: "Bubblegum", monospace; /* Исправлено название шрифта */
     font-size: 5rem;
     font-weight: 800;
     background: linear-gradient(
@@ -240,15 +334,460 @@ body {
         rgba(0, 245, 255, 0.8),
         rgba(0, 128, 255, 0.6)
     );
+    background-size: 200% 200%; /* Добавлено для mystic-flow */
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
     cursor: pointer;
-    animation: autoGlitch 2s infinite;
     margin-bottom: 20px;
+
+    /* Автоматические анимации */
+    animation:
+        autoGlitch 2s infinite,
+        mystic-flow 4s ease-in-out infinite;
 }
 
+.main-title:hover {
+    /* Интенсивный glitch при наведении */
+    animation:
+        wiggle 0.4s,
+        autoGlitch 0.5s infinite,
+        mystic-flow 2s ease-in-out infinite;
+    filter: drop-shadow(30px 13px 0 rgba(246, 0, 153, 0.8))
+        drop-shadow(-38px -4px 0 rgba(15, 210, 255, 0.8))
+        drop-shadow(-2px -4px 0 rgba(255, 210, 0, 1));
+}
+
+/* Если хотите добавить DNA спираль эффект */
+.helix-strand {
+    fill: none;
+    stroke: var(--bio-green);
+    stroke-width: 3;
+    stroke-linecap: round;
+    animation: rotate-helix 4s linear infinite;
+}
+
+.helix-strand:nth-child(2) {
+    stroke: var(--neural-purple);
+    animation-delay: 0.2s;
+}
+
+@keyframes rotate-helix {
+    0% {
+        transform: rotateY(0deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+.upload-card {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 220, 130, 0.1) 0%,
+        rgba(0, 220, 130, 0.15) 100%
+    );
+    border: 2px solid rgba(0, 220, 130, 0.3);
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(20px);
+}
+
+.upload-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: rgba(0, 220, 130, 0.6);
+    background: linear-gradient(
+        135deg,
+        rgba(0, 220, 130, 0.2) 0%,
+        rgba(0, 220, 130, 0.25) 100%
+    );
+    box-shadow: 0 15px 30px rgba(0, 220, 130, 0.3);
+}
+
+.upload-icon-container {
+    margin-bottom: 15px;
+}
+
+.upload-icon {
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 220, 130, 0.6));
+}
+
+.upload-card:hover .upload-icon {
+    transform: scale(1.1) rotate(-3deg);
+    filter: drop-shadow(0 0 12px rgba(0, 220, 130, 0.8));
+}
+
+.upload-card:hover .upload-icon path {
+    stroke: #00ff88;
+}
+
+.upload-title {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.upload-card:hover .upload-title {
+    color: var(--bio-green);
+    text-shadow: 0 0 15px rgba(0, 220, 130, 0.6);
+}
+
+.upload-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.upload-card:hover .upload-description {
+    color: rgba(0, 220, 130, 0.8);
+}
+/* Обновленный контейнер для карточек */
+.settings-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Базовые стили для карточек */
+.upload-card,
+.catalog-card {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+    );
+    border: 2px solid;
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Стили для карточки загрузки */
+.upload-card {
+    border-image: linear-gradient(
+            135deg,
+            var(--bio-green),
+            var(--neural-purple)
+        )
+        1;
+}
+
+.upload-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-image: linear-gradient(135deg, var(--bio-green), var(--electric)) 1;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 220, 130, 0.1) 0%,
+        rgba(157, 78, 221, 0.15) 100%
+    );
+    box-shadow:
+        0 15px 30px rgba(0, 220, 130, 0.3),
+        0 0 40px rgba(0, 220, 130, 0.1);
+}
+
+/* Стили для карточки каталога */
+.catalog-card {
+    border-image: linear-gradient(135deg, #2980b9, #3498db) 1;
+}
+
+.catalog-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-image: linear-gradient(135deg, #3498db, #5dade2) 1;
+    background: linear-gradient(
+        135deg,
+        rgba(41, 128, 185, 0.1) 0%,
+        rgba(52, 152, 219, 0.15) 100%
+    );
+    box-shadow:
+        0 15px 30px rgba(41, 128, 185, 0.3),
+        0 0 40px rgba(52, 152, 219, 0.1);
+}
+
+/* Контейнеры для иконок */
+.upload-icon-container,
+.catalog-icon-container {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+/* Стили для иконки загрузки */
+.upload-icon {
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(0, 220, 130, 0.6));
+}
+
+.upload-card:hover .upload-icon {
+    transform: scale(1.1) rotate(-3deg);
+    filter: drop-shadow(0 0 12px rgba(0, 220, 130, 0.8));
+}
+
+.upload-card:hover .upload-icon path {
+    stroke: #00ff88;
+}
+
+/* Стили для иконки каталога */
+.catalog-icon {
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 8px rgba(52, 152, 219, 0.6));
+}
+
+.catalog-card:hover .catalog-icon {
+    transform: scale(1.1) rotate(3deg);
+    filter: drop-shadow(0 0 12px rgba(52, 152, 219, 0.8));
+}
+
+/* Адаптивные стили для иконки каталога */
+.catalog-card:hover .catalog-icon path[fill="#2980b9"] {
+    fill: #3498db;
+}
+
+.catalog-card:hover .catalog-icon path[fill="#3498db"] {
+    fill: #5dade2;
+}
+
+.catalog-card:hover .catalog-icon path[fill="#bdc3c7"] {
+    fill: #d5dbdb;
+}
+
+/* Заголовки карточек */
+.upload-title,
+.catalog-title {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.upload-card:hover .upload-title {
+    color: var(--bio-green);
+    text-shadow: 0 0 15px rgba(0, 220, 130, 0.6);
+}
+
+.catalog-card:hover .catalog-title {
+    color: #85c1e9;
+    text-shadow: 0 0 15px rgba(133, 193, 233, 0.6);
+}
+
+/* Описания карточек */
+.upload-description,
+.catalog-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.upload-card:hover .upload-description {
+    color: rgba(0, 220, 130, 0.8);
+}
+
+.catalog-card:hover .catalog-description {
+    color: rgba(133, 193, 233, 0.8);
+}
+
+/* Анимации свечения */
+@keyframes upload-glow {
+    0%,
+    100% {
+        box-shadow:
+            0 15px 30px rgba(0, 220, 130, 0.2),
+            0 0 40px rgba(0, 220, 130, 0.1);
+    }
+    50% {
+        box-shadow:
+            0 20px 40px rgba(0, 220, 130, 0.4),
+            0 0 60px rgba(0, 220, 130, 0.2);
+    }
+}
+
+@keyframes catalog-glow {
+    0%,
+    100% {
+        box-shadow:
+            0 15px 30px rgba(41, 128, 185, 0.2),
+            0 0 40px rgba(52, 152, 219, 0.1);
+    }
+    50% {
+        box-shadow:
+            0 20px 40px rgba(41, 128, 185, 0.4),
+            0 0 60px rgba(52, 152, 219, 0.2);
+    }
+}
+
+.upload-card:hover {
+    animation: upload-glow 2s ease-in-out infinite;
+}
+
+.catalog-card:hover {
+    animation: catalog-glow 2s ease-in-out infinite;
+}
+
+/* Эффект частиц при ховере */
+.upload-card::before,
+.catalog-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(
+            circle at 20% 30%,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+        ),
+        radial-gradient(
+            circle at 60% 20%,
+            rgba(255, 255, 255, 0.05) 1px,
+            transparent 1px
+        );
+    background-size:
+        30px 30px,
+        40px 40px,
+        50px 50px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.upload-card:hover::before,
+.catalog-card:hover::before {
+    opacity: 1;
+    animation: particles-float 3s ease-in-out infinite;
+}
+
+@keyframes particles-float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotate(180deg);
+    }
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .settings-buttons {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 350px;
+    }
+
+    .upload-card,
+    .catalog-card {
+        padding: 25px 15px;
+        min-height: 140px;
+    }
+
+    .upload-icon,
+    .catalog-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .upload-title,
+    .catalog-title {
+        font-size: 1.1rem;
+    }
+
+    .upload-description,
+    .catalog-description {
+        font-size: 0.85rem;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .upload-card,
+    .catalog-card {
+        padding: 20px 10px;
+        min-height: 120px;
+    }
+
+    .upload-title,
+    .catalog-title {
+        font-size: 1rem;
+        margin-bottom: 6px;
+    }
+}
+.settings-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .settings-buttons {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        max-width: 350px;
+    }
+}
+/* Центрируем весь блок настроек deepfake */
+#deepfakeSettings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 40px 20px;
+}
+
+/* Центрируем bio-glow */
+.bio-glow {
+    width: 80%;
+    max-width: 500px; /* Ограничиваем максимальную ширину */
+    height: 300px;
+    margin: 0 auto 40px;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(0, 220, 130, 0.3) 0%,
+        rgba(157, 78, 221, 0.2) 40%,
+        transparent 70%
+    );
+    border-radius: 50%;
+    animation: bio-pulse 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
 .main-title:hover {
     animation:
         wiggle 0.4s,
@@ -673,102 +1212,485 @@ body {
 }
 
 /* Этап 4 - Синтез */
-.synthesis-container {
-    text-align: center;
-    padding: 100px 20px;
+/* Скрываем SVG фильтры */
+.glitch-filters {
+    display: none;
 }
 
-.synthesis-reactor {
-    width: 300px;
-    height: 300px;
-    margin: 0 auto 40px;
+/* Главный контейнер */
+.futuristic-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    padding: 40px;
     position: relative;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(0, 255, 255, 0.05) 0%,
+            transparent 70%
+        ),
+        radial-gradient(
+            circle at 30% 70%,
+            rgba(138, 43, 226, 0.05) 0%,
+            transparent 50%
+        );
 }
 
-.reactor-core {
+/* ЦЕНТРАЛЬНЫЙ ГОЛОГРАМНЫЙ ЭЛЕМЕНТ */
+.holo-core {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 60px;
+}
+
+/* Основной элемент */
+.core-main {
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: 50%;
-    background: radial-gradient(
-        circle,
-        var(--neural-purple) 0%,
-        transparent 50%
+    background: linear-gradient(
+        45deg,
+        rgba(0, 255, 255, 0.8) 0%,
+        rgba(138, 43, 226, 0.8) 50%,
+        rgba(255, 20, 147, 0.8) 100%
     );
-    animation: core-rotation 3s linear infinite;
-}
-
-@keyframes core-rotation {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.2);
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
-    }
-}
-
-.synthesis-ring {
-    position: absolute;
     border-radius: 50%;
-    border: 2px solid;
-    animation: ring-pulse 2s ease-in-out infinite;
+    border: 2px solid rgba(0, 255, 255, 0.6);
+    box-shadow:
+        inset 0 0 40px rgba(0, 255, 255, 0.3),
+        0 0 60px rgba(0, 255, 255, 0.4),
+        0 0 100px rgba(138, 43, 226, 0.2);
+    animation: core-pulse 3s ease-in-out infinite;
 }
 
-.synthesis-ring:nth-child(2) {
-    width: 100%;
-    height: 100%;
-    border-color: var(--bio-green);
-    animation-delay: 0s;
-}
-
-.synthesis-ring:nth-child(3) {
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    border-color: var(--neural-purple);
-    animation-delay: 0.3s;
-}
-
-.synthesis-ring:nth-child(4) {
-    width: 60%;
-    height: 60%;
-    top: 20%;
-    left: 20%;
-    border-color: var(--electric);
-    animation-delay: 0.6s;
-}
-
-@keyframes ring-pulse {
+@keyframes core-pulse {
     0%,
     100% {
         transform: scale(1);
-        opacity: 0.3;
+        box-shadow:
+            inset 0 0 40px rgba(0, 255, 255, 0.3),
+            0 0 60px rgba(0, 255, 255, 0.4),
+            0 0 100px rgba(138, 43, 226, 0.2);
     }
     50% {
         transform: scale(1.1);
-        opacity: 1;
+        box-shadow:
+            inset 0 0 60px rgba(0, 255, 255, 0.5),
+            0 0 80px rgba(0, 255, 255, 0.6),
+            0 0 120px rgba(138, 43, 226, 0.4);
     }
 }
 
-.synthesis-text {
-    font-size: 1.5rem;
-    color: var(--bio-green);
-    font-weight: 600;
-    animation: text-glow 1.5s ease-in-out infinite;
+/* GLITCH ЭФФЕКТ */
+.red-glitch {
+    filter: url(#alphaRed);
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: glitch-red 1.3s infinite;
 }
 
-@keyframes text-glow {
+.green-glitch {
+    filter: url(#alphaGreen);
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: glitch-green 4s infinite;
+}
+
+.blue-glitch {
+    filter: url(#alphaBlue);
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: glitch-blue 4s infinite;
+}
+
+@keyframes glitch-red {
+    0%,
+    88%,
+    100% {
+        opacity: 0;
+    }
+    89%,
+    92% {
+        opacity: 1;
+        transform: translate(-4px, 2px) scale(1.02);
+        clip-path: polygon(
+            0% 0%,
+            100% 0%,
+            100% 30%,
+            95% 30%,
+            95% 35%,
+            100% 35%,
+            100% 100%,
+            0% 100%
+        );
+    }
+}
+
+@keyframes glitch-green {
+    0%,
+    88%,
+    100% {
+        opacity: 0;
+    }
+    90%,
+    93% {
+        opacity: 1;
+        transform: translate(3px, -4px) scale(0.98);
+        clip-path: polygon(
+            0% 30%,
+            100% 30%,
+            100% 70%,
+            90% 70%,
+            90% 75%,
+            100% 75%,
+            100% 100%,
+            0% 100%
+        );
+    }
+}
+
+@keyframes glitch-blue {
+    0%,
+    88%,
+    100% {
+        opacity: 0;
+    }
+    91%,
+    94% {
+        opacity: 1;
+        transform: translate(-2px, -3px) scale(1.01);
+        clip-path: polygon(0% 70%, 100% 70%, 100% 100%, 0% 100%);
+    }
+}
+
+/* ЦЕНТРАЛЬНЫЙ ЛОГОТИП */
+.core-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "Arial", sans-serif;
+    text-shadow:
+        0 0 20px rgba(0, 255, 255, 0.8),
+        0 0 40px rgba(138, 43, 226, 0.6);
+    z-index: 10;
+    animation: logo-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes logo-glow {
+    0% {
+        text-shadow:
+            0 0 20px rgba(0, 255, 255, 0.8),
+            0 0 40px rgba(138, 43, 226, 0.6);
+    }
+    100% {
+        text-shadow:
+            0 0 30px rgba(0, 255, 255, 1),
+            0 0 60px rgba(138, 43, 226, 0.8),
+            0 0 80px rgba(255, 20, 147, 0.4);
+    }
+}
+
+/* ВРАЩАЮЩИЕСЯ КОЛЬЦА */
+.orbit-ring {
+    position: absolute;
+    border: 2px solid;
+    border-radius: 50%;
+    opacity: 0.6;
+}
+
+.ring-1 {
+    width: 220px;
+    height: 220px;
+    border-color: rgba(0, 255, 255, 0.4);
+    animation: ring-rotate 8s linear infinite;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.ring-2 {
+    width: 280px;
+    height: 280px;
+    border-color: rgba(138, 43, 226, 0.4);
+    animation: ring-rotate 12s linear infinite reverse;
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+}
+
+.ring-3 {
+    width: 340px;
+    height: 340px;
+    border-color: rgba(255, 20, 147, 0.4);
+    animation: ring-rotate 16s linear infinite;
+    box-shadow: 0 0 20px rgba(255, 20, 147, 0.3);
+}
+
+@keyframes ring-rotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.orbit-ring {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ЧАСТИЦЫ */
+.particles {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: rgba(0, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+    animation: particle-float 4s ease-in-out infinite;
+}
+
+.particle:nth-child(1) {
+    top: 20%;
+    left: 30%;
+    animation-delay: 0s;
+    background: rgba(0, 255, 255, 0.8);
+}
+
+.particle:nth-child(2) {
+    top: 60%;
+    right: 20%;
+    animation-delay: 1s;
+    background: rgba(138, 43, 226, 0.8);
+}
+
+.particle:nth-child(3) {
+    bottom: 30%;
+    left: 25%;
+    animation-delay: 2s;
+    background: rgba(255, 20, 147, 0.8);
+}
+
+.particle:nth-child(4) {
+    top: 40%;
+    right: 35%;
+    animation-delay: 3s;
+    background: rgba(0, 255, 255, 0.8);
+}
+
+.particle:nth-child(5) {
+    bottom: 20%;
+    right: 40%;
+    animation-delay: 0.5s;
+    background: rgba(138, 43, 226, 0.8);
+}
+
+@keyframes particle-float {
     0%,
     100% {
-        opacity: 0.5;
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
     }
     50% {
+        transform: translateY(-20px) scale(1.5);
         opacity: 1;
-        text-shadow: 0 0 20px var(--bio-green);
+    }
+}
+
+/* ПРОГРЕСС БАР */
+.progress-container {
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow:
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 255, 255, 0.8) 0%,
+        rgba(138, 43, 226, 0.8) 50%,
+        rgba(255, 20, 147, 0.8) 100%
+    );
+    border-radius: 3px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+    animation: progress-load 5s ease-in-out infinite;
+}
+
+@keyframes progress-load {
+    0% {
+        width: 0%;
+    }
+    50% {
+        width: 75%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+.progress-text {
+    color: rgba(0, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 8px;
+    text-align: center;
+    font-family: "Courier New", monospace;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+}
+
+/* СТАТУС ТЕКСТ */
+.status-future {
+    color: rgba(138, 43, 226, 0.9);
+    font-size: 1.3rem;
+    font-weight: 500;
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    text-shadow:
+        0 0 15px rgba(138, 43, 226, 0.6),
+        0 0 30px rgba(255, 20, 147, 0.4);
+    animation: status-glow 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes status-glow {
+    0% {
+        color: rgba(138, 43, 226, 0.9);
+        text-shadow:
+            0 0 15px rgba(138, 43, 226, 0.6),
+            0 0 30px rgba(255, 20, 147, 0.4);
+    }
+    100% {
+        color: rgba(0, 255, 255, 0.9);
+        text-shadow:
+            0 0 20px rgba(0, 255, 255, 0.8),
+            0 0 40px rgba(138, 43, 226, 0.6);
+    }
+}
+
+/* АНИМАЦИЯ СЧЕТЧИКА ПРОГРЕССА */
+@keyframes counter {
+    0% {
+        content: "0";
+    }
+    10% {
+        content: "12";
+    }
+    20% {
+        content: "28";
+    }
+    30% {
+        content: "45";
+    }
+    40% {
+        content: "63";
+    }
+    50% {
+        content: "75";
+    }
+    60% {
+        content: "84";
+    }
+    70% {
+        content: "91";
+    }
+    80% {
+        content: "96";
+    }
+    90% {
+        content: "99";
+    }
+    100% {
+        content: "100";
+    }
+}
+
+#progress {
+    animation: counter-animation 5s infinite;
+}
+
+@keyframes counter-animation {
+    0% {
+        content: "0";
+    }
+    20% {
+        content: "25";
+    }
+    40% {
+        content: "50";
+    }
+    60% {
+        content: "75";
+    }
+    80% {
+        content: "90";
+    }
+    100% {
+        content: "100";
+    }
+}
+
+/* МОБИЛЬНАЯ АДАПТАЦИЯ */
+@media (max-width: 768px) {
+    .holo-core {
+        width: 140px;
+        height: 140px;
+    }
+
+    .core-logo {
+        font-size: 2rem;
+    }
+
+    .ring-1 {
+        width: 180px;
+        height: 180px;
+    }
+    .ring-2 {
+        width: 220px;
+        height: 220px;
+    }
+    .ring-3 {
+        width: 260px;
+        height: 260px;
+    }
+
+    .progress-container {
+        width: 250px;
+    }
+
+    .status-future {
+        font-size: 1.1rem;
+    }
+
+    .particles {
+        width: 300px;
+        height: 300px;
     }
 }
 
@@ -877,25 +1799,151 @@ body {
 .result-actions {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .result-button {
-    padding: 15px 40px;
-    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
+    padding: 18px 45px;
     border: none;
     border-radius: 50px;
     color: white;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    min-width: 180px;
+    justify-content: center;
 }
 
-.result-button:hover {
+/* Стили для кнопки "Поделиться" */
+.share-btn {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.share-btn:hover {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
     transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0, 220, 130, 0.4);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+}
+
+.share-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Стили для кнопки "Начать заново" */
+.restart-btn {
+    background: linear-gradient(135deg, var(--bio-green), #059669);
+    box-shadow: 0 4px 15px rgba(0, 220, 130, 0.3);
+}
+
+.restart-btn:hover {
+    background: linear-gradient(135deg, #10b981, #047857);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 220, 130, 0.4);
+}
+
+.restart-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Иконки кнопок */
+.button-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.result-button:hover .button-icon {
+    transform: scale(1.1);
+}
+
+/* Анимация свечения при ховере */
+.share-btn::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 70%
+    );
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.share-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.restart-btn::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(
+        circle,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 70%
+    );
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.restart-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .result-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .result-button {
+        width: 100%;
+        max-width: 280px;
+        padding: 16px 35px;
+        font-size: 1rem;
+        min-width: auto;
+    }
+
+    .button-icon {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .result-button {
+        max-width: 250px;
+        padding: 14px 30px;
+        font-size: 0.95rem;
+    }
+
+    .button-icon {
+        width: 16px;
+        height: 16px;
+    }
 }
 
 /* ============= ЧЕТКИЕ СЛОИ ДЮН ============= */
@@ -926,6 +1974,7 @@ body {
         rgba(107, 78, 61, 0.1) 0%,
         transparent 60%
     );
+    overflow: hidden;
 }
 
 .wave-layer {
@@ -935,14 +1984,14 @@ body {
     height: 100%;
 }
 
-/* ============= ЗАДНИЙ СЛОЙ - КРУПНЫЕ ДЮНЫ ============= */
+/* ============= ЗАДНИЙ СЛОЙ - КРУПНЫЕ ДЮНЫ (статичные) ============= */
 .back-dunes {
     z-index: 1;
     /* Статичные - без анимации */
     filter: drop-shadow(0 4px 8px rgba(107, 78, 61, 0.6));
 }
 
-/* ============= СРЕДНИЙ СЛОЙ - ДЮНЫ С МАСШТАБИРОВАНИЕМ ============= */
+/* ============= СРЕДНИЙ СЛОЙ - ДЮНЫ С МАСШТАБИРОВАНИЕМ И ОТРАЖЕНИЕМ ============= */
 .mid-dunes-1 {
     z-index: 2;
     animation: mid-scale-1 18s ease-in-out infinite;
@@ -955,67 +2004,48 @@ body {
     filter: drop-shadow(0 3px 6px rgba(193, 154, 107, 0.5));
 }
 
+/* АНИМАЦИИ СРЕДНЕГО СЛОЯ С ОТРАЖЕНИЕМ */
 @keyframes mid-scale-1 {
     0%,
     100% {
-        transform: scale(1) translateY(0);
+        transform: scaleX(-1) scale(1) translateY(0);
     }
     50% {
-        transform: scale(1.15) translateY(-5px);
+        transform: scaleX(-1) scale(1.15) translateY(-5px);
     }
 }
 
 @keyframes mid-scale-2 {
     0%,
     100% {
-        transform: scale(1) translateY(0);
+        transform: scaleX(-1) scale(1) translateY(0);
     }
     33% {
-        transform: scale(0.9) translateY(3px);
+        transform: scaleX(-1) scale(0.9) translateY(3px);
     }
     66% {
-        transform: scale(1.2) translateY(-7px);
+        transform: scaleX(-1) scale(1.2) translateY(-7px);
     }
 }
 
-/* ============= ПЕРЕДНИЙ СЛОЙ - МАЛЕНЬКИЕ ДЮНЫ С ДВИЖЕНИЕМ ============= */
+/* ============= ПЕРЕДНИЙ СЛОЙ - СТАТИЧНЫЕ МАЛЕНЬКИЕ ДЮНЫ ============= */
 .front-dunes-1 {
     z-index: 4;
-    animation: front-drift-1 14s ease-in-out infinite;
+    /* Убираем анимацию - теперь статичные */
     filter: drop-shadow(0 2px 4px rgba(212, 165, 116, 0.4));
 }
 
 .front-dunes-2 {
     z-index: 5;
-    animation: front-drift-2 11s ease-in-out infinite;
+    /* Убираем анимацию - теперь статичные */
     filter: drop-shadow(0 2px 4px rgba(244, 228, 193, 0.4));
 }
 
-@keyframes front-drift-1 {
-    0%,
-    100% {
-        transform: translateX(0) translateY(0) scale(1);
-    }
-    25% {
-        transform: translateX(-20px) translateY(-2px) scale(1.05);
-    }
-    75% {
-        transform: translateX(15px) translateY(-3px) scale(0.95);
-    }
-}
-
-@keyframes front-drift-2 {
-    0%,
-    100% {
-        transform: translateX(0) translateY(0) scale(1);
-    }
-    40% {
-        transform: translateX(25px) translateY(-4px) scale(0.92);
-    }
-    80% {
-        transform: translateX(-12px) translateY(-1px) scale(1.08);
-    }
-}
+/* Удаляем анимации переднего слоя */
+/*
+@keyframes front-drift-1 - удалена
+@keyframes front-drift-2 - удалена
+*/
 
 /* ============= ПЕСЧАНАЯ БУРЯ ============= */
 .sand-storm-front {
@@ -1215,40 +2245,6 @@ body {
     .dust-swirl {
         opacity: 0.3;
     }
-} /* Обновленные анимации с отражением */
-@keyframes mid-scale-1 {
-    0%,
-    100% {
-        transform: scaleX(-1) scale(1) translateY(0);
-    }
-    50% {
-        transform: scaleX(-1) scale(1.15) translateY(-5px);
-    }
-}
-
-@keyframes mid-scale-2 {
-    0%,
-    100% {
-        transform: scaleX(-1) scale(1) translateY(0);
-    }
-    33% {
-        transform: scaleX(-1) scale(0.9) translateY(3px);
-    }
-    66% {
-        transform: scaleX(-1) scale(1.2) translateY(-7px);
-    }
-}
-
-.mid-dunes-1 {
-    z-index: 2;
-    animation: mid-scale-1 18s ease-in-out infinite;
-    filter: drop-shadow(0 3px 6px rgba(160, 130, 110, 0.5));
-}
-
-.mid-dunes-2 {
-    z-index: 3;
-    animation: mid-scale-2 22s ease-in-out infinite;
-    filter: drop-shadow(0 3px 6px rgba(193, 154, 107, 0.5));
 }
 
 /* Панель профиля */
