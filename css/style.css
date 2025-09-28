@@ -74,111 +74,9 @@ body {
     justify-content: center;
 }
 
-/* Прогресс-бар этапов */
-.progress-bar {
-    position: fixed;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    z-index: 100;
-}
-
-.progress-bar.active {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-}
-
-.step-indicator {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.step-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(0, 220, 130, 0.1);
-    border: 2px solid rgba(0, 220, 130, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-.step-circle.active {
-    background: var(--bio-green);
-    border-color: var(--bio-green);
-    color: var(--bg-dark);
-    box-shadow: 0 0 20px var(--bio-green);
-    animation: step-pulse 1.5s ease-in-out infinite;
-}
-
-.step-circle.completed {
-    background: rgba(0, 220, 130, 0.5);
-    border-color: var(--bio-green);
-    color: white;
-}
-
-@keyframes step-pulse {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-.step-line {
-    width: 50px;
-    height: 2px;
-    background: rgba(0, 220, 130, 0.2);
-    position: relative;
-    overflow: hidden;
-}
-
-.step-line.active::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: var(--bio-green);
-    animation: line-flow 1s ease-in-out forwards;
-}
-
-@keyframes line-flow {
-    from {
-        transform: translateX(-100%);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-/* Этапы */
 .stage {
-    display: none;
-    animation: stage-appear 0.6s ease-out;
-}
-
-.stage.active {
-    display: block;
-}
-
-@keyframes stage-appear {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    display: block !important;
+    margin-bottom: 50px; /* Добавляем отступ между этапами */
 }
 
 /* Этап 1 - Загрузка */
@@ -709,6 +607,17 @@ h1:hover {
     height: 300px;
     margin: 0 auto 40px;
     position: relative;
+    animation: reactor-breathing 5s ease-in-out infinite;
+}
+
+@keyframes reactor-breathing {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
 .reactor-core {
@@ -721,18 +630,21 @@ h1:hover {
         var(--neural-purple) 0%,
         transparent 50%
     );
-    animation: core-rotation 3s linear infinite;
+    animation: core-rotation 4s linear infinite;
 }
 
 @keyframes core-rotation {
     0% {
         transform: rotate(0deg) scale(1);
+        filter: hue-rotate(0deg) brightness(1.2);
     }
     50% {
         transform: rotate(180deg) scale(1.2);
+        filter: hue-rotate(45deg) brightness(1.5);
     }
     100% {
         transform: rotate(360deg) scale(1);
+        filter: hue-rotate(0deg) brightness(1.2);
     }
 }
 
@@ -784,17 +696,22 @@ h1:hover {
     font-size: 1.5rem;
     color: var(--bio-green);
     font-weight: 600;
-    animation: text-glow 1.5s ease-in-out infinite;
+    animation: text-glitch 1.5s ease-in-out infinite;
 }
 
-@keyframes text-glow {
+@keyframes text-glitch {
     0%,
     100% {
-        opacity: 0.5;
-    }
-    50% {
         opacity: 1;
         text-shadow: 0 0 20px var(--bio-green);
+        transform: skewX(0deg);
+    }
+    50% {
+        opacity: 0.8;
+        text-shadow:
+            0 0 20px var(--electric),
+            0 0 40px var(--glitch-red);
+        transform: skewX(10deg);
     }
 }
 
@@ -808,19 +725,29 @@ h1:hover {
 
 .bio-particle {
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: var(--size);
+    height: var(--size);
     background: var(--bio-green);
     border-radius: 50%;
-    animation: particle-orbit 4s linear infinite;
+    animation: particle-swarm 4s linear infinite;
+    animation-delay: var(--delay);
 }
 
-@keyframes particle-orbit {
+@keyframes particle-swarm {
     0% {
-        transform: rotate(0deg) translateX(150px) rotate(0deg);
+        transform: rotate(0deg) translateX(150px) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 5px var(--bio-green));
+    }
+    50% {
+        transform: rotate(180deg) translateX(100px) scale(0.5);
+        opacity: 0.5;
+        filter: drop-shadow(0 0 15px var(--neural-purple));
     }
     100% {
-        transform: rotate(360deg) translateX(150px) rotate(-360deg);
+        transform: rotate(360deg) translateX(150px) scale(1);
+        opacity: 1;
+        filter: drop-shadow(0 0 5px var(--bio-green));
     }
 }
 
@@ -1238,6 +1165,19 @@ h1:hover {
 
 /* Для мобильных устройств */
 @media (max-width: 768px) {
+    .main-title {
+        font-size: 3rem; /* Уменьшаем размер заголовка */
+    }
+
+    .main-title svg {
+        width: 60px; /* Уменьшаем размер иконки */
+        height: 60px;
+    }
+
+    .subtitle {
+        font-size: 0.8rem; /* Уменьшаем размер подзаголовка */
+    }
+
     .header-logo {
         gap: 16px; /* Меньше расстояние на мобильных */
     }
@@ -1247,6 +1187,84 @@ h1:hover {
         margin-right: 8px;
     }
 }
+.futuristic-upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 40px;
+    background: linear-gradient(
+        135deg,
+        var(--neural-purple),
+        var(--synapse-blue)
+    );
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.futuristic-upload-btn .upload-icon {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.futuristic-upload-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.futuristic-upload-btn:hover .upload-icon {
+    transform: scale(1.2);
+}
+
+.folder-btn {
+    position: relative;
+    width: 200px;
+    height: 150px;
+    background: #a08a72;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+
+.folder-btn::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    width: 80px;
+    height: 20px;
+    background: #a08a72;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.folder-btn:hover {
+    transform: scale(1.05);
+}
+
+.folder-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.folder-text {
+    color: white;
+    font-weight: 600;
+}
+
 .upload-area {
     margin-top: 80px; /* Отодвигаем зону загрузки вниз от подзаголовка */
 }

@@ -8,23 +8,7 @@
         />
         <title>F4TA Morgana AI Lab</title>
         <link rel="stylesheet" href="css/style.css" />
-        <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    </head>
-    <body>
-        <!-- Прогресс-бар этапов -->
-        <div class="progress-bar" id="progressBar">
-            <div class="step-indicator">
-                <div class="step-circle active" data-step="1">1</div>
-                <div class="step-line"></div>
-                <div class="step-circle" data-step="2">2</div>
-                <div class="step-line"></div>
-                <div class="step-circle" data-step="3">3</div>
-                <div class="step-line"></div>
-                <div class="step-circle" data-step="4">4</div>
-                <div class="step-line"></div>
-                <div class="step-circle" data-step="5">5</div>
-            </div>
-        </div>
+
 
         <div class="container">
             <!-- Этап 1: Загрузка -->
@@ -229,21 +213,23 @@
                             ></div>
                         </div>
                     </div>
-                    <div class="settings-buttons">
-                        <button
-                            class="setting-button"
-                            onclick="handleDeepfakeOption('upload')"
-                        >
-                            Загрузить свой файл
-                        </button>
-                        <button
-                            class="setting-button"
-                            onclick="handleDeepfakeOption('collection')"
-                        >
-                            Выбрать из коллекции
-                        </button>
-                    </div>
-                    <div
+                                            <div class="settings-buttons">
+                                                <button class="futuristic-upload-btn" onclick="handleDeepfakeOption('upload')">
+                                                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M12 2L12 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M16 6L12 2L8 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M4 12H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M4 18H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    <span>Загрузить свой файл</span>
+                                                </button>
+                                                <div class="folder-btn" onclick="handleDeepfakeOption('collection')">
+                                                    <svg class="folder-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M4 4H10L12 6H20V20H4V4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    <span class="folder-text">коллекция мемов</span>
+                                                </div>
+                                            </div>                    <div
                         id="deepfakeTransition"
                         class="transition-indicator"
                         style="display: none"
@@ -320,22 +306,16 @@
                         <div class="synthesis-ring"></div>
                         <div class="synthesis-ring"></div>
                         <div class="synthesis-particles">
-                            <div
-                                class="bio-particle"
-                                style="animation-delay: 0s"
-                            ></div>
-                            <div
-                                class="bio-particle"
-                                style="animation-delay: 0.5s"
-                            ></div>
-                            <div
-                                class="bio-particle"
-                                style="animation-delay: 1s"
-                            ></div>
-                            <div
-                                class="bio-particle"
-                                style="animation-delay: 1.5s"
-                            ></div>
+                            <div class="bio-particle" style="--delay: 0s; --size: 2px;"></div>
+                            <div class="bio-particle" style="--delay: 0.2s; --size: 3px;"></div>
+                            <div class="bio-particle" style="--delay: 0.4s; --size: 2px;"></div>
+                            <div class="bio-particle" style="--delay: 0.6s; --size: 4px;"></div>
+                            <div class="bio-particle" style="--delay: 0.8s; --size: 2px;"></div>
+                            <div class="bio-particle" style="--delay: 1s; --size: 3px;"></div>
+                            <div class="bio-particle" style="--delay: 1.2s; --size: 2px;"></div>
+                            <div class="bio-particle" style="--delay: 1.4s; --size: 4px;"></div>
+                            <div class="bio-particle" style="--delay: 1.6s; --size: 2px;"></div>
+                            <div class="bio-particle" style="--delay: 1.8s; --size: 3px;"></div>
                         </div>
                     </div>
                     <div class="synthesis-text">Био-синтез в процессе...</div>
