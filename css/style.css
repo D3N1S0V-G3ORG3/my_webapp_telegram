@@ -74,9 +74,111 @@ body {
     justify-content: center;
 }
 
+/* Прогресс-бар этапов */
+.progress-bar {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    z-index: 100;
+}
+
+.progress-bar.active {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 220, 130, 0.1);
+    border: 2px solid rgba(0, 220, 130, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.step-circle.active {
+    background: var(--bio-green);
+    border-color: var(--bio-green);
+    color: var(--bg-dark);
+    box-shadow: 0 0 20px var(--bio-green);
+    animation: step-pulse 1.5s ease-in-out infinite;
+}
+
+.step-circle.completed {
+    background: rgba(0, 220, 130, 0.5);
+    border-color: var(--bio-green);
+    color: white;
+}
+
+@keyframes step-pulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.step-line {
+    width: 50px;
+    height: 2px;
+    background: rgba(0, 220, 130, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.step-line.active::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--bio-green);
+    animation: line-flow 1s ease-in-out forwards;
+}
+
+@keyframes line-flow {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Этапы */
 .stage {
-    display: block !important;
-    margin-bottom: 50px; /* Добавляем отступ между этапами */
+    display: none;
+    animation: stage-appear 0.6s ease-out;
+}
+
+.stage.active {
+    display: block;
+}
+
+@keyframes stage-appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Этап 1 - Загрузка */

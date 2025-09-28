@@ -1,5 +1,156 @@
+let currentStage = 1;
+let selectedTool = null;
+let transitionTimeout = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   createDigitalRain();
+  updateProgressBar();
+});
+
+function goToStage(stage) {
+  if (transitionTimeout) {
+    clearTimeout(transitionTimeout);
+    transitionTimeout = null;
+  }
+
+  document.getElementById("deepfakeTransition").style.display = "none";
+  document.getElementById("neuralTransition").style.display = "none";
+
+  const currentStageElement = document.getElementById(`stage${currentStage}`);
+  if (currentStageElement) {
+    currentStageElement.classList.remove("active");
+  }
+
+  currentStage = stage;
+  const nextStageElement = document.getElementById(`stage${currentStage}`);
+  if (nextStageElement) {
+    nextStageElement.classList.add("active");
+  }
+
+  updateProgressBar();
+
+  switch (stage) {
+    case 1:
+      selectedTool = null;
+      break;
+    case 2:
+      break;
+    case 3:
+      break;
+    case 4:
+      setTimeout(() => {
+        goToStage(5);
+      }, 5000);
+      break;
+    case 5:
+      break;
+  }
+}
+
+function updateProgressBar() {
+  const progressBar = document.getElementById("progressBar");
+
+  if (currentStage === 1) {
+    progressBar.classList.remove("active");
+  } else {
+    progressBar.classList.add("active");
+
+    const circles = progressBar.querySelectorAll(".step-circle");
+    const lines = progressBar.querySelectorAll(".step-line");
+
+    circles.forEach((circle, index) => {
+      const stepNum = index + 1;
+
+      if (stepNum < currentStage) {
+        circle.classList.add("completed");
+        circle.classList.remove("active");
+      } else if (stepNum === currentStage) {
+        circle.classList.add("active");
+        circle.classList.remove("completed");
+      } else {
+        circle.classList.remove("active", "completed");
+      }
+    });
+
+    lines.forEach((line, index) => {
+      const stepNum = index + 2;
+      if (stepNum <= currentStage) {
+        line.classList.add("active");
+      } else {
+        line.classList.remove("active");
+      }
+    });
+  }
+}
+
+document.getElementById("fileInput").addEventListener("change", function (e) {
+  if (e.target.files.length > 0) {
+    goToStage(2);
+  }
+});
+
+function selectTool(tool) {
+  selectedTool = tool;
+  goToStage(3);
+
+  if (tool === "deepfake") {
+    document.getElementById("deepfakeSettings").style.display = "block";
+    document.getElementById("neuralSettings").style.display = "none";
+  } else {
+    document.getElementById("deepfakeSettings").style.display = "none";
+    document.getElementById("neuralSettings").style.display = "block";
+  }
+}
+
+function handleDeepfakeOption(option) {
+  document.getElementById("deepfakeTransition").style.display = "block";
+
+  const buttons = document.querySelectorAll(".setting-button");
+  buttons.forEach((btn) => (btn.disabled = true));
+
+  transitionTimeout = setTimeout(() => {
+    goToStage(4);
+  }, 2000);
+
+  if (option === "upload") {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = () => {};
+    input.click();
+  }
+}
+
+function addPrompt(text) {
+  const input = document.getElementById("promptInput");
+  input.value = text;
+  input.focus();
+
+  document.getElementById("neuralTransition").style.display = "block";
+
+  transitionTimeout = setTimeout(() => {
+    goToStage(4);
+  }, 2000);
+}
+
+document.getElementById("promptInput")?.addEventListener("input", function () {
+  if (this.value.length > 10) {
+    document.getElementById("neuralTransition").style.display = "block";
+
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+    }
+
+    transitionTimeout = setTimeout(() => {
+      goToStage(4);
+    }, 3000);
+  } else {
+    document.getElementById("neuralTransition").style.display = "none";
+    if (transitionTimeout) {
+      clearTimeout(transitionTimeout);
+      transitionTimeout = null;
+    }
+  }
 });
 
 const comparerContainer = document.getElementById("comparerContainer");
@@ -91,7 +242,7 @@ function createDigitalRain() {
     digit.style.animationDuration = `${10 + Math.random() * 5}s`;
     particles.appendChild(digit);
 
-    setTimeout(() => {
+    setTimeout(()_ => {
       digit.remove();
     }, 12000);
   }
@@ -105,3 +256,8 @@ function createDigitalRain() {
   setInterval(startRain, 8000);
   startRain();
 }
+
+window.goToStage = goToStage;
+window.selectTool = selectTool;
+window.handleDeepfakeOption = handleDeepfakeOption;
+window.addPrompt = addPrompt;
