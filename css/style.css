@@ -22,17 +22,11 @@
     --synapse-blue: #4361ee;
     --electric: #00f5ff;
     --bg-dark: #0a0f1b;
-    /* Новые мистические цвета */
     --mystic-purple: #6a0dad;
     --dark-violet: #4a0e4e;
     --ghost-gray: #8b8c89;
     --shadow-blue: #191970;
     --ethereal-cyan: #00ced1;
-
-    --neural-purple: #8b5cf6;
-    --bio-green: #10b981;
-    --electric: #3b82f6;
-    --dark-bg: #0f172a;
     --glitch-red: #ff0040;
     --glitch-blue: #00ffff;
     --glitch-green: #00ff00;
@@ -49,25 +43,14 @@ body {
     position: relative;
     color: var(--tg-theme-text-color);
 }
-/* Фоновая нейронная сеть */
-.neural-network {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    opacity: 0.35; /* чуть ярче для иллюзии */
-    pointer-events: none; /* чтобы фон не мешал кликам */
-}
 
-/* Контейнер */
 .container {
     position: relative;
     z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
+    padding-bottom: 100px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -164,10 +147,17 @@ body {
 .stage {
     display: none;
     animation: stage-appear 0.6s ease-out;
+    position: relative;
+    z-index: 10;
 }
 
 .stage.active {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
 }
 
 @keyframes stage-appear {
@@ -182,70 +172,11 @@ body {
 }
 
 /* Этап 1 - Загрузка */
-
-.helix-strand {
-    fill: none;
-    stroke: var(--bio-green);
-    stroke-width: 3;
-    stroke-linecap: round;
-    animation: rotate-helix 4s linear infinite;
-}
-
-.helix-strand:nth-child(2) {
-    stroke: var(--neural-purple);
-    animation-delay: 0.2s;
-}
-
-@keyframes rotate-helix {
-    0% {
-        transform: rotateY(0deg);
-    }
-    100% {
-        transform: rotateY(360deg);
-    }
-}
-
 @font-face {
     font-family: "Bubblegum";
     src: url("./fonts/bubblegum.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
-}
-
-@keyframes wiggle {
-    0% {
-        transform: skewX(24deg);
-    }
-    10% {
-        transform: skewX(-8deg);
-    }
-    20% {
-        transform: skewX(55deg);
-    }
-    30% {
-        transform: skewX(-90deg);
-    }
-    40% {
-        transform: skewX(29deg);
-    }
-    50% {
-        transform: skewX(-90deg);
-    }
-    60% {
-        transform: skewX(3deg);
-    }
-    70% {
-        transform: skewX(-2deg);
-    }
-    80% {
-        transform: skewX(1deg);
-    }
-    90% {
-        transform: skewX(10deg);
-    }
-    100% {
-        transform: skewX(0deg);
-    }
 }
 
 @keyframes autoGlitch {
@@ -287,47 +218,29 @@ h1 {
     -webkit-text-fill-color: transparent;
     position: relative;
     cursor: pointer;
-
-    /* Автоматическая анимация */
     animation: autoGlitch 2s infinite;
 }
 
-h1:hover {
-    /* Интенсивный glitch при наведении */
-    animation:
-        wiggle 0.4s,
-        autoGlitch 0.5s infinite;
-    filter: drop-shadow(30px 13px 0 rgba(246, 0, 153, 0.8))
-        drop-shadow(-38px -4px 0 rgba(15, 210, 255, 0.8))
-        drop-shadow(-2px -4px 0 rgba(255, 210, 0, 1));
-}
-@keyframes mystic-flow {
-    0%,
-    100% {
-        background-position: 0% 50%;
-        filter: hue-rotate(0deg) brightness(1);
-    }
-    25% {
-        background-position: 50% 0%;
-        filter: hue-rotate(10deg) brightness(1.1);
-    }
-    50% {
-        background-position: 100% 50%;
-        filter: hue-rotate(-10deg) brightness(0.9);
-    }
-    75% {
-        background-position: 50% 100%;
-        filter: hue-rotate(5deg) brightness(1.05);
-    }
+.main-title {
+    font-size: 5rem;
+    margin: 0;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-@keyframes ghost-shift {
-    0% {
-        transform: translate(2px, 2px);
-    }
-    100% {
-        transform: translate(-2px, -2px);
-    }
+.title-part1 {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.title-part2 {
+    color: #00f5ff;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 1px;
 }
 
 .subtitle {
@@ -337,74 +250,91 @@ h1:hover {
     margin-bottom: 60px;
 }
 
-.upload-zone {
-    max-width: 600px;
-    margin: 0 auto;
-    background: rgba(15, 25, 20, 0.6);
-    backdrop-filter: blur(30px);
-    border: 2px dashed rgba(0, 220, 130, 0.3);
-    border-radius: 30px;
-    padding: 80px 40px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.upload-zone:hover {
-    border-color: rgba(0, 220, 130, 0.6);
-    background: rgba(15, 25, 20, 0.8);
-    transform: scale(1.02);
-}
-
-.upload-button {
-    padding: 20px 60px;
-    background: linear-gradient(135deg, var(--bio-green), var(--neural-purple));
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 600;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.upload-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 20px 40px rgba(0, 220, 130, 0.4);
-}
-
-.upload-button::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, white 0%, transparent 70%);
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
-}
-
-.upload-button:hover::before {
-    width: 300px;
+.upload-area {
+    width: 100%;
+    max-width: 400px;
     height: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20% 60% 90% 10% / 60% 10% 90% 50%;
+    padding: 40px;
+    overflow: hidden;
+    cursor: pointer;
+    animation: morph-shape 9s ease-in-out infinite;
+    border: none;
+    margin-top: 80px;
+    background: linear-gradient(
+        to bottom,
+        rgba(130, 100, 255, 0.6),
+        rgba(255, 150, 200, 0.5),
+        rgba(255, 180, 100, 0.5),
+        rgba(255, 220, 100, 0.6)
+    );
+    backdrop-filter: blur(20px);
+    box-shadow:
+        0 0 40px rgba(255, 200, 120, 0.2),
+        inset 0 0 30px rgba(130, 100, 255, 0.1);
 }
 
-/* Этап 2 - Выбор инструмента */
-#stage2 {
+@keyframes morph-shape {
+    0% {
+        border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
+    }
+    20% {
+        border-radius: 50% 50% 55% 45% / 45% 50% 55% 50%;
+    }
+    40% {
+        border-radius: 55% 45% 50% 60% / 50% 55% 45% 50%;
+    }
+    60% {
+        border-radius: 50% 60% 45% 55% / 55% 50% 50% 45%;
+    }
+    80% {
+        border-radius: 48% 52% 58% 42% / 52% 42% 58% 48%;
+    }
+    100% {
+        border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
+    }
+}
+
+.upload-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    padding: 40px 20px;
-    color: #4a3c28;
+    margin-top: 20px;
 }
 
-#stage2 h2 {
-    font-size: 2rem;
-    margin-bottom: 40px;
-    color: #4a3c28;
+.upload-text .glitch-text {
+    font-size: 1.8rem;
+    color: #000000;
+    font-weight: 300;
+    margin-bottom: 10px;
 }
 
+.upload-text .upload-description {
+    font-size: 0.9rem;
+    color: #555555;
+}
+
+.file-types {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.type-badge {
+    padding: 5px 15px;
+    background: rgba(0, 245, 255, 0.1);
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--electric);
+}
+/* Этап 2 - Выбор инструмента */
 .tools-selection {
     display: flex;
     justify-content: center;
@@ -412,7 +342,6 @@ h1:hover {
     flex-wrap: wrap;
 }
 
-/* Карточки инструментов */
 .tool-card {
     width: 260px;
     padding: 35px 20px;
@@ -420,10 +349,10 @@ h1:hover {
     background: linear-gradient(
         135deg,
         rgba(255, 182, 193, 0.8) 0%,
-        /* Пастельно-розовый */ rgba(255, 248, 220, 0.9) 50%,
-        /* Тёплый кремовый */ rgba(210, 180, 140, 0.7) 100% /* Песочный */
+        rgba(255, 248, 220, 0.9) 50%,
+        rgba(210, 180, 140, 0.7) 100%
     );
-    border: 2px solid rgba(255, 182, 193, 0.4); /* Розоватая граница */
+    border: 2px solid rgba(255, 182, 193, 0.4);
     backdrop-filter: blur(20px);
     box-shadow:
         0 20px 40px rgba(255, 182, 193, 0.3),
@@ -433,12 +362,9 @@ h1:hover {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-
-    /* Биоморф */
     animation: bio-morph 7s ease-in-out infinite;
 }
 
-/* При наведении тоже обновим цвета */
 .tool-card:hover {
     background: linear-gradient(
         135deg,
@@ -453,17 +379,6 @@ h1:hover {
         0 0 80px rgba(210, 180, 140, 0.3);
 }
 
-.tool-card h3 {
-    margin: 15px 0 8px;
-    font-size: 1.3rem;
-}
-
-.tool-card p {
-    font-size: 1.2rem;
-    color: #4a3c28;
-}
-
-/* SVG иконки */
 .tool-icon-large {
     width: 70px;
     height: 70px;
@@ -479,7 +394,6 @@ h1:hover {
     filter: drop-shadow(0 0 6px #00f5ff) drop-shadow(0 0 12px #00f5ff);
 }
 
-/* Биоморф анимация */
 @keyframes bio-morph {
     0%,
     100% {
@@ -501,11 +415,6 @@ h1:hover {
 }
 
 /* Этап 3 - Настройки */
-.settings-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .bio-glow {
     width: 80%;
     height: 400px;
@@ -538,27 +447,28 @@ h1:hover {
 
 .settings-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 400px;
-    margin: 0 auto;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin: 40px auto;
+    flex-wrap: wrap;
 }
 
-.setting-button {
-    padding: 25px 45px;
+.futuristic-upload-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 25px 50px;
     background: linear-gradient(
         135deg,
-        rgba(0, 220, 130, 0.15) 0%,
-        rgba(157, 78, 221, 0.15) 100%
+        rgba(130, 100, 255, 0.6),
+        rgba(255, 150, 200, 0.5),
+        rgba(255, 180, 100, 0.5)
     );
     backdrop-filter: blur(20px);
-    border: 2px solid;
-    border-image: linear-gradient(
-            135deg,
-            var(--bio-green),
-            var(--neural-purple)
-        )
-        1;
+    border: none;
     border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
     color: white;
     font-size: 1.1rem;
@@ -568,134 +478,69 @@ h1:hover {
     position: relative;
     overflow: hidden;
     animation: morph-button 8s ease-in-out infinite;
+    box-shadow:
+        0 10px 30px rgba(130, 100, 255, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-.setting-button:nth-child(even) {
-    animation-delay: 4s;
-    border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+.futuristic-upload-btn:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow:
+        0 15px 40px rgba(130, 100, 255, 0.5),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-@keyframes morph-button {
-    0%,
-    100% {
-        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-    }
-    50% {
-        border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
-    }
+.folder-btn {
+    position: relative;
+    width: 220px;
+    height: 160px;
+    background: linear-gradient(135deg, #8b7355 0%, #a08a72 50%, #c4a882 100%);
+    border-radius: 8px 8px 15px 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.2),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.setting-button::before {
+.folder-btn::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, var(--bio-green) 0%, transparent 70%);
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%);
+    top: -12px;
+    left: 15px;
+    width: 90px;
+    height: 25px;
+    background: linear-gradient(135deg, #8b7355 0%, #a08a72 100%);
+    border-radius: 8px 8px 0 0;
+    box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.2);
 }
 
-.setting-button:hover {
-    background: linear-gradient(
-        135deg,
-        rgba(0, 220, 130, 0.3) 0%,
-        rgba(157, 78, 221, 0.3) 100%
-    );
-    transform: scale(1.05) translateX(10px);
+.folder-btn:hover {
+    transform: scale(1.05) translateY(-3px);
     box-shadow:
-        0 10px 30px rgba(0, 220, 130, 0.4),
-        inset 0 0 20px rgba(0, 220, 130, 0.1);
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.setting-button:hover::before {
-    width: 300px;
-    height: 300px;
-    opacity: 0.3;
+.folder-icon {
+    width: 50px;
+    height: 50px;
+    z-index: 1;
 }
 
-/* Neural Editor настройки */
-.text-input-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.bio-input {
-    width: 100%;
-    padding: 20px;
-    background: rgba(15, 25, 20, 0.8);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(0, 220, 130, 0.3);
-    border-radius: 20px;
+.folder-text {
     color: white;
-    font-size: 1.1rem;
-    resize: vertical;
-    min-height: 150px;
-    outline: none;
-    transition: all 0.3s ease;
-}
-
-.bio-input:focus {
-    border-color: var(--bio-green);
-    box-shadow: 0 0 30px rgba(0, 220, 130, 0.2);
-}
-
-.prompt-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.prompt-chip {
-    padding: 10px 20px;
-    background: rgba(157, 78, 221, 0.2);
-    border: 1px solid rgba(157, 78, 221, 0.4);
-    border-radius: 50px;
-    color: var(--electric);
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.prompt-chip:hover {
-    background: rgba(157, 78, 221, 0.4);
-    transform: scale(1.05);
-}
-
-.transition-indicator {
-    text-align: center;
-    margin-top: 30px;
-    color: var(--bio-green);
-    font-size: 1.1rem;
-    opacity: 0;
-    animation: fade-in 0.5s ease-in forwards;
-}
-
-@keyframes fade-in {
-    to {
-        opacity: 1;
-    }
-}
-
-.countdown-circle {
-    width: 60px;
-    height: 60px;
-    margin: 20px auto;
-    border: 3px solid rgba(0, 220, 130, 0.2);
-    border-top-color: var(--bio-green);
-    border-radius: 50%;
-    animation: countdown-spin 1s linear infinite;
-}
-
-@keyframes countdown-spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    font-weight: 600;
+    font-size: 1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /* Этап 4 - Синтез */
@@ -712,16 +557,6 @@ h1:hover {
     animation: reactor-breathing 5s ease-in-out infinite;
 }
 
-@keyframes reactor-breathing {
-    0%,
-    100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-}
-
 .reactor-core {
     position: absolute;
     width: 100%;
@@ -735,21 +570,6 @@ h1:hover {
     animation: core-rotation 4s linear infinite;
 }
 
-@keyframes core-rotation {
-    0% {
-        transform: rotate(0deg) scale(1);
-        filter: hue-rotate(0deg) brightness(1.2);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.2);
-        filter: hue-rotate(45deg) brightness(1.5);
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
-        filter: hue-rotate(0deg) brightness(1.2);
-    }
-}
-
 .synthesis-ring {
     position: absolute;
     border-radius: 50%;
@@ -757,100 +577,11 @@ h1:hover {
     animation: ring-pulse 2s ease-in-out infinite;
 }
 
-.synthesis-ring:nth-child(1) {
-    width: 100%;
-    height: 100%;
-    border-color: var(--bio-green);
-    animation-delay: 0s;
-}
-
-.synthesis-ring:nth-child(2) {
-    width: 80%;
-    height: 80%;
-    top: 10%;
-    left: 10%;
-    border-color: var(--neural-purple);
-    animation-delay: 0.3s;
-}
-
-.synthesis-ring:nth-child(3) {
-    width: 60%;
-    height: 60%;
-    top: 20%;
-    left: 20%;
-    border-color: var(--electric);
-    animation-delay: 0.6s;
-}
-
-@keyframes ring-pulse {
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 0.3;
-    }
-    50% {
-        transform: scale(1.1);
-        opacity: 1;
-    }
-}
-
 .synthesis-text {
     font-size: 1.5rem;
     color: var(--bio-green);
     font-weight: 600;
     animation: text-glitch 1.5s ease-in-out infinite;
-}
-
-@keyframes text-glitch {
-    0%,
-    100% {
-        opacity: 1;
-        text-shadow: 0 0 20px var(--bio-green);
-        transform: skewX(0deg);
-    }
-    50% {
-        opacity: 0.8;
-        text-shadow:
-            0 0 20px var(--electric),
-            0 0 40px var(--glitch-red);
-        transform: skewX(10deg);
-    }
-}
-
-.synthesis-particles {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-}
-
-.bio-particle {
-    position: absolute;
-    width: var(--size);
-    height: var(--size);
-    background: var(--bio-green);
-    border-radius: 50%;
-    animation: particle-swarm 4s linear infinite;
-    animation-delay: var(--delay);
-}
-
-@keyframes particle-swarm {
-    0% {
-        transform: rotate(0deg) translateX(150px) scale(1);
-        opacity: 1;
-        filter: drop-shadow(0 0 5px var(--bio-green));
-    }
-    50% {
-        transform: rotate(180deg) translateX(100px) scale(0.5);
-        opacity: 0.5;
-        filter: drop-shadow(0 0 15px var(--neural-purple));
-    }
-    100% {
-        transform: rotate(360deg) translateX(150px) scale(1);
-        opacity: 1;
-        filter: drop-shadow(0 0 5px var(--bio-green));
-    }
 }
 
 /* Этап 5 - Результат */
@@ -871,88 +602,6 @@ h1:hover {
     position: relative;
     overflow: hidden;
     height: 500px;
-}
-
-.comparer-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    cursor: col-resize;
-}
-
-.comparer-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 1.2rem;
-}
-
-.comparer-image.before {
-    clip-path: inset(0 50% 0 0);
-    background: rgba(157, 78, 221, 0.1);
-}
-
-.comparer-image.after {
-    clip-path: inset(0 0 0 50%);
-    background: rgba(0, 220, 130, 0.1);
-}
-
-.comparer-slider {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 4px;
-    height: 100%;
-    background: var(--bio-green);
-    cursor: col-resize;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.comparer-slider::before {
-    content: "◀ ▶";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--bio-green);
-    color: var(--bg-dark);
-    padding: 10px;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0, 220, 130, 0.5);
-}
-
-.comparer-labels {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    z-index: 5;
-}
-
-.comparer-label {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
 }
 
 .result-actions {
@@ -979,32 +628,156 @@ h1:hover {
     box-shadow: 0 15px 30px rgba(0, 220, 130, 0.4);
 }
 
-/* Органические частицы */
-.digital-particles {
+/* ============= ПЕСЧАНЫЕ БАРХАНЫ ВМЕСТО ВОЛНЫ ============= */
+.wave-profile-trigger {
     position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    z-index: 997;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+    overflow: hidden;
+}
+
+.wave-profile-trigger:hover {
+    transform: translateY(-5px);
+}
+
+.wave-shape {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to top,
+        rgba(194, 154, 108, 0.3) 0%,
+        rgba(237, 201, 150, 0.2) 30%,
+        rgba(255, 228, 181, 0.1) 60%,
+        transparent 100%
+    );
+    animation: sand-shift 12s ease-in-out infinite;
+}
+
+@keyframes sand-shift {
+    0%,
+    100% {
+        filter: brightness(1) contrast(1);
+    }
+    25% {
+        filter: brightness(1.05) contrast(1.1);
+    }
+    50% {
+        filter: brightness(0.95) contrast(1.05);
+    }
+    75% {
+        filter: brightness(1.02) contrast(0.98);
+    }
+}
+
+.wave-layer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.main-wave {
+    animation: dune-motion 20s ease-in-out infinite;
+    opacity: 1;
+}
+
+.mid-wave {
+    animation: dune-motion-mid 15s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+.ripple-wave {
+    animation: sand-ripple 8s ease-in-out infinite;
+    opacity: 0.6;
+}
+
+@keyframes dune-motion {
+    0%,
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+    33% {
+        transform: translateX(-20px) translateY(-2px);
+    }
+    66% {
+        transform: translateX(20px) translateY(-1px);
+    }
+}
+
+@keyframes dune-motion-mid {
+    0%,
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(30px) translateY(-3px);
+    }
+}
+
+@keyframes sand-ripple {
+    0%,
+    100% {
+        transform: translateX(0) scaleY(1);
+    }
+    25% {
+        transform: translateX(-10px) scaleY(1.05);
+    }
+    50% {
+        transform: translateX(10px) scaleY(0.95);
+    }
+    75% {
+        transform: translateX(-5px) scaleY(1.02);
+    }
+}
+
+.sand-particles {
+    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 1;
     overflow: hidden;
 }
 
-.digit {
+.sand-particles::before,
+.sand-particles::after {
+    content: "";
     position: absolute;
-    font-family: "Courier New", monospace;
-    font-size: 14px;
-    color: white;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-    opacity: 0;
-    animation: digit-float 12s linear infinite;
-    font-weight: 300;
+    width: 2px;
+    height: 2px;
+    background: #d4a574;
+    border-radius: 50%;
+    animation: sand-blow 10s linear infinite;
+    box-shadow:
+        20px 20px 0 #e5c29f,
+        40px 10px 0 #d2b48c,
+        60px 30px 0 #c8956d,
+        80px 15px 0 #deb887,
+        100px 25px 0 #f5deb3,
+        120px 35px 0 #d4a574,
+        140px 20px 0 #c19a6b,
+        160px 30px 0 #e5c29f,
+        180px 10px 0 #d2b48c,
+        200px 25px 0 #c8956d;
 }
 
-@keyframes digit-float {
+.sand-particles::after {
+    animation-delay: 5s;
+    left: -200px;
+}
+
+@keyframes sand-blow {
     0% {
-        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        transform: translateX(-200px) translateY(0);
         opacity: 0;
     }
     10% {
@@ -1014,359 +787,342 @@ h1:hover {
         opacity: 0.6;
     }
     100% {
-        transform: translateY(110vh) translateX(150px) /* Уменьшено смещение */
-            rotate(360deg);
+        transform: translateX(calc(100vw + 200px)) translateY(-30px);
         opacity: 0;
     }
 }
-/* Общий контейнер для этапов */
-.stage {
-    display: none;
-    width: 100%;
-    height: 100vh; /* чтобы занимало весь экран */
-    box-sizing: border-box;
-}
 
-/* Активный этап */
-.stage.active {
-    display: flex;
-    justify-content: center; /* по горизонтали */
-    align-items: center; /* по вертикали */
-    flex-direction: column; /* чтобы шло сверху вниз */
-    text-align: center;
-    padding: 20px;
-}
-
-/* Ограничение ширины для маленьких экранов */
-.hero {
-    max-width: 90%;
-}
-
-.upload-area {
-    border: 2px dashed #00ffff;
-    border-radius: 12px;
-    padding: 40px 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.upload-area:hover {
-    border-color: #555;
-    background: rgba(0, 0, 0, 0.03);
-}
-
-.upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
-    color: #00fff0;
-    cursor: pointer;
-}
-
-.upload-label svg {
-    width: 40px;
-    height: 40px;
-    color: #555;
-}
-
-.upload-label svg {
-    fill: #00ffff;
-    width: 30px;
-    height: 30px;
-}
-
-/* Или для конкретного path */
-.upload-label svg path {
-    fill: #00ffff;
-}
-.upload-area {
-    width: 100%;
-    max-width: 500px;
-    height: 400px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10, 20, 30, 0.6);
-    backdrop-filter: blur(20px);
-    /* Чистая биоморфная форма без рамок */
-    border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
-    padding: 40px;
-    box-shadow:
-        0 0 30px rgba(0, 220, 130, 0.2),
-        inset 0 0 20px rgba(157, 78, 221, 0.1);
-    overflow: hidden;
-    cursor: pointer;
-    animation: morph-shape 8s ease-in-out infinite;
-    border: none;
-}
-
-/* Плавный постоянный морфинг формы */
-@keyframes morph-shape {
-    0% {
-        border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
-    }
-    20% {
-        border-radius: 50% 50% 55% 45% / 45% 50% 55% 50%;
-    }
-    40% {
-        border-radius: 55% 45% 50% 60% / 50% 55% 45% 50%;
-    }
-    60% {
-        border-radius: 50% 60% 45% 55% / 55% 50% 50% 45%;
-    }
-    80% {
-        border-radius: 48% 52% 58% 42% / 52% 42% 58% 48%;
-    }
-    100% {
-        border-radius: 45% 55% 60% 40% / 50% 40% 60% 50%;
-    }
-}
-
-/* Скрываем все лишние элементы */
-.reactor-container,
-.reactor-waves,
-.wave-circle,
-.reactor-core {
-    display: none;
-}
-.upload-area {
-    width: 100%;
-    max-width: 400px;
-    height: 300px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 20% 60% 90% 10% / 60% 10% 90% 50%;
-    padding: 40px;
-    overflow: hidden;
-    cursor: pointer;
-    animation: morph-shape 9s ease-in-out infinite; /* немного медленнее для плавности */
-    border: none;
-
-    background: linear-gradient(
-        to bottom,
-        rgba(130, 100, 255, 0.6),
-        rgba(255, 150, 200, 0.5),
-        rgba(255, 180, 100, 0.5),
-        rgba(255, 220, 100, 0.6)
+.swipe-hint {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 45px;
+    height: 45px;
+    background: radial-gradient(
+        circle,
+        rgba(212, 165, 116, 0.5) 0%,
+        rgba(194, 154, 108, 0.2) 100%
     );
-    backdrop-filter: blur(20px);
-
+    border: 2px solid rgba(139, 115, 85, 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: desert-pulse 2.5s ease-in-out infinite;
     box-shadow:
-        0 0 40px rgba(255, 200, 120, 0.2),
-        inset 0 0 30px rgba(130, 100, 255, 0.1);
+        0 0 20px rgba(212, 165, 116, 0.3),
+        inset 0 0 10px rgba(139, 115, 85, 0.2);
 }
 
-/* Плавный хаотичный морфинг */
-@keyframes morph {
+@keyframes desert-pulse {
     0%,
     100% {
-        border-radius: 10% 80% 90% 20% / 20% 10% 90% 80%;
+        transform: translateX(-50%) scale(1);
+        box-shadow:
+            0 0 20px rgba(212, 165, 116, 0.3),
+            inset 0 0 10px rgba(139, 115, 85, 0.2);
     }
     50% {
-        border-radius: 80% 10% 20% 90% / 90% 80% 20% 10%;
+        transform: translateX(-50%) scale(1.1);
+        box-shadow:
+            0 0 30px rgba(212, 165, 116, 0.5),
+            inset 0 0 15px rgba(139, 115, 85, 0.3);
     }
 }
 
-/* Скрываем лишние элементы */
-.reactor-container,
-.reactor-waves,
-.wave-circle,
-.reactor-core {
-    display: none;
+.swipe-arrow {
+    width: 24px;
+    height: 24px;
+    fill: #8b7355;
+    filter: drop-shadow(0 0 3px rgba(139, 115, 85, 0.6));
+    animation: arrow-desert 1.8s ease-in-out infinite;
 }
 
-/* Стили для текста в зоне загрузки */
-.upload-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.upload-text .glitch-text {
-    font-size: 1.8rem; /* увеличенный размер текста */
-    color: #000000; /* средний серый */
-    font-weight: 300;
-    margin-bottom: 10px;
-}
-
-.upload-text .upload-description {
-    font-size: 0.9rem; /* чуть меньше для описания */
-    color: #555555; /* светло-серый */
-}
-/* Центрирование всего контейнера */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Стили для логотипа и заголовка */
-.header-logo {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.logo-icon {
-    width: 48px;
-    height: 48px;
-    fill: #00f5ff;
-    filter: drop-shadow(0 0 4px rgba(0, 245, 255, 0.5));
-    margin-left: -20px; /* Отодвигаем логотип левее на 10px (можно увеличить до -20px) */
-    margin-right: 20px;
-}
-
-.header-text {
-    text-align: left;
-}
-
-.main-title {
-    font-size: 5rem;
-    margin: 0;
-    line-height: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.title-part1 {
-    color: #ffffff;
-    font-weight: 700;
-    letter-spacing: 1px;
-}
-
-.title-part2 {
-    color: #00f5ff;
-    font-weight: 300;
-    font-style: italic;
-    letter-spacing: 1px;
-}
-
-.subtitle {
-    font-size: 0.99rem;
-    color: #aaa;
-    margin: 1px 0 0;
-    font-style: italic;
-    letter-spacing: 0.1px;
-}
-
-/* Для мобильных устройств */
-@media (max-width: 768px) {
-    .main-title {
-        font-size: 3rem; /* Уменьшаем размер заголовка */
+@keyframes arrow-desert {
+    0%,
+    100% {
+        transform: translateY(0);
     }
-
-    .main-title svg {
-        width: 60px; /* Уменьшаем размер иконки */
-        height: 60px;
-    }
-
-    .subtitle {
-        font-size: 0.8rem; /* Уменьшаем размер подзаголовка */
-    }
-
-    .header-logo {
-        gap: 16px; /* Меньше расстояние на мобильных */
-    }
-
-    .logo-icon {
-        margin-left: 0; /* Убираем сдвиг на мобильных */
-        margin-right: 8px;
+    50% {
+        transform: translateY(-4px);
     }
 }
-.futuristic-upload-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    padding: 20px 40px;
+
+.wave-profile-trigger:hover .wave-shape {
+    background: linear-gradient(
+        to top,
+        rgba(194, 154, 108, 0.4) 0%,
+        rgba(237, 201, 150, 0.3) 30%,
+        rgba(255, 228, 181, 0.15) 60%,
+        transparent 100%
+    );
+    filter: brightness(1.1) contrast(1.1);
+}
+
+.wave-shape::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(92, 64, 51, 0.3) 20%,
+        rgba(92, 64, 51, 0.5) 50%,
+        rgba(92, 64, 51, 0.3) 80%,
+        transparent 100%
+    );
+    animation: shadow-shift 15s ease-in-out infinite;
+}
+
+@keyframes shadow-shift {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(50px);
+    }
+}
+
+.wave-profile-trigger.hidden {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ============= ПАНЕЛЬ ПРОФИЛЯ ============= */
+.profile-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 85vh;
     background: linear-gradient(
         135deg,
-        var(--neural-purple),
-        var(--synapse-blue)
+        rgba(10, 15, 30, 0.98) 0%,
+        rgba(20, 25, 45, 0.95) 100%
     );
-    border: none;
-    border-radius: 15px;
+    backdrop-filter: blur(20px);
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+    overflow: hidden;
+    border-top: 2px solid rgba(0, 245, 255, 0.3);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.profile-panel.active {
+    transform: translateY(0);
+}
+
+.profile-handle {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    background: linear-gradient(
+        180deg,
+        rgba(0, 245, 255, 0.05) 0%,
+        transparent 100%
+    );
+    transition: background 0.3s ease;
+}
+
+.handle-bar {
+    width: 60px;
+    height: 6px;
+    background: rgba(0, 245, 255, 0.5);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.profile-content {
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0, 245, 255, 0.1);
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--neural-purple), var(--electric));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+}
+
+.avatar-placeholder {
+    width: 50%;
+    height: 50%;
+    opacity: 0.8;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
     color: white;
-    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.profile-username {
+    font-size: 1rem;
+    color: var(--electric);
+    margin-bottom: 5px;
+}
+
+.profile-id {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: rgba(0, 245, 255, 0.05);
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+}
+
+.stat-card.bio-morph {
+    animation: card-morph 8s ease-in-out infinite;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--electric), var(--neural-purple));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--electric);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.bio-button {
+    padding: 18px 30px;
+    background: linear-gradient(135deg, var(--electric), var(--neural-purple));
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-.futuristic-upload-btn .upload-icon {
-    width: 24px;
-    height: 24px;
-    transition: transform 0.3s ease;
+.bio-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
 }
 
-.futuristic-upload-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.futuristic-upload-btn:hover .upload-icon {
-    transform: scale(1.2);
-}
-
-.folder-btn {
-    position: relative;
-    width: 200px;
-    height: 150px;
-    background: #a08a72;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: transform 0.3s ease;
-}
-
-.folder-btn::before {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 10px;
-    width: 80px;
+.bio-button svg {
+    width: 20px;
     height: 20px;
-    background: #a08a72;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
 }
 
-.folder-btn:hover {
-    transform: scale(1.05);
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 3rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    .wave-profile-trigger {
+        height: 60px;
+    }
+
+    .swipe-hint {
+        width: 40px;
+        height: 40px;
+        top: 10px;
+    }
+
+    .profile-panel {
+        height: 90vh;
+    }
+
+    .settings-buttons {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+/* Простая блокировка скролла */
+html {
+    overflow: hidden !important;
+    height: 100% !important;
 }
 
-.folder-icon {
-    width: 50px;
-    height: 50px;
-}
-
-.folder-text {
-    color: white;
-    font-weight: 600;
-}
-
-.upload-area {
-    margin-top: 80px; /* Отодвигаем зону загрузки вниз от подзаголовка */
+body {
+    overflow: hidden !important;
+    height: 100% !important;
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
 }
